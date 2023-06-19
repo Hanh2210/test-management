@@ -1,9 +1,10 @@
-import { Test } from "@/types";
+import { Test, ANSWERS } from "@/types";
 import { api } from "@/apis";
 
 export const useTestStore = defineStore("test", () => {
   const tests = ref<Test[]>([]);
   const testDetail = ref({});
+  const questionDetail = ref([]);
 
   const getTests = async () => {
     const res = await api.get("/test/list").catch((err) => {
@@ -18,7 +19,17 @@ export const useTestStore = defineStore("test", () => {
       console.log(err);
       return null;
     });
-    testDetail.value = res?.data || [];
+    testDetail.value = res?.data || {};
+    questionDetail.value =
+      res?.data.questionResponses.map((item: any) => ({
+        ...item,
+        answers: item.answers.map((answer: any, index: number) => {
+          return {
+            ...answer,
+            label: ANSWERS[index],
+          };
+        }),
+      })) || [];
   };
 
   const createTest = async (
@@ -60,6 +71,7 @@ export const useTestStore = defineStore("test", () => {
   return {
     tests,
     testDetail,
+    questionDetail,
     getTests,
     getTestDetail,
     deleteById,

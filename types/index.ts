@@ -91,12 +91,7 @@ export const LEVEL = [
   { key: "HARD", label: "HARD" },
 ];
 
-export const ANSWERS = [
-  { key: 1, name: "A" },
-  { key: 2, name: "B" },
-  { key: 3, name: "C" },
-  { key: 4, name: "D" },
-];
+export const ANSWERS = ["A", "B", "C", "D"];
 
 // functions
 export const stringToBoolean = (stringValue: string) => {

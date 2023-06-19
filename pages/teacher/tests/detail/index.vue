@@ -3,6 +3,7 @@ import { useTestStore } from "@/stores/test";
 
 const testsStore = useTestStore();
 const testDetail = computed(() => testsStore.testDetail);
+const questionDetail = computed(() => testsStore.questionDetail);
 </script>
 <template>
   <h2 class="title">Chi tiết đề thi</h2>
@@ -29,11 +30,7 @@ const testDetail = computed(() => testsStore.testDetail);
       </div>
     </div>
     <div class="question-content">
-      <div
-        class="item"
-        v-for="question in testDetail.questionResponses"
-        :key="question.id"
-      >
+      <div class="item" v-for="question in questionDetail" :key="question.id">
         <div class="question">
           <span class="order">{{ question.id }}.</span>
           <span class="topictext">{{ question.topicText }} </span>
@@ -41,9 +38,10 @@ const testDetail = computed(() => testsStore.testDetail);
         <div
           class="answers"
           v-for="answer in question.answers"
-          :key="answer.content"
+          :key="answer.id"
         >
-          <span class="label">{{ answer.content }}</span>
+          <span class="label">{{ answer.label }}.</span>
+          <span class="content">{{ answer.content }}</span>
         </div>
       </div>
     </div>
@@ -85,6 +83,15 @@ const testDetail = computed(() => testsStore.testDetail);
     gap: 16px;
     font-weight: bold;
     margin-bottom: 8px;
+  }
+
+  > .item > .answers {
+    display: flex;
+    gap: 8px;
+  }
+
+  > .item > .answers > .label {
+    font-weight: 600;
   }
 }
 </style>
