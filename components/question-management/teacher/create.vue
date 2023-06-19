@@ -26,6 +26,9 @@ const chapters = computed(() => {
 const levels = computed(() => {
   return LEVEL;
 });
+
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 const topicText = ref("");
 const chapterId = ref(1);
 const level = ref("");
@@ -39,7 +42,7 @@ const answers = ref([
 
 const isCreateQuestion = ref(false);
 
-const submit = async () => {
+const submit = async (): Promise<void> => {
   const res = await questionStore.createQuestion({
     subjectCode: subjectCode.value,
     chapterId: chapterId.value,
@@ -51,7 +54,9 @@ const submit = async () => {
       isCorrected: item.isCorrected ? "true" : "false",
     })),
   });
-  // await questionStore.getQuestions();
+  await questionStore.getQuestions(subjectCode.value);
+  isShowSnack.value = true;
+  titleSnack.value = "Thêm câu hỏi thành công!";
   isCreateQuestion.value = false;
 };
 
@@ -162,6 +167,13 @@ const createQuestion = () => {
       </v-row>
     </div>
   </div>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
+    </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>

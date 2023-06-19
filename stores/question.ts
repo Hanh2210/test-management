@@ -1,4 +1,4 @@
-import type { Question } from "@/types";
+import { Question, stringToBoolean } from "@/types";
 import { api } from "@/apis";
 import { AxiosResponse } from "axios";
 
@@ -11,7 +11,14 @@ export const useQuestionStore = defineStore("question", () => {
       const res: AxiosResponse<Question[]> = await api.get(
         `/question/list?code=${code}`
       );
-      questions.value = res.data || [];
+      questions.value =
+        res.data.map((item: any) => ({
+          ...item,
+          answers: item.answers.map((answer: any) => ({
+            ...answer,
+            isCorrected: stringToBoolean(answer.isCorrected),
+          })),
+        })) || [];
     } catch (error) {
       console.log(error);
     } finally {

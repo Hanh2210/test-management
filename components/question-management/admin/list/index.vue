@@ -75,7 +75,7 @@ const detailQuestion = (question: any) => {
                     <v-checkbox
                       label="Đáp án đúng"
                       class="checkbox"
-                      :model-value="stringToBoolean(answer.isCorrected)"
+                      :model-value="answer.isCorrected"
                     ></v-checkbox>
                   </div>
                 </v-col>

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { Question } from "@/types";
+import { Question, stringToBoolean } from "@/types";
 import { useQuestionStore } from "@/stores/question";
 import { useSubjectStore } from "@/stores/subject";
 import { useTestStore } from "@/stores/test";
 
 const isEditQuestion = ref(false);
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 
 const questionStore = useQuestionStore();
 const subjectStore = useSubjectStore();
@@ -23,15 +25,17 @@ const fetchQuestionsBySubject = async (code: string): Promise<void> => {
   await questionStore.getQuestions(code);
 };
 
-// get chapters
-const fetchChapterBySubject = async (code: string) => {
-  const res = await subjectStore.getChapters(code);
-};
+const chapterBySubject = ref([]);
 
 // create test by checkbox questions
+const isShowCreateForm = ref(false);
 const checkedIds = ref<number[]>([]);
 const testDay = ref("");
 const duration = ref(0);
+
+const toggleCreateForm = () => {
+  isShowCreateForm.value = !isShowCreateForm.value;
+};
 
 const getCheckedId = (id: number): boolean => {
   return Boolean(checkedIds.value.find((itemId) => itemId === id));
@@ -50,14 +54,16 @@ const onCheckedId = (id: number) => {
 };
 
 const createTestByCheckbox = async (): Promise<void> => {
-  await testsStore.createTestCheckbox({
+  const res = await testsStore.createTestCheckbox({
     questionIds: checkedIds.value.map((id) => id),
     testDay: testDay.value,
     duration: +duration.value,
   });
+  isShowCreateForm.value = false;
 };
 
-const openDialogEditQuestion = (question: object) => {
+const openDialogEditQuestion = async (question: any) => {
+  chapterBySubject.value = await subjectStore.getChapters(question.subjectCode);
   questionById.value = question;
   isEditQuestion.value = true;
 };
@@ -67,9 +73,10 @@ const closeDialog = () => {
 };
 
 // TODO
-const chapterId = ref(53);
+
 const editQuestion = async (e: any) => {
   const id = e.question.value.id;
+  const chapterId = e.question.value.chapter.id;
   const topicText = e.question.value.topicText;
   const level = e.question.value.level;
   const answers = e.question.value.answers.map((item: any) => ({
@@ -79,12 +86,18 @@ const editQuestion = async (e: any) => {
   const topicImage = e.question.value.topicImage;
 
   const res = await questionStore.updateById(id, {
-    chapterId: +chapterId.value,
+    chapterId,
     topicText,
     level,
     answers,
     topicImage,
   });
+
+  if (res) {
+    isEditQuestion.value = false;
+    isShowSnack.value = true;
+    titleSnack.value = "Sửa câu hỏi thành công!";
+  }
 };
 
 const deleteQuestion = async (id: number) => {
@@ -107,6 +120,23 @@ const deleteQuestion = async (id: number) => {
       v-model="subjectCode"
     ></v-autocomplete>
     <v-btn @click="fetchQuestionsBySubject(subjectCode)">Tìm kiếm</v-btn>
+  </div>
+
+  <h3 class="create-title" @click="toggleCreateForm">Tạo bài test random</h3>
+  <div class="create-test-random" v-if="isShowCreateForm">
+    <div class="wrapper">
+      <v-text-field
+        v-model="testDay"
+        label="Nhập ngày mở đề"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="duration"
+        label="Nhập thời gian làm bài"
+        required
+      ></v-text-field>
+      <v-btn @click="createTestByCheckbox">Tạo đề thi</v-btn>
+    </div>
   </div>
   <div class="list-questions">
     <v-table fixed-header height="400px">
@@ -154,23 +184,13 @@ const deleteQuestion = async (id: number) => {
     @close="closeDialog"
     @edit="editQuestion"
   />
-
-  <div class="create-test">
-    <h3>Tạo bài test random</h3>
-    <div class="wrapper">
-      <v-text-field
-        v-model="testDay"
-        label="Nhập ngày mở đề"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="duration"
-        label="Nhập thời gian làm bài"
-        required
-      ></v-text-field>
-      <v-btn @click="createTestByCheckbox">Tạo đề thi</v-btn>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
     </div>
-  </div>
+  </template>
 </template>
 
 <style scoped lang="scss">
@@ -183,13 +203,18 @@ const deleteQuestion = async (id: number) => {
 .search-question-list {
   display: flex;
   gap: 32px;
-  margin: 32px 0;
+  margin: 24px 0;
   justify-content: start;
   align-items: center;
 }
 
-.create-test {
-  margin-top: 32px;
+.create-title {
+  cursor: pointer;
+  color: $primary-color;
+  margin-bottom: 16px;
+}
+.create-test-random {
+  margin: 24px 0;
 
   > .wrapper {
     margin-top: 16px;

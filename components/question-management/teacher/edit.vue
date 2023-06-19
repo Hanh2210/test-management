@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { LEVEL, Subject, stringToBoolean } from "@/types";
+import { LEVEL, Subject } from "@/types";
 import { useSubjectStore } from "@/stores/subject";
 const subjectStore = useSubjectStore();
 
@@ -23,7 +23,6 @@ const subjectCode = ref("");
 const question = computed(() => props.questionById);
 
 watch(subjectCode, () => {
-  console.log(123);
   subjectStore.getChapters(subjectCode.value);
 });
 
@@ -74,7 +73,7 @@ const editQuestion = () => {
                     :items="chapters"
                     item-title="order"
                     item-value="id"
-                    v-model="question.chapter.order"
+                    v-model="question.chapter.id"
                     class="select"
                     :variant="'outlined'"
                   ></v-select>
@@ -110,7 +109,7 @@ const editQuestion = () => {
                       :placeholder="'Nhập đáp án'"
                     ></v-text-field>
                     <v-checkbox
-                      :model-value="stringToBoolean(answer.isCorrected)"
+                      v-model="answer.isCorrected"
                       label="Đáp án đúng"
                     ></v-checkbox>
                   </div>
