@@ -50,13 +50,17 @@ const uploadFile = async () => {
   // }
   // console.log(file.value);
 };
+// export students
+const exportStudents = async () => {
+  await studentStore.exportStudents();
+};
 </script>
 
 <template>
   <div class="student-management">
     <div class="action">
       <v-btn @click="createStudent"
-        ><v-icon icon="mdi-plus" />Thêm mới sinh viên</v-btn
+        ><v-icon icon="mdi-plus" />Thêm sinh viên</v-btn
       >
       <v-file-input
         v-model="file"
@@ -64,8 +68,8 @@ const uploadFile = async () => {
         label="Import danh sách sinh viên"
         variant="underlined"
       ></v-file-input>
-
       <v-btn @click="uploadFile">Import</v-btn>
+      <v-btn @click="exportStudents">Export Danh sách </v-btn>
       <search />
     </div>
     <div class="dialog-create-student">

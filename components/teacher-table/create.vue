@@ -13,6 +13,8 @@ const gender = ref("");
 const phoneNumber = ref("");
 const email = ref("");
 const isCreateTeacher = ref(false);
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 
 // TODO
 const submit = async () => {
@@ -32,6 +34,18 @@ const submit = async () => {
 const createTeacher = () => {
   isCreateTeacher.value = true;
 };
+// import
+const file = ref();
+const formData = new FormData();
+
+const uploadFile = async () => {
+  formData.append("file", file.value[0]);
+  const res = await teacherStore.importTeachers(formData);
+};
+// export teachers
+const exportTeachers = async () => {
+  await teacherStore.exportTeachers();
+};
 </script>
 
 <template>
@@ -41,10 +55,13 @@ const createTeacher = () => {
         ><v-icon icon="mdi-plus" />Thêm mới sinh viên</v-btn
       >
       <v-file-input
+        v-model="file"
         clearable
         label="Import danh sách giáo viên"
         variant="underlined"
       ></v-file-input>
+      <v-btn @click="uploadFile">Import</v-btn>
+      <v-btn @click="exportTeachers">Export Danh sách </v-btn>
       <search />
     </div>
     <div class="dialog-create-teacher">
@@ -134,6 +151,13 @@ const createTeacher = () => {
       </v-row>
     </div>
   </div>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
+    </div>
+  </template>
 </template>
 <style scoped lang="scss">
 .teacher-management {
