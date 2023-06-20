@@ -16,7 +16,7 @@ const email = ref("");
 const isCreateStudent = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
-const isShowDialogImport = ref(false)
+const isShowDialogImport = ref(false);
 
 // TODO
 const submit = async () => {
@@ -46,14 +46,10 @@ const uploadFile = async () => {
   formData.append("file", file.value[0]);
   try {
     const res = await studentStore.importStudents(formData);
-    file.value = []
-    isShowDialogImport.value = false
-  } catch (err) {
+    file.value = [];
+    isShowDialogImport.value = false;
+  } catch (err) {}
 
-  }
-
-
- 
   // if (res) {
   //   isShowSnack.value = true;
   //   titleSnack.value = "import danh sách thành công";
@@ -75,27 +71,22 @@ const exportStudents = async () => {
       <v-spacer />
       <search />
       <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-          color="primary"
-          v-bind="props"
-        >
-          Action
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          key="1"
-        >
-          <v-list-item-title @click="exportStudents">Export Danh sách</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          key="2"
-        >
-          <v-list-item-title @click="isShowDialogImport = true">Import danh sách</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn color="primary" v-bind="props"> Action </v-btn>
+        </template>
+        <v-list>
+          <v-list-item key="1">
+            <v-list-item-title @click="exportStudents"
+              >Export Danh sách</v-list-item-title
+            >
+          </v-list-item>
+          <v-list-item key="2">
+            <v-list-item-title @click="isShowDialogImport = true"
+              >Import danh sách</v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
     <div class="dialog-create-student">
       <v-row justify="center">

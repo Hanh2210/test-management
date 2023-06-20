@@ -117,6 +117,9 @@ const deleteTeacher = async (id: number) => {
 .list-teachers {
   margin-top: 16px;
   cursor: pointer;
+  :deep(.v-table > .v-table__wrapper) {
+    height: calc(100vh - 200px) !important;
+  }
 }
 
 .wrap {
