@@ -61,6 +61,10 @@ const cancelCreateForm = () => {
 const getTestDetailRoutePath = async (testId: number) => {
   await testsStore.getTestDetail(testId);
 };
+
+const deleteTest = async (testId: number) => {
+  const res = await testsStore.deleteById(testId);
+};
 </script>
 
 <template>
@@ -130,19 +134,21 @@ const getTestDetailRoutePath = async (testId: number) => {
     </thead>
     <tbody>
       <tr v-for="test in tests" :key="test.id">
-        <td @click="getTestDetailRoutePath(test.id)">
+        <td class="text-center" @click="getTestDetailRoutePath(test.id)">
           <nuxt-link to="/teacher/tests/detail" class="link">{{
             test.id
           }}</nuxt-link>
         </td>
-        <td>{{ test.subjectTitle }}</td>
-        <td>{{ test.createdAt }}</td>
-        <td>{{ test.testDay }}</td>
-        <td>{{ test.totalPoint }}</td>
-        <td>{{ test.duration }}</td>
-        <td class="action">
+        <td class="text-center">{{ test.subjectTitle }}</td>
+        <td class="text-center">{{ test.createdAt }}</td>
+        <td class="text-center">{{ test.testDay }}</td>
+        <td class="text-center">{{ test.totalPoint }}</td>
+        <td class="text-center">{{ test.duration }}</td>
+        <td class="action text-center">
           <v-icon size="small" class="me-2"> mdi-pencil </v-icon>
-          <v-icon size="small"> mdi-delete </v-icon>
+          <v-icon size="small" @click="deleteTest(test.id)">
+            mdi-delete
+          </v-icon>
         </td>
       </tr>
     </tbody>
