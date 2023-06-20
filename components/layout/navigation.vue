@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
 
-const authUser = ref("teacher"); // TODO: check auth user to show navigation
+const authUser = ref("admin"); // TODO: check auth user to show navigation
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
@@ -126,9 +126,10 @@ const handleRedirect = (path: string) => {
 
         <v-divider></v-divider>
 
-        <v-list density="compact" nav >
+        <v-list density="compact" nav>
           <v-list-item
-            v-for="item in menus" :key="item.title"
+            v-for="item in menus"
+            :key="item.title"
             @click.stop="handleRedirect(item.path)"
             :prepend-icon="item.icon"
             :title="item.title"

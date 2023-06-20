@@ -70,6 +70,37 @@ export const useTeacherStore = defineStore("teacher", () => {
       }
     }
   };
+
+  const importTeachers = async (formData: any) => {
+    const res = await api
+      .post("/teacher/import", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const exportTeachers = async () => {
+    const res = await api
+      .get("/teacher/export", {
+        responseType: "blob",
+      })
+      .then((res) => {
+        let fileUrl = window.URL.createObjectURL(res.data);
+        let fileLink = document.createElement("a");
+
+        fileLink.href = fileUrl;
+        fileLink.setAttribute("download", "export-teacher-template.xls");
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+  };
   return {
     teachers,
     isCreating,
@@ -77,5 +108,7 @@ export const useTeacherStore = defineStore("teacher", () => {
     createTeacher,
     updateById,
     deleteById,
+    importTeachers,
+    exportTeachers,
   };
 });
