@@ -16,6 +16,7 @@ const email = ref("");
 const isCreateStudent = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
+const isShowDialogImport = ref(false)
 
 // TODO
 const submit = async () => {
@@ -43,7 +44,16 @@ const formData = new FormData();
 
 const uploadFile = async () => {
   formData.append("file", file.value[0]);
-  const res = await studentStore.importStudents(formData);
+  try {
+    const res = await studentStore.importStudents(formData);
+    file.value = []
+    isShowDialogImport.value = false
+  } catch (err) {
+
+  }
+
+
+ 
   // if (res) {
   //   isShowSnack.value = true;
   //   titleSnack.value = "import danh sách thành công";
@@ -62,15 +72,30 @@ const exportStudents = async () => {
       <v-btn @click="createStudent"
         ><v-icon icon="mdi-plus" />Thêm sinh viên</v-btn
       >
-      <v-file-input
-        v-model="file"
-        clearable
-        label="Import danh sách sinh viên"
-        variant="underlined"
-      ></v-file-input>
-      <v-btn @click="uploadFile">Import</v-btn>
-      <v-btn @click="exportStudents">Export Danh sách </v-btn>
+      <v-spacer />
       <search />
+      <v-menu>
+      <template v-slot:activator="{ props }">
+        <v-btn
+          color="primary"
+          v-bind="props"
+        >
+          Action
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          key="1"
+        >
+          <v-list-item-title @click="exportStudents">Export Danh sách</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          key="2"
+        >
+          <v-list-item-title @click="isShowDialogImport = true">Import danh sách</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     </div>
     <div class="dialog-create-student">
       <v-row justify="center">
@@ -164,6 +189,36 @@ const exportStudents = async () => {
           </v-card>
         </v-dialog>
       </v-row>
+      <v-row justify="center">
+        <v-dialog v-model="isShowDialogImport" persistent width="500">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Import danh sách sinh viên</span>
+            </v-card-title>
+            <v-card-text>
+              <v-file-input
+                v-model="file"
+                clearable
+                label="Import danh sách sinh viên"
+                variant="underlined"
+              ></v-file-input>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="isShowDialogImport = false"
+              >
+                Huỷ
+              </v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="uploadFile">
+                Lưu
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </div>
   </div>
   <template>
@@ -177,7 +232,7 @@ const exportStudents = async () => {
 <style scoped lang="scss">
 .student-management {
   > .action {
-    width: 900px;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 60px;
