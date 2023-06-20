@@ -121,6 +121,9 @@ const deleteStudent = async (id: number) => {
 .list-students {
   margin-top: 16px;
   cursor: pointer;
+  :deep(.v-table > .v-table__wrapper) {
+    height: calc(100vh - 200px) !important;
+  }
 }
 
 .wrap {
