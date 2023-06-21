@@ -63,12 +63,12 @@ const exportTeachers = async () => {
       <search />
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn color="primary" v-bind="props"> Action </v-btn>
+          <v-btn color="primary" v-bind="props"> Actions </v-btn>
         </template>
         <v-list>
           <v-list-item key="1">
             <v-list-item-title @click="exportTeachers"
-              >Export Danh sách</v-list-item-title
+              >Export danh sách</v-list-item-title
             >
           </v-list-item>
           <v-list-item key="2">
@@ -207,7 +207,7 @@ const exportTeachers = async () => {
 <style scoped lang="scss">
 .teacher-management {
   > .action {
-    width: 900px;
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 60px;

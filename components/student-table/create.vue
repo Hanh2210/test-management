@@ -72,12 +72,12 @@ const exportStudents = async () => {
       <search />
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn color="primary" v-bind="props"> Action </v-btn>
+          <v-btn color="primary" v-bind="props"> Actions </v-btn>
         </template>
         <v-list>
           <v-list-item key="1">
             <v-list-item-title @click="exportStudents"
-              >Export Danh sách</v-list-item-title
+              >Export danh sách</v-list-item-title
             >
           </v-list-item>
           <v-list-item key="2">

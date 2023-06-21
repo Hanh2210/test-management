@@ -38,7 +38,7 @@ const search = ref("");
   <h2 class="title">Thông tin sinh viên</h2>
   <div class="student-info">
     <div class="action">
-      <v-btn @click="exportStudents">Export Danh sách </v-btn>
+      <v-btn @click="exportStudents">Export danh sách </v-btn>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
