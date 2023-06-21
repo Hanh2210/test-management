@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { VDataTable } from "vuetify/labs/VDataTable";
 import { Student } from "@/types";
 import { useStudentStore } from "@/stores/student";
 
@@ -12,6 +13,25 @@ const students = computed(() => studentStore.students);
 const exportStudents = async () => {
   await studentStore.exportStudents();
 };
+
+const headers = [
+  { key: "fullName", title: "Họ và tên" },
+  { key: "code", title: "MSSV" },
+  { key: "birthday", title: "Năm sinh" },
+  { key: "gender", title: "Giới tính" },
+  { key: "course", title: "Khóa" },
+  { key: "phoneNumber", title: "Điện thoại" },
+  { key: "email", title: "Email" },
+];
+
+const itemsPerPageOptions = [
+  { title: "5", value: 5 },
+  { title: "10", value: 10 },
+  { title: "20", value: 20 },
+  { title: "50", value: 50 },
+];
+
+const search = ref("");
 </script>
 
 <template>
@@ -19,34 +39,26 @@ const exportStudents = async () => {
   <div class="student-info">
     <div class="action">
       <v-btn @click="exportStudents">Export Danh sách </v-btn>
-      <search />
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
     </div>
 
     <div class="list-students">
-      <v-table fixed-header height="500px">
-        <thead>
-          <tr>
-            <th class="text-left">Họ và tên</th>
-            <th class="text-left">MSSV</th>
-            <th class="text-left">Năm sinh</th>
-            <th class="text-left">Giới tính</th>
-            <th class="text-left">Khóa</th>
-            <th class="text-left">Điện thoại</th>
-            <th class="text-left">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in students" :key="student.id">
-            <td>{{ student.fullName }}</td>
-            <td>{{ student.code }}</td>
-            <td>{{ student.birthday }}</td>
-            <td>{{ student.gender }}</td>
-            <td>{{ student.course }}</td>
-            <td>{{ student.phoneNumber }}</td>
-            <td>{{ student.email }}</td>
-          </tr>
-        </tbody>
-      </v-table>
+      <v-data-table
+        :headers="headers"
+        :items="students"
+        fixed-header
+        height="400px"
+        :search="search"
+        hover
+        :items-per-page-options="itemsPerPageOptions"
+        :items-per-page-text="'Số sinh viên mỗi trang'"
+      ></v-data-table>
     </div>
   </div>
 </template>
