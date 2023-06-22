@@ -75,49 +75,67 @@ const deleteTest = async (testId: number) => {
       ><v-icon icon="mdi-plus" />Thêm mới bài thi</v-btn
     >
 
-    <div v-if="isOpenCreateForm" class="form-create">
-      <div class="form">
-        <v-autocomplete
-          clearable
-          label="Nhập tên môn"
-          :items="subjects"
-          item-title="title"
-          item-value="code"
-          v-model="subjectCode"
-        ></v-autocomplete>
-        <v-select
-          label="Chương"
-          :items="chapters"
-          item-title="order"
-          item-value="id"
-          class="select"
-          multiple
-          v-model="chapterOrders"
-          :variant="'outlined'"
-        ></v-select>
-      </div>
-      <div class="form">
-        <v-text-field
-          required
-          :placeholder="'Nhập số lượng câu'"
-          v-model="questionQuantity"
-        ></v-text-field>
-        <v-text-field
-          required
-          :placeholder="'Nhập ngày kiểm tra'"
-          v-model="testDay"
-        ></v-text-field>
-        <v-text-field
-          required
-          :placeholder="'Nhập thời gian làm bài'"
-          v-model="duration"
-        ></v-text-field>
-      </div>
-
-      <div class="action">
-        <v-btn @click="cancelCreateForm" color="#fcfcfc">Huỷ</v-btn>
-        <v-btn @click="submitCreateForm">Thêm</v-btn>
-      </div>
+    <div class="dialog-create-question">
+      <v-row justify="center">
+        <v-dialog v-model="isOpenCreateForm" persistent width="800">
+          <v-card>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" class="mb-4">
+                    <v-autocomplete
+                      clearable
+                      label="Nhập tên môn"
+                      :items="subjects"
+                      item-title="title"
+                      item-value="code"
+                      v-model="subjectCode"
+                    ></v-autocomplete>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-select
+                      label="Chương"
+                      :items="chapters"
+                      item-title="order"
+                      item-value="id"
+                      class="select"
+                      multiple
+                      v-model="chapterOrders"
+                      :variant="'outlined'"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-text-field
+                      required
+                      :placeholder="'Nhập số lượng câu'"
+                      v-model="questionQuantity"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-text-field
+                      required
+                      :placeholder="'Nhập ngày kiểm tra'"
+                      v-model="testDay"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      required
+                      :placeholder="'Nhập thời gian làm bài'"
+                      v-model="duration"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn @click="cancelCreateForm">Huỷ</v-btn>
+              <v-btn @click="submitCreateForm">Thêm</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </div>
   </div>
   <v-table fixed-header height="450px" class="test-table">
@@ -167,6 +185,10 @@ const deleteTest = async (testId: number) => {
   padding-bottom: 16px;
   border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
+}
+
+.create-tests {
+  margin-bottom: 26px;
 }
 
 .test-table {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
 
-const authUser = ref("admin"); // TODO: check auth user to show navigation
+const authUser = ref("teacher"); // TODO: check auth user to show navigation
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
@@ -74,7 +74,11 @@ const menuByTeacher: MenuItem[] = [
     icon: "mdi-book-open-page-variant",
     path: "/teacher/subjects",
   },
-
+  {
+    title: "Quản lí bài thi",
+    icon: "mdi-book-open",
+    path: "/teacher/tests",
+  },
   {
     title: "Tạo lớp thi",
     icon: "mdi-calendar-clock",
