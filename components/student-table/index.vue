@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Student } from "@/types";
+import { VDataTable } from "vuetify/labs/VDataTable";
 import { useStudentStore } from "@/stores/student";
 
 const isEditStudent = ref(false);
@@ -12,8 +13,8 @@ const isShowSnack = ref(false);
 const res = await studentStore.getStudents();
 const students = computed(() => studentStore.students);
 
-const openDialogEditStudent = (student: object) => {
-  studentById.value = student;
+const openDialogEditStudent = (student: any) => {
+  studentById.value = student.columns;
   isEditStudent.value = true;
 };
 
@@ -22,7 +23,6 @@ const closeDialog = () => {
 };
 
 const editStudent = async (e: any) => {
-  console.log("value", e.student.value);
   const id = e.student.value.id;
   const fullName = e.student.value.fullName;
   const code = e.student.value.code;
@@ -42,59 +42,72 @@ const editStudent = async (e: any) => {
     email
   );
 
-  isEditStudent.value = false;
+  if (res) {
+    isShowSnack.value = true;
+    titleSnack.value = "Sửa sinh viên thành công!";
+    isEditStudent.value = false;
+  }
 };
 
 // delete
-
-const deleteStudent = async (id: number) => {
-  const res = await studentStore.deleteById(id);
+const deleteStudent = async (item: any) => {
+  const res = await studentStore.deleteById(item.columns.id);
   isShowSnack.value = true;
   titleSnack.value = "Xoá thành công";
 };
+
+const headers = [
+  { key: "id", title: "ID" },
+  { key: "fullName", title: "Họ và tên" },
+  { key: "code", title: "MSSV" },
+  { key: "birthday", title: "Năm sinh" },
+  { key: "gender", title: "Giới tính" },
+  { key: "course", title: "Khóa" },
+  { key: "phoneNumber", title: "Điện thoại" },
+  { key: "email", title: "Email" },
+  { key: "actions", title: "Hành động", sortable: false },
+];
+
+const itemsPerPageOptions = [
+  { title: "5", value: 5 },
+  { title: "10", value: 10 },
+  { title: "20", value: 20 },
+  { title: "50", value: 50 },
+];
+
+const search = ref("");
 </script>
 
 <template>
   <h2 class="title">DANH SÁCH SINH VIÊN</h2>
   <student-table-create />
-  <div class="list-students">
-    <v-table fixed-header height="500px">
-      <thead>
-        <tr>
-          <th class="text-left">Họ và tên</th>
-          <th class="text-left">MSSV</th>
-          <th class="text-left">Năm sinh</th>
-          <th class="text-left">Giới tính</th>
-          <th class="text-left">Điện thoại</th>
-          <th class="text-left">Khoá</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Hành động</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="student in students" :key="student.id">
-          <td>{{ student.fullName }}</td>
-          <td>{{ student.code }}</td>
-          <td>{{ student.birthday }}</td>
-          <td>{{ student.gender }}</td>
-          <td>{{ student.phoneNumber }}</td>
-          <td>{{ student.course }}</td>
-          <td>{{ student.email }}</td>
-          <td class="action">
-            <v-icon
-              size="small"
-              class="me-2"
-              @click="openDialogEditStudent(student)"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon size="small" @click="deleteStudent(student.id)">
-              mdi-delete
-            </v-icon>
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
+  <div class="wrapper">
+    <v-text-field
+      v-model="search"
+      append-icon="mdi-magnify"
+      label="Tìm kiếm sinh viên"
+      single-line
+      hide-details
+      class="search"
+    ></v-text-field>
+
+    <v-data-table
+      :headers="headers"
+      :items="students"
+      fixed-header
+      height="400px"
+      :search="search"
+      hover
+      :items-per-page-options="itemsPerPageOptions"
+      :items-per-page-text="'Số sinh viên mỗi trang'"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon size="small" class="me-2" @click="openDialogEditStudent(item)">
+          mdi-pencil
+        </v-icon>
+        <v-icon size="small" @click="deleteStudent(item)"> mdi-delete </v-icon>
+      </template>
+    </v-data-table>
   </div>
 
   <student-table-edit
@@ -118,16 +131,13 @@ const deleteStudent = async (id: number) => {
   border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
-.list-students {
-  margin-top: 16px;
-  cursor: pointer;
-  :deep(.v-table > .v-table__wrapper) {
-    height: calc(100vh - 200px) !important;
-  }
-}
 
-.wrap {
-  display: flex;
-  align-items: center;
+.wrapper {
+  margin-top: 32px;
+
+  > .search {
+    margin-bottom: 24px;
+    width: 400px;
+  }
 }
 </style>

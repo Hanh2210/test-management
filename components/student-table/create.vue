@@ -18,7 +18,19 @@ const titleSnack = ref("");
 const isShowSnack = ref(false);
 const isShowDialogImport = ref(false);
 
-// TODO
+const cancelCreateForm = () => {
+  fullName.value = "";
+  code.value = "";
+  username.value = "";
+  password.value = "";
+  birthday.value = "";
+  gender.value = "";
+  phoneNumber.value = "";
+  course.value = 0;
+  email.value = "";
+  isCreateStudent.value = false;
+};
+
 const submit = async () => {
   const res = await studentStore.createStudent(
     fullName.value,
@@ -31,8 +43,9 @@ const submit = async () => {
     +course.value,
     email.value
   );
+
   await studentStore.getStudents();
-  isCreateStudent.value = false;
+  cancelCreateForm();
 };
 const createStudent = () => {
   isCreateStudent.value = true;
@@ -69,7 +82,6 @@ const exportStudents = async () => {
         ><v-icon icon="mdi-plus" />Thêm sinh viên</v-btn
       >
       <v-spacer />
-      <search />
       <v-menu>
         <template v-slot:activator="{ props }">
           <v-btn color="primary" v-bind="props"> Actions </v-btn>
@@ -90,7 +102,7 @@ const exportStudents = async () => {
     </div>
     <div class="dialog-create-student">
       <v-row justify="center">
-        <v-dialog v-model="isCreateStudent" persistent width="1024">
+        <v-dialog v-model="isCreateStudent" persistent width="800">
           <v-card>
             <v-card-title>
               <span class="text-h5">Thêm mới sinh viên</span>
@@ -169,7 +181,7 @@ const exportStudents = async () => {
               <v-btn
                 color="blue-darken-1"
                 variant="text"
-                @click="isCreateStudent = false"
+                @click="cancelCreateForm"
               >
                 Huỷ
               </v-btn>

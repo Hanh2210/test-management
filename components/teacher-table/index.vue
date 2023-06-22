@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { VDataTable } from "vuetify/labs/VDataTable";
 import { Teacher } from "@/types";
 import { useTeacherStore } from "@/stores/teacher";
 
@@ -8,12 +9,13 @@ const teacherStore = useTeacherStore();
 const teacherById = ref({});
 const titleSnack = ref("");
 const isShowSnack = ref(false);
+
 //get teachers
 const res = await teacherStore.getTeachers();
 const teachers = computed(() => teacherStore.teachers);
 
-const openDialogEditTeacher = (teacher: object) => {
-  teacherById.value = teacher;
+const openDialogEditTeacher = (teacher: any) => {
+  teacherById.value = teacher.columns;
   isEditTeacher.value = true;
 };
 
@@ -22,7 +24,6 @@ const closeDialog = () => {
 };
 
 const editTeacher = async (e: any) => {
-  console.log("value", e.teacher.value);
   const id = e.teacher.value.id;
   const fullName = e.teacher.value.fullName;
   const code = e.teacher.value.code;
@@ -40,57 +41,71 @@ const editTeacher = async (e: any) => {
     email
   );
 
-  isEditTeacher.value = false;
+  if (res) {
+    isShowSnack.value = true;
+    titleSnack.value = "Sửa giáo viên thành công!";
+    isEditTeacher.value = false;
+  }
 };
 
 // delete
-
-const deleteTeacher = async (id: number) => {
-  const res = await teacherStore.deleteById(id);
+const deleteTeacher = async (item: any) => {
+  const res = await teacherStore.deleteById(item.columns.id);
   isShowSnack.value = true;
   titleSnack.value = "Xoá thành công";
 };
+
+const headers = [
+  { key: "id", title: "ID" },
+  { key: "code", title: "Mã GV" },
+  { key: "fullName", title: "Họ và tên" },
+  { key: "birthday", title: "Năm sinh" },
+  { key: "gender", title: "Giới tính" },
+  { key: "phoneNumber", title: "Điện thoại" },
+  { key: "email", title: "Email" },
+  { key: "actions", title: "Hành động", sortable: false },
+];
+
+const itemsPerPageOptions = [
+  { title: "5", value: 5 },
+  { title: "10", value: 10 },
+  { title: "20", value: 20 },
+  { title: "50", value: 50 },
+];
+
+const search = ref("");
 </script>
 
 <template>
   <h2 class="title">DANH SÁCH GIÁO VIÊN</h2>
   <teacher-table-create />
-  <div class="list-teachers">
-    <v-table fixed-header height="500px">
-      <thead>
-        <tr>
-          <th class="text-left">Họ và tên</th>
-          <th class="text-left">Mã GV</th>
-          <th class="text-left">Năm sinh</th>
-          <th class="text-left">Giới tính</th>
-          <th class="text-left">Điện thoại</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Hành động</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="teacher in teachers" :key="teacher.id">
-          <td>{{ teacher.fullName }}</td>
-          <td>{{ teacher.code }}</td>
-          <td>{{ teacher.birthday }}</td>
-          <td>{{ teacher.gender }}</td>
-          <td>{{ teacher.phoneNumber }}</td>
-          <td>{{ teacher.email }}</td>
-          <td class="action">
-            <v-icon
-              size="small"
-              class="me-2"
-              @click="openDialogEditTeacher(teacher)"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon size="small" @click="deleteTeacher(teacher.id)">
-              mdi-delete
-            </v-icon>
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
+  <div class="wrapper">
+    <v-text-field
+      v-model="search"
+      append-icon="mdi-magnify"
+      label="Tìm kiếm giáo viên"
+      single-line
+      hide-details
+      class="search"
+    ></v-text-field>
+
+    <v-data-table
+      :headers="headers"
+      :items="teachers"
+      fixed-header
+      height="400px"
+      :search="search"
+      hover
+      :items-per-page-options="itemsPerPageOptions"
+      :items-per-page-text="'Số giáo viên mỗi trang'"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon size="small" class="me-2" @click="openDialogEditTeacher(item)">
+          mdi-pencil
+        </v-icon>
+        <v-icon size="small" @click="deleteTeacher(item)"> mdi-delete </v-icon>
+      </template>
+    </v-data-table>
   </div>
 
   <teacher-table-edit
@@ -114,16 +129,13 @@ const deleteTeacher = async (id: number) => {
   border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
-.list-teachers {
-  margin-top: 16px;
-  cursor: pointer;
-  :deep(.v-table > .v-table__wrapper) {
-    height: calc(100vh - 200px) !important;
-  }
-}
 
-.wrap {
-  display: flex;
-  align-items: center;
+.wrapper {
+  margin-top: 32px;
+
+  > .search {
+    margin-bottom: 24px;
+    width: 400px;
+  }
 }
 </style>

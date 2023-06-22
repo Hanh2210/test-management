@@ -33,7 +33,7 @@ const editTeacher = () => {
 <template>
   <div class="dialog-edit-teacher">
     <v-row justify="center">
-      <v-dialog :model-value="isEditTeacher" persistent width="1024">
+      <v-dialog :model-value="isEditTeacher" persistent width="800">
         <v-card>
           <v-card-title>
             <span class="text-h5">Sửa thông tin giáo viên</span>

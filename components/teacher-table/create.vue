@@ -17,7 +17,19 @@ const titleSnack = ref("");
 const isShowSnack = ref(false);
 const isShowDialogImport = ref(false);
 
-// TODO
+const cancelCreateForm = () => {
+  fullName.value = "";
+  code.value = "";
+  username.value = "";
+  password.value = "";
+  birthday.value = "";
+  gender.value = "";
+  phoneNumber.value = "";
+  email.value = "";
+  isCreateTeacher.value = false;
+};
+
+// create
 const submit = async () => {
   const res = await teacherStore.createTeacher(
     fullName.value,
@@ -30,11 +42,13 @@ const submit = async () => {
     email.value
   );
   await teacherStore.getTeachers();
-  isCreateTeacher.value = false;
+  cancelCreateForm();
 };
+
 const createTeacher = () => {
   isCreateTeacher.value = true;
 };
+
 // import
 const file = ref();
 const formData = new FormData();
@@ -47,6 +61,7 @@ const uploadFile = async () => {
     isShowDialogImport.value = false;
   } catch (err) {}
 };
+
 // export teachers
 const exportTeachers = async () => {
   await teacherStore.exportTeachers();
@@ -60,7 +75,6 @@ const exportTeachers = async () => {
         ><v-icon icon="mdi-plus" />Thêm giáo viên</v-btn
       >
       <v-spacer />
-      <search />
       <v-menu>
         <template v-slot:activator="{ props }">
           <v-btn color="primary" v-bind="props"> Actions </v-btn>
@@ -81,7 +95,7 @@ const exportTeachers = async () => {
     </div>
     <div class="dialog-create-teacher">
       <v-row justify="center">
-        <v-dialog v-model="isCreateTeacher" persistent width="1024">
+        <v-dialog v-model="isCreateTeacher" persistent width="800">
           <v-card>
             <v-card-title>
               <span class="text-h5">Thêm mới giáo viên</span>
@@ -153,7 +167,7 @@ const exportTeachers = async () => {
               <v-btn
                 color="blue-darken-1"
                 variant="text"
-                @click="isCreateTeacher = false"
+                @click="cancelCreateForm"
               >
                 Huỷ
               </v-btn>

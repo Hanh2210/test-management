@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
 
-const authUser = ref("teacher"); // TODO: check auth user to show navigation
+const authUser = ref("admin"); // TODO: check auth user to show navigation
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
