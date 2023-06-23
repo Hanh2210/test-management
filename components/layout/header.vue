@@ -19,13 +19,13 @@ import blankAvatar from "@/assets/images/blank-avatar.png";
 
 <style lang="scss" scoped>
 .nav-bar {
-  height: $header-height;
-  background-color: $color-white;
+  height: 64px;
+  background-color: #fff;
   display: flex;
   align-items: center;
 
   > .title {
-    color: $color-black;
+    color: #000;
     text-align: left;
     padding-left: 24px;
     font-weight: normal;

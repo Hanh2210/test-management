@@ -7,9 +7,8 @@ nuxtApp.hook("page:finish", () => {
 });
 
 definePageMeta({
-  middleware: ['auth'],
+  middleware: ["auth"],
 });
-
 </script>
 <template>
   <div class="app-layout">
@@ -27,10 +26,10 @@ definePageMeta({
   overflow: hidden;
 
   > .page-container {
-    font-size: $font-sm;
+    font-size: 0.875rem;
     padding: 16px;
     overflow-y: scroll;
-    height: calc(100% - #{$header-height});
+    height: calc(100% - #{64px});
     margin-left: 254px;
   }
 }

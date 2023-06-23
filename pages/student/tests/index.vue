@@ -131,12 +131,12 @@ const tab = ref(null);
 <style scoped lang="scss">
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid $color-gray;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 12px;
 }
 
 .online-exam-infomation {
-  background-color: $color-white;
+  background-color: #fff;
   padding: 1rem;
   border-radius: 0.65rem;
   border: 1px solid #e0e0e0;
@@ -187,7 +187,7 @@ const tab = ref(null);
 }
 .card {
   :deep(.v-card) {
-    background-color: $color-white !important;
+    background-color: #fff !important;
   }
 }
 .tabs {
@@ -235,7 +235,7 @@ const tab = ref(null);
 }
 .link {
   text-decoration: none;
-  background-color: $primary-color;
-  color: $color-white;
+  background-color: #2196f3;
+  color: #fff;
 }
 </style>

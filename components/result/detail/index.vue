@@ -206,7 +206,7 @@ const closeDialog = () => {
 <style lang="scss" scoped>
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid $color-gray;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 12px;
 }
 
@@ -244,7 +244,7 @@ const closeDialog = () => {
   margin-left: 32px;
   > .item {
     width: 160px;
-    background-color: $color-white;
+    background-color: #fff;
     padding: 8px;
     border: 1px solid #efefef;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);

@@ -191,13 +191,13 @@ const cancel = () => clear();
 <style lang="scss" scoped>
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid $color-gray;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 12px;
 }
 
 .heading {
   margin: 16px;
-  color: $color-purple;
+  color: #9c27b0;
   cursor: pointer;
 }
 

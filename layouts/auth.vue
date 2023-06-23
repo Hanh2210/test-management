@@ -57,7 +57,7 @@ const images = [
   overflow: hidden;
 
   > .page-container {
-    font-size: $font-sm;
+    font-size: 0.875rem;
     display: flex;
     flex-wrap: wrap;
     margin-right: -15px;
