@@ -19,7 +19,7 @@ import blankAvatar from "@/assets/images/blank-avatar.png";
 
 <style lang="scss" scoped>
 .nav-bar {
-  height: $header-height;
+  height: 64px;
   background-color: #fff;
   display: flex;
   align-items: center;
