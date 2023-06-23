@@ -235,7 +235,7 @@ const tab = ref(null);
 }
 .link {
   text-decoration: none;
-  background-color: $primary-color;
+  background-color: #2196f3;
   color: #fff;
 }
 </style>

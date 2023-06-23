@@ -210,7 +210,7 @@ const deleteQuestion = async (id: number) => {
 
 .create-title {
   cursor: pointer;
-  color: $primary-color;
+  color: #2196f3;
   margin-bottom: 16px;
 }
 .create-test-random {

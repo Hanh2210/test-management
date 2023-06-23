@@ -71,7 +71,7 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
 
   > .wrapper > .title {
     margin-bottom: 56px;
-    color: $primary-color;
+    color: #2196f3;
   }
 
   .form {
