@@ -71,7 +71,7 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
 
 <style lang="scss" scoped>
 .login-form {
-  background-color: #fff;
+  background-color: $color-white;
 
   > .wrapper {
     height: 100%;
@@ -83,7 +83,7 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
 
   > .wrapper > .title {
     margin-bottom: 56px;
-    color: #2196f3;
+    color: $primary-color;
   }
 
   .form {
@@ -91,7 +91,7 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
     flex-direction: column;
     gap: 16px;
     width: 400px;
-    border: 1px solid #ccc;
+    border: 1px solid $color-gray;
     padding: 36px;
     border-radius: 4px;
   }

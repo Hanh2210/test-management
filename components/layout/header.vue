@@ -20,12 +20,12 @@ import blankAvatar from "@/assets/images/blank-avatar.png";
 <style lang="scss" scoped>
 .nav-bar {
   height: 64px;
-  background-color: #fff;
+  background-color: $color-white;
   display: flex;
   align-items: center;
 
   > .title {
-    color: #000;
+    color: $color-black;
     text-align: left;
     padding-left: 24px;
     font-weight: normal;

@@ -26,10 +26,10 @@ definePageMeta({
   overflow: hidden;
 
   > .page-container {
-    font-size: 0.875rem;
+    font-size: $font-sm;
     padding: 16px;
     overflow-y: scroll;
-    height: calc(100% - #{64px});
+    height: calc(100% - #{$header-height});
     margin-left: 254px;
   }
 }

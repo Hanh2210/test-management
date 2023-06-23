@@ -183,7 +183,7 @@ const deleteTest = async (testId: number) => {
 <style lang="scss" scoped>
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
 
@@ -209,7 +209,7 @@ const deleteTest = async (testId: number) => {
   > .action {
     display: flex;
     gap: 24px;
-    color: #fff;
+    color: $color-white;
   }
 }
 

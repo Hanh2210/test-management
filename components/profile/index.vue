@@ -83,7 +83,7 @@ const props = defineProps({
 <style scoped lang="scss">
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
 
@@ -95,7 +95,7 @@ const props = defineProps({
     flex-direction: column;
     width: 200px;
     height: 200px;
-    border: 1px solid #ccc;
+    border: 1px solid $color-gray;
   }
   > .avatar > .button {
     margin-top: 12px;

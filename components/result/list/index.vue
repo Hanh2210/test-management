@@ -65,7 +65,7 @@ const props = defineProps({
 <style lang="scss" scoped>
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
 
@@ -81,7 +81,7 @@ const props = defineProps({
     display: flex;
     gap: 4px;
     flex-direction: column;
-    background-color: #fff;
+    background-color: $color-white;
     padding: 16px;
     border: 1px solid #efefef;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
@@ -99,7 +99,7 @@ const props = defineProps({
   > .score-box > .core {
     font-size: 20px;
     font-weight: 600;
-    color: #000;
+    color: $color-black;
   }
 }
 </style>

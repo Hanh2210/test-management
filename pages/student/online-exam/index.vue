@@ -139,12 +139,12 @@ onMounted(() => {
   display: flex;
   gap: 8px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
   > .button {
     width: 80px;
     height: 34px;
-    border: 1px solid #ccc;
+    border: 1px solid $color-gray;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 600;
@@ -164,7 +164,7 @@ onMounted(() => {
 
 .test-content {
   flex: 5;
-  background-color: #fff;
+  background-color: $color-white;
   padding: 1rem;
   border-radius: 0.65rem;
   border: 1px solid #e0e0e0;
@@ -176,7 +176,7 @@ onMounted(() => {
   flex: 1;
   will-change: position, transform;
   padding: 1rem;
-  background-color: #fff;
+  background-color: $color-white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
 
   > .time {
@@ -197,7 +197,7 @@ onMounted(() => {
   }
 
   > .submit:hover {
-    color: #fff;
+    color: $color-white;
     background-color: #35509a;
     border-color: #35509a;
   }
@@ -238,7 +238,7 @@ onMounted(() => {
 
     :deep(.v-selection-control .v-label) {
       font-size: 14px;
-      color: #000;
+      color: $color-black;
     }
   }
 }

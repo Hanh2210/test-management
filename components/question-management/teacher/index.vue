@@ -196,7 +196,7 @@ const deleteQuestion = async (id: number) => {
 <style scoped lang="scss">
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
 
@@ -210,7 +210,7 @@ const deleteQuestion = async (id: number) => {
 
 .create-title {
   cursor: pointer;
-  color: #2196f3;
+  color: $primary-color;
   margin-bottom: 16px;
 }
 .create-test-random {

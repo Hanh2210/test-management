@@ -176,7 +176,7 @@ const isAllSubjects = (item: any) => {
 <style scoped lang="scss">
 .title {
   padding-bottom: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $color-gray;
   margin-bottom: 12px;
 }
 
@@ -201,7 +201,7 @@ const isAllSubjects = (item: any) => {
   }
   > .item > .link {
     text-decoration: none;
-    color: #000;
+    color: $color-black;
     padding: 8px;
     border-radius: 20px;
     white-space: nowrap;
@@ -251,8 +251,8 @@ const isAllSubjects = (item: any) => {
   .item {
     border-radius: 8px;
     box-shadow: 0 2px 0 0 rgba(143, 156, 173, 0.2);
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid $color-gray;
+    background-color: $color-white;
     padding: 16px;
     cursor: pointer;
   }
@@ -277,7 +277,7 @@ const isAllSubjects = (item: any) => {
     justify-content: center;
     .link {
       text-decoration: none;
-      color: #2196f3;
+      color: $primary-color;
     }
   }
 }
