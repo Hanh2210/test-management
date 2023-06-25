@@ -1,8 +1,10 @@
-<template>
-  <profile :user-info="students" />
-</template>
 <script lang="ts" setup>
 import { UserInfo } from "@/types";
+import { useUserInfoStore } from "@/stores/user";
+
+const userInfo = useUserInfoStore();
+await userInfo.getProfile();
+
 const students: UserInfo = {
   id: 1,
   fullName: "Student",
@@ -13,3 +15,7 @@ const students: UserInfo = {
   email: "student@gmail.com",
 };
 </script>
+
+<template>
+  <profile :user-info="students" />
+</template>

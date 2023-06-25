@@ -1,4 +1,6 @@
 import { authApi } from "@/apis";
+import { type AxiosResponse } from "axios";
+import { type AUTH_USER_TYPE } from "~/types";
 
 export const signUp = async (
   username: string,
@@ -15,15 +17,19 @@ export const signUp = async (
   return res;
 };
 
-export const signin = async (
+export interface SignInResponse {
+  accessToken: string;
+  roles: AUTH_USER_TYPE[];
+  username: string;
+  message: string;
+  refreshToken: string;
+}
+
+export const signIn = async (
   username: string,
   password: string
-) => {
-  const res = await authApi
-    .post("/auth/signin", {
-      username,
-      password,
-    })
-    .catch((err) => {});
-  return res;
-};
+): Promise<AxiosResponse<SignInResponse, any>> =>
+  authApi.post<SignInResponse>("/auth/signin", {
+    username,
+    password,
+  });

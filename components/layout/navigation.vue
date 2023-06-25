@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
 
-const authUser = ref("admin"); // TODO: check auth user to show navigation
+const authUser = ref(AUTH_USER.ROLE_ADMIN); // TODO: check auth user to show navigation
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
     icon: "mdi-home-city",
-    path: "/",
+    path: "/admin/home",
   },
   {
     title: "Quản lí học sinh",
@@ -57,7 +57,7 @@ const menuByTeacher: MenuItem[] = [
   {
     title: "Trang chủ",
     icon: "mdi-home-city",
-    path: "/",
+    path: "/teacher/home",
   },
   {
     title: "Quản lí học sinh",
@@ -97,11 +97,10 @@ const menuByTeacher: MenuItem[] = [
 ];
 
 const menus = computed(() => {
-  if (authUser.value === AUTH_USER.admin) return menuByAdmin;
-  else if (authUser.value === AUTH_USER.student) return menuByStudent;
+  if (authUser.value === AUTH_USER.ROLE_ADMIN) return menuByAdmin;
+  else if (authUser.value === AUTH_USER.ROLE_STUDENT) return menuByStudent;
   return menuByTeacher;
 });
-
 const router = useRouter();
 const route = useRoute();
 

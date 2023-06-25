@@ -9,6 +9,7 @@ const form = ref();
 const username = ref("");
 const email = ref("");
 const password = ref("");
+const showPassword = ref(false);
 
 const onSubmit = async () => {
   if (!form) return;
@@ -48,8 +49,12 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
           v-model="password"
           :rules="[requiredPassword]"
           clearable
+          :type="showPassword ? 'text' : 'password'"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
           label="Nhập mật khẩu"
           placeholder="Nhập mật khẩu"
+          class="pass"
         ></v-text-field>
 
         <br />
@@ -94,6 +99,12 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
     border: 1px solid $color-gray;
     padding: 36px;
     border-radius: 4px;
+  }
+}
+
+.pass {
+  :deep(.v-input__append) {
+    margin-left: -100px;
   }
 }
 </style>

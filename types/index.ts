@@ -80,10 +80,12 @@ export interface ExamClass {
 // constants
 
 export const AUTH_USER = {
-  admin: "admin",
-  student: "student",
-  teacher: "teacher",
-};
+  ROLE_ADMIN: "ROLE_ADMIN",
+  ROLE_STUDENT: "ROLE_STUDENT",
+  ROLE_TEACHER: "ROLE_TEACHER",
+} as const;
+
+export type AUTH_USER_TYPE = keyof typeof AUTH_USER;
 
 export const LEVEL = [
   { key: "EASY", label: "EASY" },

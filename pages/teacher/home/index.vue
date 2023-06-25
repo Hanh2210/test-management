@@ -1,10 +1,4 @@
-<script lang="ts">
-export default {
-  beforeRouteEnter(to, from, next) {
-    next({ path: "/admin" });
-  },
-};
-</script>
+<script lang="ts"></script>
 <template>
   <div class="home-page"><h2 class="title">Welcome to Test Management</h2></div>
 </template>
