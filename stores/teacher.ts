@@ -101,6 +101,22 @@ export const useTeacherStore = defineStore("teacher", () => {
         return null;
       });
   };
+
+  const updateProfile = async (data: {
+    email: string;
+    fullName: string;
+    course: number;
+    birthday: string;
+    gender: string;
+    phoneNumber: string;
+    code: string;
+  }) => {
+    const res = await api
+      .put(`/student/update/profile`, data)
+      .catch((err) => {});
+    return res;
+  };
+
   return {
     teachers,
     isCreating,
@@ -110,5 +126,6 @@ export const useTeacherStore = defineStore("teacher", () => {
     deleteById,
     importTeachers,
     exportTeachers,
+    updateProfile,
   };
 });
