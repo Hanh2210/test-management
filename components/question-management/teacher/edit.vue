@@ -96,6 +96,16 @@ const editQuestion = () => {
                     :placeholder="'Nhập câu hỏi'"
                   ></v-text-field>
                 </v-col>
+                <v-col cols="12" v-if="question.topicImage">
+                  <span>Hình ảnh</span>
+                  <div class="image-wrap">
+                    <img
+                      :src="question.topicImage"
+                      alt="Ảnh từ S3"
+                      class="img"
+                    />
+                  </div>
+                </v-col>
                 <v-col cols="12">Đáp án </v-col>
                 <v-col cols="12">
                   <div
@@ -143,6 +153,17 @@ const editQuestion = () => {
   }
   > .checkbox {
     flex: 1;
+  }
+}
+
+.image-wrap {
+  width: 300px;
+  height: 300px;
+
+  > .img {
+    width: 100%;
+    height: 100%;
+    object-fit: initial;
   }
 }
 </style>

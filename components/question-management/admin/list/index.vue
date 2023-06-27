@@ -62,6 +62,16 @@ const detailQuestion = (question: any) => {
                   <span>Câu hỏi</span>
                   <v-text-field>{{ questionItem.topicText }}</v-text-field>
                 </v-col>
+                <v-col cols="12" v-if="questionItem.topicImage">
+                  <span>Hình ảnh</span>
+                  <div class="image-wrap">
+                    <img
+                      :src="questionItem.topicImage"
+                      alt="Ảnh từ S3"
+                      class="img"
+                    />
+                  </div>
+                </v-col>
                 <v-col cols="12">Đáp án </v-col>
                 <v-col
                   cols="12"
@@ -114,6 +124,17 @@ const detailQuestion = (question: any) => {
   }
   > .checkbox {
     flex: 1;
+  }
+}
+
+.image-wrap {
+  width: 300px;
+  height: 300px;
+
+  > .img {
+    width: 100%;
+    height: 100%;
+    object-fit: initial;
   }
 }
 </style>

@@ -35,6 +35,9 @@ const questionDetail = computed(() => testsStore.questionDetail);
           <span class="order">{{ question.id }}.</span>
           <span class="topictext">{{ question.topicText }} </span>
         </div>
+        <div class="image-wrap" v-if="question.topicImage">
+          <img :src="question.topicImage" alt="Ảnh từ S3" class="img" />
+        </div>
         <div
           class="answers"
           v-for="answer in question.answers"
@@ -92,6 +95,17 @@ const questionDetail = computed(() => testsStore.questionDetail);
 
   > .item > .answers > .label {
     font-weight: 600;
+  }
+
+  > .item > .image-wrap {
+    width: 300px;
+    height: 300px;
+    margin: 4px 0;
+  }
+  > .item > .image-wrap > .img {
+    width: 100%;
+    height: 100%;
+    object-fit: initial;
   }
 }
 </style>
