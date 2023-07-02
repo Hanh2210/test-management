@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     },
   ],
   imports: {
-    dirs: ["store"],
+    dirs: ["stores"],
   },
   css: [
     "vuetify/lib/styles/main.sass",
