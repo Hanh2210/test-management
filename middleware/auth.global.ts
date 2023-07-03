@@ -1,6 +1,7 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   if (!to.path.includes("auth")) {
     const authStore = useAuthStore();
+    await authStore.getCurrentUser();
     const roles = authStore.currentUser?.roles;
     if (roles?.length) {
       switch (roles[0]) {

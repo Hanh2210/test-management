@@ -1,4 +1,4 @@
-import { api } from "@/apis";
+import { apis } from "@/apis";
 export const useAuthStore = defineStore("auth", () => {
   const currentUser = ref();
 
@@ -10,7 +10,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const getCurrentUser = async () => {
-    const res = await api.get("user/profile").catch(() => null);
+    const res = await apis.api!.get("user/profile").catch(() => null);
     currentUser.value = res?.data ?? {};
   };
 
