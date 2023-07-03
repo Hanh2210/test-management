@@ -68,6 +68,27 @@ export const useTestStore = defineStore("test", () => {
     }
   };
 
+  const exportTest = async () => {
+    const res = await api
+      .get(`/test-set/word/export/${id}`, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        let fileUrl = window.URL.createObjectURL(res.data);
+        let fileLink = document.createElement("a");
+
+        fileLink.href = fileUrl;
+        fileLink.setAttribute("download", "export-test-set.doc");
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+  };
+
   return {
     tests,
     testDetail,
@@ -77,5 +98,6 @@ export const useTestStore = defineStore("test", () => {
     deleteById,
     createTest,
     createTestCheckbox,
+    exportTest,
   };
 });

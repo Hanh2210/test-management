@@ -191,7 +191,7 @@ const createQuestion = () => {
   display: flex;
   gap: 32px;
   margin: 32px 0;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 .list-questions {

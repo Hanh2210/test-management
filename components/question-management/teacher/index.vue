@@ -204,7 +204,7 @@ const deleteQuestion = async (id: number) => {
   display: flex;
   gap: 32px;
   margin: 24px 0;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 

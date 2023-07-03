@@ -65,6 +65,11 @@ const getTestDetailRoutePath = async (testId: number) => {
 const deleteTest = async (testId: number) => {
   const res = await testsStore.deleteById(testId);
 };
+
+//export test-set
+const exportTest = async () => {
+  await testsStore.exportTest();
+};
 </script>
 
 <template>
@@ -166,6 +171,9 @@ const deleteTest = async (testId: number) => {
           <v-icon size="small" class="me-2"> mdi-pencil </v-icon>
           <v-icon size="small" @click="deleteTest(test.id)">
             mdi-delete
+          </v-icon>
+          <v-icon size="small" @click="exportTest(test.id)">
+            mdi-download
           </v-icon>
         </td>
       </tr>
