@@ -34,10 +34,11 @@ const createAPI = (baseURL: string) => {
     async (error) => {
       const { config, response } = error;
       // Retry the request if it returns a 401 error and has retry attempts remaining
+      console.log(response, config);
       if (
-        response.status === 401 &&
+        response.status === 403 &&
         config &&
-        config.retryCount < MAX_RETRY_ATTEMPTS
+        (config.retryCount ?? 0) < MAX_RETRY_ATTEMPTS
       ) {
         config.retryCount = config.retryCount || 0;
         config.retryCount++;
@@ -52,8 +53,6 @@ const createAPI = (baseURL: string) => {
 
         return instance.request(retryConfig);
       }
-
-      return Promise.reject(error);
     }
   );
   return instance;
@@ -73,7 +72,7 @@ export const authApi = axios.create({
 
 const refreshTokenFn = async () => {
   const session: Session = JSON.parse(localStorage.getItem("session") || "");
-
+  console.log("session", session);
   try {
     const response: any = await authApi.post("/auth/refresh-token", {
       refreshToken: session?.refreshToken,

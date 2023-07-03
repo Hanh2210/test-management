@@ -6,9 +6,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { accessToken } = JSON.parse(session);
     if (accessToken) {
       await authStore.getCurrentUser();
-      const role = authStore.currentUser?.roles[0];
-      if (role) {
-        switch (role) {
+      const roles = authStore.currentUser?.roles;
+      if (roles?.length) {
+        switch (roles[0]) {
           case "ROLE_ADMIN": {
             return navigateTo("/admin/home");
           }
