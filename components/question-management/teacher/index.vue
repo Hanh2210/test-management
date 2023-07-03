@@ -31,6 +31,7 @@ const chapterBySubject = ref([]);
 const isShowCreateForm = ref(false);
 const checkedIds = ref<number[]>([]);
 const testDay = ref("");
+const testTime = ref("");
 const duration = ref(0);
 
 const toggleCreateForm = () => {
@@ -58,6 +59,7 @@ const createTestByCheckbox = async (): Promise<void> => {
     questionIds: checkedIds.value.map((id) => id),
     testDay: testDay.value,
     duration: +duration.value,
+    testTime: testTime.value,
   });
   isShowCreateForm.value = false;
 };
@@ -127,7 +129,14 @@ const deleteQuestion = async (id: number) => {
     <div class="wrapper">
       <v-text-field
         v-model="testDay"
+        type="date"
         label="Nhập ngày mở đề"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="testTime"
+        type="time"
+        label="Nhập giờ mở đề"
         required
       ></v-text-field>
       <v-text-field
