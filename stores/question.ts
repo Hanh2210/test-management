@@ -26,18 +26,14 @@ export const useQuestionStore = defineStore("question", () => {
     }
   };
 
-  const createQuestion = async (data: {
-    subjectCode: string;
-    chapterId: number;
-    topicText: string;
-    topicImage: string;
-    level: string;
-    answers: {
-      content: string;
-      isCorrected: string;
-    }[];
-  }) => {
-    const res = await apis.api!.post("/question/add", data).catch((err) => {});
+  const createQuestion = async (formData: any) => {
+    const res = await apis
+      .api!.post("/question/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err) => {});
   };
 
   const updateById = async (
@@ -53,14 +49,16 @@ export const useQuestionStore = defineStore("question", () => {
       }[];
     }
   ) => {
-    const res = await apis.api!
-      .put(`/question/update/${id}`, data)
+    const res = await apis
+      .api!.put(`/question/update/${id}`, data)
       .catch((err) => {});
     return res;
   };
 
   const deleteById = async (id: number) => {
-    const res = await apis.api!.delete(`question/disable/${id}`).catch(() => null);
+    const res = await apis
+      .api!.delete(`question/disable/${id}`)
+      .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = questions.value.findIndex(
         (item) => item.id === id
