@@ -37,7 +37,7 @@ export const createAPI = (baseURL: string, requireAuth: boolean) => {
         // Retry the request if it returns a 401 error and has retry attempts remaining
         console.log(response, config);
         if (
-          response.status === 403 &&
+          response.status === 401 &&
           config &&
           (config.retryCount ?? 0) < MAX_RETRY_ATTEMPTS
         ) {
