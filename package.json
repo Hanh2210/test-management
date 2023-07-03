@@ -14,11 +14,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.4.6",
+    "@pinia/nuxt": "0.4.11",
     "axios": "^1.4.0",
     "ky": "^0.33.2",
     "ky-universal": "^0.11.0",
-    "pinia": "^2.0.30",
+    "nuxt": "3.5.2",
+    "pinia": "^2.1.4",
     "sanitize.css": "^13.0.0",
     "vuetify": "3.3.4"
   },
@@ -28,7 +29,6 @@
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/node": "^18.13.0",
     "eslint": "^8.35.0",
-    "nuxt": "^3.1.1",
     "sass": "^1.58.0",
     "sass-loader": "^13.2.0",
     "typescript": "^4.9.5",
