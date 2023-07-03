@@ -1,16 +1,19 @@
 <script lang="ts" setup>
 import { signIn, SignInResponse } from "@/models/auth";
 import { AUTH_USER, AUTH_USER_TYPE } from "@/types/index";
+import {useAuthStore} from "@/stores/auth"
 
 definePageMeta({
   layout: "auth",
+  middleware: ["login"]
 });
 const router = useRouter();
 const form = ref();
 const username = ref("");
 const password = ref("");
 const showPassword = ref(false);
-const KEY_AUTH = "KEY_AUTH";
+
+const authStore = useAuthStore()
 
 const onSubmit = async (): Promise<void> => {
   if (!form) return;
@@ -18,13 +21,12 @@ const onSubmit = async (): Promise<void> => {
     const res = await signIn(username.value, password.value);
     const { data } = res;
     if (data) {
-      localStorage.setItem(KEY_AUTH, JSON.stringify(data));
-      // console.log("ok", data);
+      await authStore.handleLogin(data.accessToken, data.refreshToken)
       const { roles } = data;
       handleRouter(roles);
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -53,21 +55,6 @@ const requiredName = (v: any) => !!v || `Full name is required`;
 
 const requiredPassword = (v: any) => !!v || `Password is required`;
 
-onMounted(() => {
-  try {
-    const dataSignIn: string | null = localStorage.getItem(KEY_AUTH);
-    // console.log(dataSignIn);
-    if (dataSignIn) {
-      const result: SignInResponse = JSON.parse(dataSignIn.toString());
-      const { accessToken, roles } = result;
-      if (accessToken && roles) {
-        handleRouter(roles);
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
 </script>
 
 <template>

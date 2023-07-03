@@ -18,45 +18,43 @@ const createAPI = (baseURL: string) => {
   });
 
   // Add access token to header
-  //   instance.interceptors.request.use(
-  //     (config) => {
-  //       const session: Session = JSON.parse(
-  //         localStorage.getItem("session") || ""
-  //       );
-  //       config.headers.Authorization = `Bearer ${session?.accessToken}`;
-  //       return config;
-  //     },
-  //     (error) => Promise.reject(error)
-  //   );
+  instance.interceptors.request.use(
+    (config) => {
+      const session: Session = JSON.parse(
+        localStorage.getItem("session") || ""
+      );
+      config.headers.Authorization = `Bearer ${session?.accessToken}`;
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
 
-  //   instance.interceptors.response.use(
-  //     (response) => response,
-  //     async (error) => {
-  //       const { config, response } = error;
-  //       console.log(1111, error);
-  //       // Retry the request if it returns a 401 error and has retry attempts remaining
-  //       if (
-  //         response.status === 401 &&
-  //         config &&
-  //         config.retryCount < MAX_RETRY_ATTEMPTS
-  //       ) {
-  //         config.retryCount = config.retryCount || 0;
-  //         config.retryCount++;
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      const { config, response } = error;
+      // Retry the request if it returns a 401 error and has retry attempts remaining
+      console.log(response, config);
+      if (
+        response.status === 403 &&
+        config &&
+        (config.retryCount ?? 0) < MAX_RETRY_ATTEMPTS
+      ) {
+        config.retryCount = config.retryCount || 0;
+        config.retryCount++;
 
-  //         const result = await refreshTokenFn();
+        const result = await refreshTokenFn();
 
-  //         if (result?.accessToken) {
-  //           config.headers.Authorization = `Bearer ${result?.accessToken}`;
-  //         }
+        if (result?.accessToken) {
+          config.headers.Authorization = `Bearer ${result?.accessToken}`;
+        }
 
-  //         const retryConfig = { ...config };
+        const retryConfig = { ...config };
 
-  //         return instance.request(retryConfig);
-  //       }
-
-  //       return Promise.reject(error);
-  //     }
-  //   );
+        return instance.request(retryConfig);
+      }
+    }
+  );
   return instance;
 };
 
@@ -74,7 +72,7 @@ export const authApi = axios.create({
 
 const refreshTokenFn = async () => {
   const session: Session = JSON.parse(localStorage.getItem("session") || "");
-
+  console.log("session", session);
   try {
     const response: any = await authApi.post("/auth/refresh-token", {
       refreshToken: session?.refreshToken,
