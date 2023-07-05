@@ -46,7 +46,6 @@ const isCreateQuestion = ref(false);
 const submit = async (): Promise<void> => {
   try {
     const data = {
-      subjectCode: subjectCode.value,
       chapterId: chapterId.value,
       topicText: topicText.value,
       level: level.value,
@@ -64,10 +63,10 @@ const submit = async (): Promise<void> => {
     }
     const res = await questionStore.createQuestion(formData);
 
-    // await questionStore.getQuestions(subjectCode.value);
-    // isShowSnack.value = true;
-    // titleSnack.value = "Thêm câu hỏi thành công!";
-    // isCreateQuestion.value = false;
+    await questionStore.getQuestions(subjectCode.value);
+    isShowSnack.value = true;
+    titleSnack.value = "Thêm câu hỏi thành công!";
+    isCreateQuestion.value = false;
   } catch (error) {
     // Handle the error
     console.error(error);

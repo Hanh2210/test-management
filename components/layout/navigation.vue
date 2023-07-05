@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
 
-const authUser = ref(AUTH_USER.ROLE_ADMIN); // TODO: check auth user to show navigation
+const authStore = useAuthStore();
+const authUser = computed(() => authStore.currentUser.roles[0]);
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
