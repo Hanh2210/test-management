@@ -107,14 +107,12 @@ export const useTeacherStore = defineStore("teacher", () => {
   const updateProfile = async (data: {
     email: string;
     fullName: string;
-    course: number;
     birthday: string;
     gender: string;
     phoneNumber: string;
-    code: string;
   }) => {
     const res = await apis
-      .api!.put(`/student/update/profile`, data)
+      .api!.put(`/teacher/update/profile`, data)
       .catch((err) => {});
     return res;
   };
