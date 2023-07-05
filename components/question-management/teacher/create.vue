@@ -40,24 +40,37 @@ const answers = ref([
   { content: "", isCorrected: "" },
 ]);
 
+const fileImage = ref(null);
 const isCreateQuestion = ref(false);
 
 const submit = async (): Promise<void> => {
-  const res = await questionStore.createQuestion({
-    subjectCode: subjectCode.value,
-    chapterId: chapterId.value,
-    topicText: topicText.value,
-    topicImage: topicImage.value,
-    level: level.value,
-    answers: answers.value.map((item) => ({
-      ...item,
-      isCorrected: item.isCorrected ? "true" : "false",
-    })),
-  });
-  await questionStore.getQuestions(subjectCode.value);
-  isShowSnack.value = true;
-  titleSnack.value = "Thêm câu hỏi thành công!";
-  isCreateQuestion.value = false;
+  try {
+    const data = {
+      chapterId: chapterId.value,
+      topicText: topicText.value,
+      level: level.value,
+      answers: answers.value.map((item) => ({
+        ...item,
+        isCorrected: item.isCorrected ? "true" : "false",
+      })),
+    };
+
+    const formData = new FormData();
+    formData.append("jsonRequest", JSON.stringify(data));
+
+    if (fileImage.value) {
+      formData.append("file", fileImage.value[0]);
+    }
+    const res = await questionStore.createQuestion(formData);
+
+    await questionStore.getQuestions(subjectCode.value);
+    isShowSnack.value = true;
+    titleSnack.value = "Thêm câu hỏi thành công!";
+    isCreateQuestion.value = false;
+  } catch (error) {
+    // Handle the error
+    console.error(error);
+  }
 };
 
 const createQuestion = () => {
@@ -126,6 +139,14 @@ const createQuestion = () => {
                       v-model="topicText"
                       :placeholder="'Nhập câu hỏi'"
                     ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-file-input
+                      v-model="fileImage"
+                      clearable
+                      label="Upload ảnh"
+                      variant="underlined"
+                    ></v-file-input>
                   </v-col>
                   <v-col cols="12">Đáp án </v-col>
 
