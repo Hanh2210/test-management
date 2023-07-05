@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
+import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 const authUser = computed(() => authStore.currentUser.roles[0]);
@@ -114,6 +115,11 @@ const handleRedirect = (path: string) => {
     router.push(path);
   }
 };
+
+const store = useAuthStore();
+const currentUser = computed(() => {
+  return store.currentUser;
+});
 </script>
 
 <template>
@@ -124,7 +130,7 @@ const handleRedirect = (path: string) => {
           <v-list-item
             lines="two"
             prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
-            subtitle="Logged in"
+            v-bind:subtitle="currentUser.username"
           ></v-list-item>
         </template>
 
