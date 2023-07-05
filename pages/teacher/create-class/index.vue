@@ -64,7 +64,6 @@ const cancel = () => clear();
     <v-card class="card">
       <v-tabs v-model="tab" centered stacked class="tabs">
         <v-tab value="tab-1"> Tạo lớp thi </v-tab>
-        <v-tab value="tab-2"> Import đề thi </v-tab>
         <v-tab value="tab-3"> Import danh sách sinh viên </v-tab>
       </v-tabs>
 
@@ -140,14 +139,6 @@ const cancel = () => clear();
             inset
             v-model="isPublicExam"
           ></v-switch>
-        </v-window-item>
-        <v-window-item :value="'tab-2'">
-          <v-file-input
-            clearable
-            label="Chọn đề thi"
-            class="file"
-          ></v-file-input>
-          <v-btn class="button">Import đề thi</v-btn>
         </v-window-item>
         <v-window-item :value="'tab-3'">
           <v-file-input

@@ -1,5 +1,5 @@
 import { Test, ANSWERS } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const useTestStore = defineStore("test", () => {
   const tests = ref<Test[]>([]);
@@ -7,7 +7,7 @@ export const useTestStore = defineStore("test", () => {
   const questionDetail = ref([]);
 
   const getTests = async () => {
-    const res = await api.get("/test/list").catch((err) => {
+    const res = await apis.api!.get("/test/list").catch((err) => {
       console.log(err);
       return null;
     });
@@ -15,7 +15,7 @@ export const useTestStore = defineStore("test", () => {
   };
 
   const getTestDetail = async (id: number) => {
-    const res = await api.get(`/test/detail/${id}`).catch((err) => {
+    const res = await apis.api!.get(`/test/detail/${id}`).catch((err) => {
       console.log(err);
       return null;
     });
@@ -37,15 +37,17 @@ export const useTestStore = defineStore("test", () => {
     chapterOrders: Array<[]>,
     questionQuantity: number,
     testDay: string,
-    duration: number
+    duration: number,
+    testTime: string
   ) => {
-    const res = await api
+    const res = await apis.api!
       .post("/test/create/random", {
         subjectCode,
         chapterOrders,
         questionQuantity,
         testDay,
         duration,
+        testTime,
       })
       .catch((err) => {});
   };
@@ -54,12 +56,13 @@ export const useTestStore = defineStore("test", () => {
     questionIds: number[];
     testDay: string;
     duration: number;
+    testTime: string;
   }) => {
-    const res = await api.post("/test/create", data).catch((err) => {});
+    const res = await apis.api!.post("/test/create", data).catch((err) => {});
   };
 
   const deleteById = async (id: number) => {
-    const res = await api.delete(`test/disable/${id}`).catch(() => null);
+    const res = await apis.api!.delete(`test/disable/${id}`).catch(() => null);
     if (res !== null) {
       const deletedItemIndex = tests.value.findIndex((item) => item.id === id);
       if (deletedItemIndex > -1) {

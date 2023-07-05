@@ -1,11 +1,11 @@
 import { UserInfo } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const useUserInfoStore = defineStore("user", () => {
   const userInfo = ref<UserInfo>();
 
   const getProfile = async () => {
-    const res = await api.get("/user/profile").catch((err) => {
+    const res = await apis.api!.get("/user/profile").catch((err) => {
       console.log(err);
       return null;
     });

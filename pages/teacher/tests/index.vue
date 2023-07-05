@@ -14,6 +14,7 @@ const duration = ref(0);
 const isOpenCreateForm = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
+const testTime = ref("");
 
 //get subjects, chapters
 const result = await subjectStore.getSubjects();
@@ -41,7 +42,8 @@ const submitCreateForm = async () => {
     chapterOrders.value,
     +questionQuantity.value,
     testDay.value,
-    +duration.value
+    +duration.value,
+    testTime.value
   );
   await testsStore.getTests();
   isShowSnack.value = true;
@@ -119,8 +121,17 @@ const exportTest = async () => {
                   <v-col cols="12" class="mb-4">
                     <v-text-field
                       required
+                      type="date"
                       :placeholder="'Nhập ngày kiểm tra'"
                       v-model="testDay"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="mb-4">
+                    <v-text-field
+                      required
+                      type="time"
+                      :placeholder="'Nhập giờ kiểm tra'"
+                      v-model="testTime"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -150,6 +161,7 @@ const exportTest = async () => {
         <th class="text-center">Môn học</th>
         <th class="text-center">Ngày tạo</th>
         <th class="text-center">Ngày mở đề</th>
+        <th class="text-center">Giờ mở đề</th>
         <th class="text-center">Tổng điểm</th>
         <th class="text-center">Thời gian làm bài (phút)</th>
         <th class="text-center">Hành động</th>
@@ -165,6 +177,7 @@ const exportTest = async () => {
         <td class="text-center">{{ test.subjectTitle }}</td>
         <td class="text-center">{{ test.createdAt }}</td>
         <td class="text-center">{{ test.testDay }}</td>
+        <td class="text-center">{{ test.testTime }}</td>
         <td class="text-center">{{ test.totalPoint }}</td>
         <td class="text-center">{{ test.duration }}</td>
         <td class="action text-center">

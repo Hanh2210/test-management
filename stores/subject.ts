@@ -1,5 +1,5 @@
 import { Subject, Chapter } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const useSubjectStore = defineStore("subject", () => {
   const subjects = ref<Subject[]>([]);
@@ -7,7 +7,7 @@ export const useSubjectStore = defineStore("subject", () => {
 
   // subjects
   const getSubjects = async () => {
-    const res = await api.get("/subject/list").catch((err) => {
+    const res = await apis.api!.get("/subject/list").catch((err) => {
       console.log(err);
       return null;
     });
@@ -20,8 +20,8 @@ export const useSubjectStore = defineStore("subject", () => {
     description: string,
     credit: number
   ) => {
-    const res = await api
-      .post("/subject/add", {
+    const res = await apis
+      .api!.post("/subject/add", {
         title,
         code,
         description,
@@ -37,8 +37,8 @@ export const useSubjectStore = defineStore("subject", () => {
     description: string,
     credit: number
   ) => {
-    const res = await api
-      .put(`/subject/update/${id}`, {
+    const res = await apis
+      .api!.put(`/subject/update/${id}`, {
         title,
         code,
         description,
@@ -49,7 +49,9 @@ export const useSubjectStore = defineStore("subject", () => {
   };
 
   const deleteById = async (id: number) => {
-    const res = await api.delete(`subject/disable/${id}`).catch(() => null);
+    const res = await apis
+      .api!.delete(`subject/disable/${id}`)
+      .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = subjects.value.findIndex(
         (item) => item.id === id
@@ -62,7 +64,7 @@ export const useSubjectStore = defineStore("subject", () => {
 
   // chapters
   const getChapters = async (code: string) => {
-    const res = await api.get(`/subject/${code}/chapter/list `).catch((err) => {
+    const res = await apis.api!.get(`${code}/chapter/list `).catch((err) => {
       console.log(err);
       return null;
     });
@@ -70,8 +72,8 @@ export const useSubjectStore = defineStore("subject", () => {
   };
 
   const createChapter = async (title: string, code: string, order: number) => {
-    const res = await api
-      .post(`/subject/${code}/chapter/add`, {
+    const res = await apis
+      .api!.post(`${code}/chapter/add`, {
         title,
         code,
         order,
@@ -84,8 +86,8 @@ export const useSubjectStore = defineStore("subject", () => {
     title: string,
     order: number
   ) => {
-    const res = await api
-      .put(`/subject/chapter/update/${id}`, {
+    const res = await apis
+      .api!.put(`chapter/update/${id}`, {
         title,
         order,
       })
@@ -94,8 +96,8 @@ export const useSubjectStore = defineStore("subject", () => {
   };
 
   const deleteChapterById = async (id: number) => {
-    const res = await api
-      .delete(`subject/chapter/disable/${id}`)
+    const res = await apis
+      .api!.delete(`chapter/disable/${id}`)
       .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = chapters.value.findIndex(

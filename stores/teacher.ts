@@ -1,12 +1,12 @@
 import { Teacher } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const useTeacherStore = defineStore("teacher", () => {
   const teachers = ref<Teacher[]>([]);
   const isCreating = ref(false);
 
   const getTeachers = async () => {
-    const res = await api.get("/teacher/list").catch((err) => {
+    const res = await apis.api!.get("/teacher/list").catch((err) => {
       console.log(err);
       return null;
     });
@@ -23,8 +23,8 @@ export const useTeacherStore = defineStore("teacher", () => {
     phoneNumber: string,
     email: string
   ) => {
-    const res = await api
-      .post("/teacher/add", {
+    const res = await apis
+      .api!.post("/teacher/add", {
         fullName,
         code,
         username,
@@ -46,8 +46,8 @@ export const useTeacherStore = defineStore("teacher", () => {
     phoneNumber: string,
     email: string
   ) => {
-    const res = await api
-      .put(`/teacher/update/${id}`, {
+    const res = await apis
+      .api!.put(`/teacher/update/${id}`, {
         fullName,
         code,
         birthday,
@@ -60,7 +60,9 @@ export const useTeacherStore = defineStore("teacher", () => {
   };
 
   const deleteById = async (id: number) => {
-    const res = await api.delete(`teacher/disable/${id}`).catch(() => null);
+    const res = await apis
+      .api!.delete(`teacher/disable/${id}`)
+      .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = teachers.value.findIndex(
         (item) => item.id === id
@@ -72,8 +74,8 @@ export const useTeacherStore = defineStore("teacher", () => {
   };
 
   const importTeachers = async (formData: any) => {
-    const res = await api
-      .post("/teacher/import", formData, {
+    const res = await apis
+      .api!.post("/teacher/import", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -82,8 +84,8 @@ export const useTeacherStore = defineStore("teacher", () => {
   };
 
   const exportTeachers = async () => {
-    const res = await api
-      .get("/teacher/export", {
+    const res = await apis
+      .api!.get("/teacher/export", {
         responseType: "blob",
       })
       .then((res) => {
@@ -105,14 +107,12 @@ export const useTeacherStore = defineStore("teacher", () => {
   const updateProfile = async (data: {
     email: string;
     fullName: string;
-    course: number;
     birthday: string;
     gender: string;
     phoneNumber: string;
-    code: string;
   }) => {
-    const res = await api
-      .put(`/student/update/profile`, data)
+    const res = await apis
+      .api!.put(`/teacher/update/profile`, data)
       .catch((err) => {});
     return res;
   };

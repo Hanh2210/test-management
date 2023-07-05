@@ -1,4 +1,4 @@
-import { api } from "@/apis";
+import { apis } from "@/apis";
 export const useAuthStore = defineStore("auth", () => {
   const currentUser = ref();
 
@@ -6,16 +6,16 @@ export const useAuthStore = defineStore("auth", () => {
     const session = { accessToken, refreshToken };
     localStorage.removeItem("session");
     localStorage.setItem("session", JSON.stringify(session));
-    await getCurrentUser()
+    await getCurrentUser();
   };
 
   const getCurrentUser = async () => {
-    const user = await api.get("user-info").catch(() => null);
-    currentUser.value = user ?? {};
+    const res = await apis.api!.get("user/profile").catch(() => null);
+    currentUser.value = res?.data ?? {};
   };
 
   return {
-    currentUser, 
+    currentUser,
     handleLogin,
     getCurrentUser,
   };

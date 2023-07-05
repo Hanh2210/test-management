@@ -1,7 +1,7 @@
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const getTeachers = async () => {
-  const res = await api.get("/teacher/list").catch((err) => {
+  const res = await apis.api!.get("/teacher/list").catch((err) => {
     console.log(err);
     return null;
   });

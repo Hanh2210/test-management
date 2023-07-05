@@ -1,5 +1,5 @@
 import { Question, stringToBoolean } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 import { AxiosResponse } from "axios";
 
 export const useQuestionStore = defineStore("question", () => {
@@ -8,7 +8,7 @@ export const useQuestionStore = defineStore("question", () => {
 
   const getQuestions = async (code: string): Promise<Question[]> => {
     try {
-      const res: AxiosResponse<Question[]> = await api.get(
+      const res: AxiosResponse<Question[]> = await apis.api!.get(
         `/question/list?code=${code}`
       );
       questions.value =
@@ -26,18 +26,14 @@ export const useQuestionStore = defineStore("question", () => {
     }
   };
 
-  const createQuestion = async (data: {
-    subjectCode: string;
-    chapterId: number;
-    topicText: string;
-    topicImage: string;
-    level: string;
-    answers: {
-      content: string;
-      isCorrected: string;
-    }[];
-  }) => {
-    const res = await api.post("/question/add", data).catch((err) => {});
+  const createQuestion = async (formData: any) => {
+    const res = await apis
+      .api!.post("/question/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err) => {});
   };
 
   const updateById = async (
@@ -53,14 +49,16 @@ export const useQuestionStore = defineStore("question", () => {
       }[];
     }
   ) => {
-    const res = await api
-      .put(`/question/update/${id}`, data)
+    const res = await apis
+      .api!.put(`/question/update/${id}`, data)
       .catch((err) => {});
     return res;
   };
 
   const deleteById = async (id: number) => {
-    const res = await api.delete(`question/disable/${id}`).catch(() => null);
+    const res = await apis
+      .api!.delete(`question/disable/${id}`)
+      .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = questions.value.findIndex(
         (item) => item.id === id

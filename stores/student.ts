@@ -1,12 +1,12 @@
 import { Student } from "@/types";
-import { api } from "@/apis";
+import { apis } from "@/apis";
 
 export const useStudentStore = defineStore("student", () => {
   const students = ref<Student[]>([]);
   const isCreating = ref(false);
 
   const getStudents = async () => {
-    const res = await api.get("/student/list").catch((err) => {
+    const res = await apis.api!.get("/student/list").catch((err) => {
       console.log(err);
       return null;
     });
@@ -24,8 +24,8 @@ export const useStudentStore = defineStore("student", () => {
     course: number,
     email: string
   ) => {
-    const res = await api
-      .post("/student/add", {
+    const res = await apis
+      .api!.post("/student/add", {
         fullName,
         code,
         username,
@@ -49,8 +49,8 @@ export const useStudentStore = defineStore("student", () => {
     course: number,
     email: string
   ) => {
-    const res = await api
-      .put(`/student/update/${id}`, {
+    const res = await apis
+      .api!.put(`/student/update/${id}`, {
         fullName,
         code,
         birthday,
@@ -64,7 +64,9 @@ export const useStudentStore = defineStore("student", () => {
   };
 
   const deleteById = async (id: number) => {
-    const res = await api.delete(`student/disable/${id}`).catch(() => null);
+    const res = await apis
+      .api!.delete(`student/disable/${id}`)
+      .catch(() => null);
     if (res !== null) {
       const deletedItemIndex = students.value.findIndex(
         (item) => item.id === id
@@ -76,8 +78,8 @@ export const useStudentStore = defineStore("student", () => {
   };
 
   const importStudents = async (formData: any) => {
-    const res = await api
-      .post("/student/import", formData, {
+    const res = await apis
+      .api!.post("/student/import", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -86,8 +88,8 @@ export const useStudentStore = defineStore("student", () => {
   };
 
   const exportStudents = async () => {
-    const res = await api
-      .get("/student/export", {
+    const res = await apis
+      .api!.get("/student/export", {
         responseType: "blob",
       })
       .then((res) => {
@@ -112,10 +114,9 @@ export const useStudentStore = defineStore("student", () => {
     birthday: string;
     gender: string;
     phoneNumber: string;
-    code: string;
   }) => {
-    const res = await api
-      .put(`/teacher/update/profile`, data)
+    const res = await apis
+      .api!.put(`/student/update/profile`, data)
       .catch((err) => {});
     return res;
   };
