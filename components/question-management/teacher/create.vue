@@ -153,12 +153,11 @@ const importQuestion = async () => {
                       :placeholder="'Nhập câu hỏi'"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12">
+                  <v-col cols="12" class="mt-4">
                     <v-file-input
                       v-model="fileImage"
                       clearable
                       label="Upload ảnh"
-                      variant="underlined"
                     ></v-file-input>
                   </v-col>
                   <v-col cols="12">Đáp án </v-col>

@@ -85,20 +85,28 @@ const editQuestion = async (e: any) => {
     ...item,
     isCorrected: item.isCorrected ? "true" : "false",
   }));
-  const topicImage = e.question.value.topicImage;
 
-  const res = await questionStore.updateById(id, {
-    chapterId,
-    topicText,
-    level,
-    answers,
-    topicImage,
-  });
+  try {
+    const data = {
+      chapterId,
+      topicText,
+      level,
+      answers,
+    };
+    const formData = new FormData();
+    formData.append("jsonRequest", JSON.stringify(data));
 
-  if (res) {
-    isEditQuestion.value = false;
-    isShowSnack.value = true;
-    titleSnack.value = "Sửa câu hỏi thành công!";
+    if (e.file) {
+      formData.append("file", e.file);
+    }
+
+    const res = await questionStore.updateById(id, formData);
+    //   isEditQuestion.value = false;
+    //   isShowSnack.value = true;
+    //   titleSnack.value = "Sửa câu hỏi thành công!";
+  } catch (error) {
+    // Handle the error
+    console.error(error);
   }
 };
 

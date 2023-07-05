@@ -36,21 +36,13 @@ export const useQuestionStore = defineStore("question", () => {
       .catch((err) => {});
   };
 
-  const updateById = async (
-    id: number,
-    data: {
-      chapterId: number;
-      topicText: string;
-      topicImage: string;
-      level: string;
-      answers: {
-        content: string;
-        isCorrected: string;
-      }[];
-    }
-  ) => {
+  const updateById = async (id: number, formData: any) => {
     const res = await apis
-      .api!.put(`/question/update/${id}`, data)
+      .api!.put(`/question/update/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .catch((err) => {});
     return res;
   };

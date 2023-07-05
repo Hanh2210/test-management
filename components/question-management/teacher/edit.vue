@@ -19,6 +19,7 @@ const props = defineProps({
 });
 const { questionById, subjects } = toRefs(props);
 const subjectCode = ref("");
+const file = ref("");
 
 const question = computed(() => props.questionById);
 
@@ -44,8 +45,8 @@ const closeDialog = () => {
 };
 
 const editQuestion = () => {
-  console.log("question", question);
-  emit("edit", { question });
+  console.log("file trc emit", file.value);
+  emit("edit", { question, file: file.value[0] });
 };
 </script>
 
@@ -105,6 +106,14 @@ const editQuestion = () => {
                       class="img"
                     />
                   </div>
+                </v-col>
+                <v-col cols="12" class="mt-4">
+                  <v-file-input
+                    clearable
+                    v-model="file"
+                    label="Chọn ảnh mới"
+                    class="file"
+                  ></v-file-input>
                 </v-col>
                 <v-col cols="12">Đáp án </v-col>
                 <v-col cols="12">
