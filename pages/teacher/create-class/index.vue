@@ -3,6 +3,7 @@ import { useExamClassStore } from "@/stores/exam-class";
 import { useTestStore } from "@/stores/test";
 import { useSubjectStore } from "@/stores/subject";
 import { useStudentStore } from "@/stores/student";
+import { formatDate } from "@/utils";
 
 const examClassStore = useExamClassStore();
 const testStore = useTestStore();
@@ -198,7 +199,7 @@ const importStudents = async () => {
           <td class="text-center">{{ examClass.semester }}</td>
           <td class="text-center">{{ examClass.code }}</td>
           <td class="text-center">
-            {{ examClass.createdDate }}
+            {{ formatDate(examClass.createdDate) || "-" }}
           </td>
         </tr>
       </tbody>

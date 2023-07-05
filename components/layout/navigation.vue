@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { MenuItem, AUTH_USER } from "@/types";
-import { useAuthStore } from "@/stores/auth";
+import blankAvatar from "@/assets/images/blank-avatar.png";
 
 const authStore = useAuthStore();
+
 const authUser = computed(() => authStore.currentUser.roles[0]);
+
+const currentUser = computed(() => {
+  return authStore.currentUser;
+});
+
 const menuByAdmin: MenuItem[] = [
   {
     title: "Trang chủ",
@@ -11,22 +17,22 @@ const menuByAdmin: MenuItem[] = [
     path: "/admin/home",
   },
   {
-    title: "Quản lí học sinh",
+    title: "Quản lý học sinh",
     icon: "mdi-account-group-outline",
     path: "/admin/students",
   },
   {
-    title: "Quản lí giáo viên",
+    title: "Quản lý giáo viên",
     icon: "mdi-account-group-outline",
     path: "/admin/teachers",
   },
   {
-    title: "Quản lí ngân hàng câu hỏi",
+    title: "Quản lý ngân hàng câu hỏi",
     icon: "mdi-book-open-page-variant",
     path: "/admin/questions-management",
   },
   {
-    title: "Quản lí tài khoản",
+    title: "Quản lý tài khoản",
     icon: "mdi-account-circle",
     path: "/admin/profile",
   },
@@ -49,7 +55,7 @@ const menuByStudent: MenuItem[] = [
     path: "/student/online-exam",
   },
   {
-    title: "Quản lí tài khoản",
+    title: "Quản lý tài khoản",
     icon: "mdi-account-circle",
     path: "/student/profile",
   },
@@ -62,22 +68,22 @@ const menuByTeacher: MenuItem[] = [
     path: "/teacher/home",
   },
   {
-    title: "Quản lí học sinh",
+    title: "Quản lý học sinh",
     icon: "mdi-account-group-outline",
     path: "/teacher/students",
   },
   {
-    title: "Quản lí câu hỏi",
+    title: "Quản lý câu hỏi",
     icon: "mdi-comment-question-outline",
     path: "/teacher/questions-management",
   },
   {
-    title: "Quản lí môn học",
+    title: "Quản lý môn học",
     icon: "mdi-book-open-page-variant",
     path: "/teacher/subjects",
   },
   {
-    title: "Quản lí bài thi",
+    title: "Quản lý bài thi",
     icon: "mdi-book-open",
     path: "/teacher/tests",
   },
@@ -92,7 +98,7 @@ const menuByTeacher: MenuItem[] = [
     path: "/teacher/mark-the-exam",
   },
   {
-    title: "Quản lí tài khoản",
+    title: "Quản lý tài khoản",
     icon: "mdi-account-circle",
     path: "/teacher/profile",
   },
@@ -115,11 +121,6 @@ const handleRedirect = (path: string) => {
     router.push(path);
   }
 };
-
-const store = useAuthStore();
-const currentUser = computed(() => {
-  return store.currentUser;
-});
 </script>
 
 <template>
@@ -128,8 +129,9 @@ const currentUser = computed(() => {
       <v-navigation-drawer permanent location="left">
         <template v-slot:prepend>
           <v-list-item
+            class="user"
             lines="two"
-            prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
+            :prepend-avatar="blankAvatar"
             v-bind:subtitle="currentUser.username"
           ></v-list-item>
         </template>
@@ -150,3 +152,12 @@ const currentUser = computed(() => {
     </v-layout>
   </v-card>
 </template>
+
+<style lang="scss" scoped>
+.user {
+  :deep(.v-list-item-subtitle) {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+</style>

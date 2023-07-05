@@ -130,9 +130,9 @@ const deleteChapter = async (id: number) => {
   <div class="nav-info">
     <v-card class="card">
       <v-tabs v-model="tab" centered stacked class="tabs">
-        <v-tab value="tab-1"> Quản lí môn học</v-tab>
+        <v-tab value="tab-1"> Quản lý môn học</v-tab>
 
-        <v-tab value="tab-2"> Quản lí chương</v-tab>
+        <v-tab value="tab-2"> Quản lý chương</v-tab>
       </v-tabs>
 
       <v-window v-model="tab">

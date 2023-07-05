@@ -2,6 +2,7 @@
 import { Test } from "@/types";
 import { useTestStore } from "@/stores/test";
 import { useSubjectStore } from "@/stores/subject";
+import { formatDate } from "@/utils";
 
 const subjectStore = useSubjectStore();
 const testsStore = useTestStore();
@@ -69,8 +70,8 @@ const deleteTest = async (testId: number) => {
 };
 
 //export test-set
-const exportTest = async () => {
-  await testsStore.exportTest();
+const exportTest = async (testId: number) => {
+  await testsStore.exportTest(testId);
 };
 </script>
 
@@ -164,7 +165,7 @@ const exportTest = async () => {
         <th class="text-center">Giờ mở đề</th>
         <th class="text-center">Tổng điểm</th>
         <th class="text-center">Thời gian làm bài (phút)</th>
-        <th class="text-center">Hành động</th>
+        <th class="text-center" width="200px">Hành động</th>
       </tr>
     </thead>
     <tbody>
@@ -175,17 +176,17 @@ const exportTest = async () => {
           }}</nuxt-link>
         </td>
         <td class="text-center">{{ test.subjectTitle }}</td>
-        <td class="text-center">{{ test.createdAt }}</td>
+        <td class="text-center">{{ formatDate(test.createdAt) || "-" }}</td>
         <td class="text-center">{{ test.testDay }}</td>
         <td class="text-center">{{ test.testTime }}</td>
         <td class="text-center">{{ test.totalPoint }}</td>
         <td class="text-center">{{ test.duration }}</td>
         <td class="action text-center">
           <v-icon size="small" class="me-2"> mdi-pencil </v-icon>
-          <v-icon size="small" @click="deleteTest(test.id)">
+          <v-icon size="small" class="me-2" @click="deleteTest(test.id)">
             mdi-delete
           </v-icon>
-          <v-icon size="small" @click="exportTest(test.id)">
+          <v-icon size="small" class="me-2" @click="exportTest(test.id)">
             mdi-download
           </v-icon>
         </td>

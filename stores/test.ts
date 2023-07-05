@@ -71,7 +71,7 @@ export const useTestStore = defineStore("test", () => {
     }
   };
 
-  const exportTest = async () => {
+  const exportTest = async (id: number) => {
     const res = await apis
       .api!.get(`/test-set/word/export/${id}`, {
         responseType: "blob",
