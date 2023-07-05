@@ -26,6 +26,7 @@ const semester = ref("");
 const code = ref("");
 const studentIds = ref([]);
 const testId = ref(0);
+const classCode = ref("");
 const isPublicExam = ref(false);
 const isShowCreateExamClass = ref(false);
 
@@ -55,6 +56,20 @@ const submit = async (): Promise<void> => {
 };
 
 const cancel = () => clear();
+
+const file = ref();
+const formData = new FormData();
+
+const importStudents = async () => {
+  try {
+    formData.append("classCode", classCode.value);
+
+    if (file.value) {
+      formData.append("file", file.value[0]);
+    }
+    const res = await examClassStore.importStudent(formData);
+  } catch (err) {}
+};
 </script>
 
 <template>
@@ -141,12 +156,24 @@ const cancel = () => clear();
           ></v-switch>
         </v-window-item>
         <v-window-item :value="'tab-3'">
-          <v-file-input
-            clearable
-            label="Chọn danh sách sinh viên"
-            class="file"
-          ></v-file-input>
-          <v-btn class="button">Import danh sách sinh viên</v-btn>
+          <div class="import">
+            <v-select
+              label="--Chọn lớp thi--"
+              :items="examClasses"
+              item-title="roomName"
+              item-value="code"
+              class="select"
+              v-model="classCode"
+              :variant="'outlined'"
+            ></v-select>
+            <v-file-input
+              clearable
+              v-model="file"
+              label="Chọn danh sách sinh viên"
+              class="file"
+            ></v-file-input>
+            <v-btn class="button" @click="importStudents">Import</v-btn>
+          </div>
         </v-window-item>
       </v-window>
     </v-card>
@@ -222,5 +249,16 @@ const cancel = () => clear();
 
 .exam-class-list > .header {
   margin: 24px 0;
+}
+
+.import {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  padding: 0 16px;
+
+  :deep(.v-input__control) {
+    height: 50px;
+  }
 }
 </style>

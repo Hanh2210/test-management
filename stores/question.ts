@@ -69,6 +69,16 @@ export const useQuestionStore = defineStore("question", () => {
     }
   };
 
+  const importQuestion = async (formData: any) => {
+    const res = await apis
+      .api!.post("/question/import", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err) => console.log(err));
+  };
+
   return {
     questions,
     isCreating,
@@ -76,5 +86,6 @@ export const useQuestionStore = defineStore("question", () => {
     createQuestion,
     updateById,
     deleteById,
+    importQuestion,
   };
 });

@@ -76,6 +76,17 @@ const submit = async (): Promise<void> => {
 const createQuestion = () => {
   isCreateQuestion.value = true;
 };
+
+const file = ref();
+const formData = new FormData();
+
+const importQuestion = async () => {
+  formData.append("file", file.value[0]);
+  try {
+    const res = await questionStore.importQuestion(formData);
+    file.value = [];
+  } catch (err) {}
+};
 </script>
 
 <template>
@@ -86,9 +97,11 @@ const createQuestion = () => {
       >
       <v-file-input
         clearable
+        v-model="file"
         label="Import bộ câu hỏi"
         variant="underlined"
       ></v-file-input>
+      <v-btn @click="importQuestion">Import</v-btn>
     </div>
     <div class="dialog-create-question">
       <v-row justify="center">

@@ -13,8 +13,8 @@ export const useExamClassStore = defineStore("exam-class", () => {
   };
 
   const joinExamClasses = async (classCode: string) => {
-    const res = await apis.api!
-      .post(`/class/join?classCode=${classCode}`)
+    const res = await apis
+      .api!.post(`/class/join?classCode=${classCode}`)
       .catch((err) => {
         console.log(err);
         return null;
@@ -44,11 +44,22 @@ export const useExamClassStore = defineStore("exam-class", () => {
     }
   };
 
+  const importStudent = async (formData: any) => {
+    const res = await apis
+      .api!.post("/class/import/students", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .catch((err) => console.log(err));
+  };
+
   return {
     examClasses,
     getExamClasses,
     createExamClass,
     joinExamClasses,
     deleteById,
+    importStudent,
   };
 });
