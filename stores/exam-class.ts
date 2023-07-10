@@ -3,6 +3,7 @@ import { apis } from "@/apis";
 
 export const useExamClassStore = defineStore("exam-class", () => {
   const examClasses = ref<ExamClass[]>([]);
+  const examClassDetail = ref({});
 
   const getExamClasses = async () => {
     const res = await apis.api!.get("/class/list").catch((err) => {
@@ -54,12 +55,22 @@ export const useExamClassStore = defineStore("exam-class", () => {
       .catch((err) => console.log(err));
   };
 
+  const getExamClassDetail = async (id: number) => {
+    const res = await apis.api!.get(`/class/detail/${id}`).catch((err) => {
+      console.log(err);
+      return null;
+    });
+    examClassDetail.value = res?.data || {};
+  };
+
   return {
     examClasses,
+    examClassDetail,
     getExamClasses,
     createExamClass,
     joinExamClasses,
     deleteById,
     importStudent,
+    getExamClassDetail,
   };
 });

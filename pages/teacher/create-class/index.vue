@@ -16,7 +16,14 @@ await testStore.getTests();
 await subjectStore.getSubjects();
 await studentStore.getStudents();
 
+const isShowStudentList = ref(false);
+const getTestDetail = async (id: number) => {
+  isShowStudentList.value = true;
+  await examClassStore.getExamClassDetail(id);
+};
+
 const examClasses = computed(() => examClassStore.examClasses);
+const studentList = computed(() => examClassStore.examClassDetail);
 const subjects = computed(() => subjectStore.subjects);
 const tests = computed(() => testStore.tests);
 const students = computed(() => studentStore.students);
@@ -190,6 +197,7 @@ const importStudents = async () => {
           <th class="text-center">Học kỳ</th>
           <th class="text-center">Mã lớp</th>
           <th class="text-center">Ngày tạo</th>
+          <th class="text-center">Danh sách sinh viên</th>
         </tr>
       </thead>
       <tbody>
@@ -201,9 +209,46 @@ const importStudents = async () => {
           <td class="text-center">
             {{ formatDate(examClass.createdDate) || "-" }}
           </td>
+          <td @click="getTestDetail(examClass.id)" class="text-center detail">
+            Chi tết
+          </td>
         </tr>
       </tbody>
     </v-table>
+    <v-dialog v-model="isShowStudentList" persistent width="1024">
+      <v-card>
+        <v-table fixed-header height="500px">
+          <thead>
+            <tr>
+              <th class="text-center">Mã SV</th>
+              <th class="text-center">Họ và tên</th>
+              <th class="text-center">Ngày thi</th>
+              <th class="text-center">Trạng thái</th>
+              <th class="text-center">Điểm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in studentList.students" :key="student.id">
+              <td class="text-center">{{ student.code }}</td>
+              <td class="text-center">{{ student.fullName }}</td>
+              <td class="text-center">{{ student.testDate }}</td>
+              <td class="text-center">{{ student.state }}</td>
+              <td class="text-center">{{ student.grade }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue-darken-1"
+            variant="text"
+            @click="isShowStudentList = false"
+          >
+            Đóng
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -261,5 +306,10 @@ const importStudents = async () => {
   :deep(.v-input__control) {
     height: 50px;
   }
+}
+
+.detail {
+  color: $primary-color;
+  cursor: pointer;
 }
 </style>
