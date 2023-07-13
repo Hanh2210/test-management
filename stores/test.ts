@@ -14,22 +14,24 @@ export const useTestStore = defineStore("test", () => {
     tests.value = res?.data || [];
   };
 
-  const getTestDetail = async (id: number) => {
-    const res = await apis.api!.get(`/test/detail/${id}`).catch((err) => {
-      console.log(err);
-      return null;
-    });
+  const getTestDetail = async (testId: number, testNo: number) => {
+    const res = await apis
+      .api!.get(`/test-set/detail/${testId}/${testNo}`)
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
     testDetail.value = res?.data || {};
-    questionDetail.value =
-      res?.data.questionResponses.map((item: any) => ({
-        ...item,
-        answers: item.answers.map((answer: any, index: number) => {
-          return {
-            ...answer,
-            label: ANSWERS[index],
-          };
-        }),
-      })) || [];
+    // questionDetail.value =
+    //   res?.data.questions.map((item: any) => ({
+    //     ...item,
+    //     answers: item.answers.map((answer: any, index: number) => {
+    //       return {
+    //         ...answer,
+    //         label: ANSWERS[index],
+    //       };
+    //     }),
+    //   })) || [];
   };
 
   const createTest = async (
@@ -71,9 +73,9 @@ export const useTestStore = defineStore("test", () => {
     }
   };
 
-  const exportTest = async (id: number) => {
+  const exportTest = async (testId: number, testNo: number) => {
     const res = await apis
-      .api!.get(`/test-set/word/export/${id}`, {
+      .api!.get(`/test-set/word/export/${testId}/${testNo}`, {
         responseType: "blob",
       })
       .then((res) => {
@@ -92,6 +94,14 @@ export const useTestStore = defineStore("test", () => {
       });
   };
 
+  const createTestSet = async (testId: number, testSetQuantity: number) => {
+    const res = await apis
+      .api!.post(
+        `/test-set/${testId}/create?testSetQuantity=${testSetQuantity}`
+      )
+      .catch((err) => {});
+  };
+
   return {
     tests,
     testDetail,
@@ -102,5 +112,6 @@ export const useTestStore = defineStore("test", () => {
     createTest,
     createTestCheckbox,
     exportTest,
+    createTestSet,
   };
 });

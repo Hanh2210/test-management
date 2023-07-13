@@ -16,6 +16,11 @@ const isOpenCreateForm = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
 const testTime = ref("");
+const isShowRandomTestSet = ref(false);
+const testSetQuantity = ref(0);
+const currentTestId = ref(0);
+const isShowTestSetList = ref(false);
+const testSetList = ref([]);
 
 //get subjects, chapters
 const result = await subjectStore.getSubjects();
@@ -61,17 +66,36 @@ const cancelCreateForm = () => {
   isOpenCreateForm.value = false;
 };
 
-const getTestDetailRoutePath = async (testId: number) => {
-  await testsStore.getTestDetail(testId);
+const getTestDetailRoutePath = async (testNo: number) => {
+  console.log("currentTestId", currentTestId.value);
+  await testsStore.getTestDetail(currentTestId.value, +testNo);
 };
 
 const deleteTest = async (testId: number) => {
   const res = await testsStore.deleteById(testId);
 };
 
-//export test-set
-const exportTest = async (testId: number) => {
-  await testsStore.exportTest(testId);
+// random test-set
+const openCreateTestSetDialog = async (testId: number) => {
+  isShowRandomTestSet.value = true;
+  currentTestId.value = testId;
+};
+
+const createTestSet = async () => {
+  await testsStore.createTestSet(+currentTestId.value, +testSetQuantity.value);
+  isShowRandomTestSet.value = false;
+};
+
+const openTestSetList = (testId: number, testSet: any) => {
+  testSetList.value = testSet;
+  isShowTestSetList.value = true;
+  currentTestId.value = testId;
+  console.log("testSetList", testSetList.value);
+};
+
+//export
+const exportTestSet = async (testSetId: number) => {
+  await testsStore.exportTest(currentTestId.value, testSetId);
 };
 </script>
 
@@ -114,6 +138,7 @@ const exportTest = async (testId: number) => {
                   </v-col>
                   <v-col cols="12" class="mb-4">
                     <v-text-field
+                      label="Nhập số lượng câu"
                       required
                       :placeholder="'Nhập số lượng câu'"
                       v-model="questionQuantity"
@@ -122,6 +147,7 @@ const exportTest = async (testId: number) => {
                   <v-col cols="12" class="mb-4">
                     <v-text-field
                       required
+                      label="Nhập ngày kiểm tra"
                       type="date"
                       :placeholder="'Nhập ngày kiểm tra'"
                       v-model="testDay"
@@ -130,6 +156,7 @@ const exportTest = async (testId: number) => {
                   <v-col cols="12" class="mb-4">
                     <v-text-field
                       required
+                      label="Nhập giờ kiểm tra"
                       type="time"
                       :placeholder="'Nhập giờ kiểm tra'"
                       v-model="testTime"
@@ -137,6 +164,7 @@ const exportTest = async (testId: number) => {
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
+                      label="Nhập thời gian làm bài"
                       required
                       :placeholder="'Nhập thời gian làm bài'"
                       v-model="duration"
@@ -165,16 +193,14 @@ const exportTest = async (testId: number) => {
         <th class="text-center">Giờ mở đề</th>
         <th class="text-center">Tổng điểm</th>
         <th class="text-center">Thời gian làm bài (phút)</th>
-        <th class="text-center" width="200px">Hành động</th>
+        <th class="text-center">Hành động</th>
+        <th class="text-center">Random mã đề</th>
+        <th class="text-center">Chi tiết mã đề</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="test in tests" :key="test.id">
-        <td class="text-center" @click="getTestDetailRoutePath(test.id)">
-          <nuxt-link to="/teacher/tests/detail" class="link">{{
-            test.id
-          }}</nuxt-link>
-        </td>
+        <td class="text-center">{{ test.id }}</td>
         <td class="text-center">{{ test.subjectTitle }}</td>
         <td class="text-center">{{ formatDate(test.createdAt) || "-" }}</td>
         <td class="text-center">{{ test.testDay }}</td>
@@ -182,13 +208,21 @@ const exportTest = async (testId: number) => {
         <td class="text-center">{{ test.totalPoint }}</td>
         <td class="text-center">{{ test.duration }}</td>
         <td class="action text-center">
-          <v-icon size="small" class="me-2"> mdi-pencil </v-icon>
           <v-icon size="small" class="me-2" @click="deleteTest(test.id)">
             mdi-delete
           </v-icon>
-          <v-icon size="small" class="me-2" @click="exportTest(test.id)">
-            mdi-download
-          </v-icon>
+        </td>
+        <td
+          class="text-center random"
+          @click="openCreateTestSetDialog(test.id)"
+        >
+          Random
+        </td>
+        <td
+          class="text-center random"
+          @click="openTestSetList(test.id, test.testSetNos)"
+        >
+          Chi tiết
         </td>
       </tr>
     </tbody>
@@ -200,6 +234,63 @@ const exportTest = async (testId: number) => {
       </v-snackbar>
     </div>
   </template>
+
+  <v-dialog v-model="isShowRandomTestSet" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <div class="test-set">
+          <v-text-field
+            label="Nhập số lượng mã đề"
+            v-model="testSetQuantity"
+          ></v-text-field>
+          <v-btn @click="createTestSet">Lưu</v-btn>
+        </div>
+      </v-container>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowRandomTestSet = false"
+        >
+          Đóng
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="isShowTestSetList" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Chi tiết đề thi</h3>
+        <div class="test-set-list">
+          <div
+            class="test-set-item"
+            v-for="(testSet, index) in testSetList"
+            :key="index"
+          >
+            <span class="code">{{ testSet }}</span>
+            <span class="export" @click="exportTestSet(testSet)">export</span>
+            <span class="detail" @click="getTestDetailRoutePath(testSet)"
+              ><nuxt-link to="/teacher/tests/detail" class="link"
+                >xem chi tiết</nuxt-link
+              ></span
+            >
+          </div>
+        </div>
+      </v-container>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowTestSetList = false"
+        >
+          Đóng
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style lang="scss" scoped>
@@ -237,5 +328,33 @@ const exportTest = async (testId: number) => {
 
 .link {
   text-decoration: none;
+}
+
+.random {
+  color: $primary-color;
+}
+
+.test-set {
+  display: flex;
+  margin: 16px;
+  align-items: center;
+  gap: 32px;
+}
+
+.test-set-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+
+  > .test-set-item {
+    display: flex;
+    gap: 16px;
+    cursor: pointer;
+  }
+
+  > .test-set-item > .code {
+    color: $primary-color;
+  }
 }
 </style>
