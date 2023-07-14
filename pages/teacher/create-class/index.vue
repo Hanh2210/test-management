@@ -78,6 +78,10 @@ const importStudents = async () => {
     const res = await examClassStore.importStudent(formData);
   } catch (err) {}
 };
+
+const exportMarkTable = async (code: string) => {
+  await examClassStore.exportMarkTable(code);
+};
 </script>
 
 <template>
@@ -239,6 +243,13 @@ const importStudents = async () => {
         </v-table>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn
+            color="blue-darken-1"
+            variant="text"
+            @click="exportMarkTable(code)"
+          >
+            Export
+          </v-btn>
           <v-btn
             color="blue-darken-1"
             variant="text"

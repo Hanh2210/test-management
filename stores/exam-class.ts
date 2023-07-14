@@ -63,6 +63,29 @@ export const useExamClassStore = defineStore("exam-class", () => {
     examClassDetail.value = res?.data || {};
   };
 
+  // export bảng điểm
+  const exportMarkTable = async (code: string) => {
+    console.log("test", code);
+    const res = await apis
+      .api!.get(`/class/export/${code}`, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        let fileUrl = window.URL.createObjectURL(res.data);
+        let fileLink = document.createElement("a");
+
+        fileLink.href = fileUrl;
+        fileLink.setAttribute("download", "export-mark-table.xls");
+        document.body.appendChild(fileLink);
+
+        fileLink.click();
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+  };
+
   return {
     examClasses,
     examClassDetail,
@@ -72,5 +95,6 @@ export const useExamClassStore = defineStore("exam-class", () => {
     deleteById,
     importStudent,
     getExamClassDetail,
+    exportMarkTable,
   };
 });
