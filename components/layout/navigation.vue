@@ -50,6 +50,11 @@ const menuByStudent: MenuItem[] = [
     path: "/student/tests",
   },
   {
+    title: "Danh sách lớp thi",
+    icon: "mdi-google-classroom",
+    path: "/student/class-exam",
+  },
+  {
     title: "Thi online",
     icon: "mdi-lead-pencil",
     path: "/student/online-exam",
