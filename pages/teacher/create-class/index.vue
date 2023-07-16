@@ -78,6 +78,10 @@ const importStudents = async () => {
     const res = await examClassStore.importStudent(formData);
   } catch (err) {}
 };
+
+const exportMarkTable = async (code: string) => {
+  await examClassStore.exportMarkTable(code);
+};
 </script>
 
 <template>
@@ -198,6 +202,7 @@ const importStudents = async () => {
           <th class="text-center">Mã lớp</th>
           <th class="text-center">Ngày tạo</th>
           <th class="text-center">Danh sách sinh viên</th>
+          <th class="text-center">Export bảng điểm</th>
         </tr>
       </thead>
       <tbody>
@@ -211,6 +216,12 @@ const importStudents = async () => {
           </td>
           <td @click="getTestDetail(examClass.id)" class="text-center detail">
             Chi tết
+          </td>
+          <td class="text-center">
+            <v-icon
+              icon="mdi mdi-download-box-outline"
+              @click="exportMarkTable(examClass.code)"
+            ></v-icon>
           </td>
         </tr>
       </tbody>
