@@ -1,124 +1,100 @@
 <script lang="ts" setup>
 // TODO
-const questions = [
-  {
-    id: 1,
-    order: 1,
-    question: "Why does the man want to buy Ms. Jefferson some flowers?",
-    answers: [
-      {
-        id: 1,
-        label: "A. She was promoted.",
-      },
-      {
-        id: 2,
-        label: "B. She won an award.",
-      },
-      {
-        id: 3,
-        label: "C. She is moving.",
-      },
-      {
-        id: 4,
-        label: "D. She is retiring.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    order: 2,
-    question: "Why does the man want to buy Ms. Jefferson some flowers?",
-    answers: [
-      {
-        id: 1,
-        label: "A. She was promoted.",
-      },
-      {
-        id: 2,
-        label: "B. She won an award.",
-      },
-      {
-        id: 3,
-        label: "C. She is moving.",
-      },
-      {
-        id: 4,
-        label: "D. She is retiring.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    order: 3,
-    question: "Why does the man want to buy Ms. Jefferson some flowers?",
-    answers: [
-      {
-        id: 1,
-        label: "A. She was promoted.",
-      },
-      {
-        id: 2,
-        label: "B. She won an award.",
-      },
-      {
-        id: 3,
-        label: "C. She is moving.",
-      },
-      {
-        id: 4,
-        label: "D. She is retiring.",
-      },
-    ],
-  },
-];
+import { useStudentStore } from "@/stores/student";
+const studentStore = useStudentStore();
+const testDetail = computed(() => studentStore.testDetail);
+const examClassDetail = computed(() => studentStore.examClassDetail);
 
-const minutes = ref(0);
-const seconds = ref(0);
+const route = useRoute();
+const classCode = computed(() => {
+  const param = route.params.classCode;
+  if (Array.isArray(param)) {
+    return param[0]; // Retrieve the first element
+  }
+  return param;
+});
+await studentStore.fetchTestDetail("200789"); // TODO
 
-const formatTime = (time: number) => {
-  return time < 10 ? `0${time}` : `${time}`;
-};
+const selectedAnswer = ref(false);
+console.log("examClassDetail", examClassDetail.value.test.duration);
 
-const incrementTime = () => {
-  seconds.value++;
+const minutesInput = 60;
 
-  if (seconds.value === 60) {
-    seconds.value = 0;
-    minutes.value++;
+// Tạo biến tham chiếu để lưu trữ các giá trị và thực hiện theo dõi
+const remainingTime = ref(minutesInput * 60);
+const timer = ref();
+
+// Tính toán thời gian dưới dạng mm:ss
+const formatTime = computed(() => {
+  const minutes = Math.floor(remainingTime.value / 60);
+  const seconds = remainingTime.value % 60;
+
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+});
+
+// Hàm đếm ngược
+const countdown = () => {
+  remainingTime.value--; // Giảm giá trị thời gian còn lại
+
+  if (remainingTime.value <= 0) {
+    stopCountdown(); // Dừng đồng hồ đếm ngược nếu hết thời gian
   }
 };
 
+// Bắt đầu đồng hồ đếm ngược
+const startCountdown = () => {
+  timer.value = setInterval(countdown, 1000); // Gọi hàm countdown mỗi giây
+};
+
+// Dừng đồng hồ đếm ngược
+const stopCountdown = () => {
+  clearInterval(timer.value); // Xóa interval
+};
+
+// Đăng ký hành động khi component được tạo ra
 onMounted(() => {
-  setInterval(() => {
-    incrementTime();
-  }, 1000);
+  startCountdown(); // Bắt đầu đồng hồ đếm ngược khi component được tạo ra
+});
+
+// Đăng ký hành động khi component bị hủy
+onUnmounted(() => {
+  stopCountdown(); // Dừng đồng hồ đếm ngược khi component bị hủy
 });
 </script>
 
 <template>
   <div class="heading">
-    <h2 class="name">C17 IELTS listening test 1</h2>
+    <h2 class="name">Mã đề : {{ testDetail.testNo }}</h2>
     <button class="button">Thoát <v-icon icon="mdi-arrow-right" /></button>
   </div>
   <div class="test-wrapper">
     <div class="test-content">
       <div
         class="question-wrapper"
-        v-for="question in questions"
+        v-for="question in testDetail.questions"
         :key="question.id"
       >
-        <div class="order">{{ question.order }}</div>
+        <div class="order">{{ question.questionNo }}</div>
         <div class="content">
           <span class="text">
-            {{ question.question }}
+            {{ question.topicText }}
           </span>
           <div class="answers">
             <v-radio-group
               class="radio"
               v-for="answer in question.answers"
               :key="answer.id"
+              v-model="selectedAnswer"
             >
-              <v-radio :label="answer.label" :value="answer.id"></v-radio>
+              <div class="answer">
+                <span class="label">{{ answer.answerNo }}.</span>
+                <v-radio
+                  :label="answer.content"
+                  :value="answer.content"
+                ></v-radio>
+              </div>
             </v-radio-group>
           </div>
         </div>
@@ -127,7 +103,7 @@ onMounted(() => {
     <div class="test-navigation">
       <h3 class="timeleft">Thời gian làm bài:</h3>
       <div class="time">
-        {{ `${formatTime(minutes)}:${formatTime(seconds)}` }}
+        {{ formatTime }}
       </div>
       <button class="submit">Nộp bài</button>
     </div>
@@ -240,6 +216,14 @@ onMounted(() => {
       font-size: 14px;
       color: $color-black;
     }
+  }
+}
+
+.answer {
+  display: flex;
+  align-items: center;
+  .label {
+    font-weight: 600;
   }
 }
 </style>

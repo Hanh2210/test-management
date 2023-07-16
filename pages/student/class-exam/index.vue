@@ -8,19 +8,24 @@ const studentStore = useStudentStore();
 
 const isOpenExamClassDetail = ref(false);
 const classDetail = ref({});
+const classCode = ref();
 
 //get class
 const res = await studentStore.getExamClass();
 const examClasses = computed(() => studentStore.examClass);
 const examClassDetail = computed(() => studentStore.examClassDetail);
+const testDetail = computed(() => studentStore.testDetail);
 
-const openExamClassDetail = async (classId: number) => {
+const openExamClassDetail = async (classId: number, code: string) => {
   await studentStore.getExamClassDetail(classId);
   classDetail.value = examClassDetail.value;
+  classCode.value = code;
   isOpenExamClassDetail.value = true;
 };
 
-const testOnline = () => {
+const testOnline = async () => {
+  const router = useRouter();
+  router.push(`/student/online-exam?classCode=${classCode.value}`);
   console.log("đi tới màn thi");
 };
 </script>
@@ -49,7 +54,7 @@ const testOnline = () => {
           </td>
           <td
             class="text-center detail"
-            @click="openExamClassDetail(examClass.id)"
+            @click="openExamClassDetail(examClass.id, examClass.code)"
           >
             Chi tiết
           </td>
