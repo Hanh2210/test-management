@@ -140,4 +140,8 @@ const search = ref("");
     width: 400px;
   }
 }
+
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>
