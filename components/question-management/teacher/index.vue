@@ -16,6 +16,8 @@ const subjectCode = ref("");
 const questions = computed(() => questionStore.questions);
 
 const questionById = ref({});
+const isShowConfirmDelete = ref(false);
+const questionToDeleteId = ref(null);
 //get subjects
 const res = await subjectStore.getSubjects();
 const subjects = computed(() => subjectStore.subjects);
@@ -111,6 +113,7 @@ const editQuestion = async (e: any) => {
 };
 
 const deleteQuestion = async (id: number) => {
+  isShowConfirmDelete.value = false;
   const res = await questionStore.deleteById(id);
 };
 </script>
@@ -185,7 +188,13 @@ const deleteQuestion = async (id: number) => {
             >
               mdi-pencil
             </v-icon>
-            <v-icon size="small" @click="deleteQuestion(question.id)">
+            <v-icon
+              size="small"
+              @click="
+                isShowConfirmDelete = true;
+                questionToDeleteId = question.id;
+              "
+            >
               mdi-delete
             </v-icon>
           </td>
@@ -208,6 +217,30 @@ const deleteQuestion = async (id: number) => {
       </v-snackbar>
     </div>
   </template>
+
+  <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa câu hỏi này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteQuestion(questionToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowConfirmDelete = false"
+        >
+          Hủy
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped lang="scss">

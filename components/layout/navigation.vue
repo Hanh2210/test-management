@@ -83,7 +83,7 @@ const menuByTeacher: MenuItem[] = [
     path: "/teacher/subjects",
   },
   {
-    title: "Quản lý bài thi",
+    title: "Quản lý đề thi",
     icon: "mdi-book-open",
     path: "/teacher/tests",
   },
@@ -121,14 +121,12 @@ const handleRedirect = (path: string) => {
     router.push(path);
   }
 };
-
 </script>
 
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer permanent location="left" rail 
->
+      <v-navigation-drawer permanent location="left" rail>
         <v-list density="compact" nav>
           <v-list-item
             v-for="(item, i) in menus"
@@ -138,10 +136,9 @@ const handleRedirect = (path: string) => {
             :title="item.title"
             :value="item.title"
           >
-        </v-list-item>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
-
     </v-layout>
   </v-card>
 </template>
@@ -154,10 +151,8 @@ const handleRedirect = (path: string) => {
   }
 }
 
-:deep(.v-navigation-drawer){
+:deep(.v-navigation-drawer) {
   margin-top: 64px;
   background-color: #fff;
 }
-
-
 </style>

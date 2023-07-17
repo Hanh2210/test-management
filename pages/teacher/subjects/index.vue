@@ -13,6 +13,11 @@ const isShowCreateSubjectForm = ref(false);
 const isDisabledCreateButton = ref(false);
 const tab = ref(null);
 
+const isShowConfirmDelete = ref(false);
+const subjectToDeleteId = ref(null);
+const isShowCfDelete = ref(false);
+const chapterToDeleteId = ref(null);
+
 const showCreateSubjectForm = () => {
   isShowCreateSubjectForm.value = true;
   isDisabledCreateButton.value = true;
@@ -67,6 +72,7 @@ const editSubject = async (
 // delete
 
 const deleteSubject = async (id: number) => {
+  isShowConfirmDelete.value = false;
   const res = await subjectStore.deleteById(id);
   isShowSnack.value = true;
   titleSnack.value = "Xoá thành công";
@@ -119,6 +125,7 @@ const editChapter = async (id: number, titleChapter: string, order: number) => {
 // delete
 
 const deleteChapter = async (id: number) => {
+  isShowCfDelete.value = false;
   const res = await subjectStore.deleteChapterById(id);
   isShowSnack.value = true;
   titleSnack.value = "Xoá chương thành công";
@@ -214,7 +221,13 @@ const deleteChapter = async (id: number) => {
                   >
                     mdi-pencil
                   </v-icon>
-                  <v-icon size="small" @click="deleteSubject(subject.id)">
+                  <v-icon
+                    size="small"
+                    @click="
+                      isShowConfirmDelete = true;
+                      subjectToDeleteId = subject.id;
+                    "
+                  >
                     mdi-delete
                   </v-icon>
                 </td>
@@ -287,7 +300,13 @@ const deleteChapter = async (id: number) => {
                   >
                     mdi-pencil
                   </v-icon>
-                  <v-icon size="small" @click="deleteChapter(chapter.id)">
+                  <v-icon
+                    size="small"
+                    @click="
+                      isShowCfDelete = true;
+                      chapterToDeleteId = chapter.id;
+                    "
+                  >
                     mdi-delete
                   </v-icon>
                 </td>
@@ -306,6 +325,53 @@ const deleteChapter = async (id: number) => {
       </v-snackbar>
     </div>
   </template>
+
+  <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa môn học này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteSubject(subjectToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowConfirmDelete = false"
+        >
+          Hủy
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="isShowCfDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa chương này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteChapter(chapterToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowCfDelete = false"
+        >
+          Hủy
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style lang="scss" scoped>
