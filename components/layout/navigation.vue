@@ -126,34 +126,27 @@ const handleRedirect = (path: string) => {
     router.push(path);
   }
 };
+
 </script>
 
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer permanent location="left">
-        <template v-slot:prepend>
-          <v-list-item
-            class="user"
-            lines="two"
-            :prepend-avatar="blankAvatar"
-            v-bind:subtitle="currentUser.username"
-          ></v-list-item>
-        </template>
-
-        <v-divider></v-divider>
-
+      <v-navigation-drawer permanent location="left" rail 
+>
         <v-list density="compact" nav>
           <v-list-item
-            v-for="item in menus"
+            v-for="(item, i) in menus"
             :key="item.title"
             @click.stop="handleRedirect(item.path)"
             :prepend-icon="item.icon"
             :title="item.title"
             :value="item.title"
-          ></v-list-item>
+          >
+        </v-list-item>
         </v-list>
       </v-navigation-drawer>
+
     </v-layout>
   </v-card>
 </template>
@@ -165,4 +158,11 @@ const handleRedirect = (path: string) => {
     font-weight: 600;
   }
 }
+
+:deep(.v-navigation-drawer){
+  margin-top: 64px;
+  background-color: #fff;
+}
+
+
 </style>

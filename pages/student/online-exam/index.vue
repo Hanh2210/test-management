@@ -150,6 +150,11 @@ onUnmounted(() => {
 .test-navigation {
   text-align: center;
   flex: 1;
+  position: fixed;
+  height: 200px;
+  border-radius: 4px;
+  top:80px;
+  right: 16px;
   will-change: position, transform;
   padding: 1rem;
   background-color: $color-white;
