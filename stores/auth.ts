@@ -14,9 +14,14 @@ export const useAuthStore = defineStore("auth", () => {
     currentUser.value = res?.data ?? {};
   };
 
+  const logout = () => {
+    localStorage.removeItem("session");
+  };
+
   return {
     currentUser,
     handleLogin,
     getCurrentUser,
+    logout,
   };
 });
