@@ -13,10 +13,13 @@ const username = ref("");
 const password = ref("");
 const showPassword = ref(false);
 
+const isProcessing = ref(false)
+
 const authStore = useAuthStore()
 
 const onSubmit = async (): Promise<void> => {
-  if (!form) return;
+  if (!form || isProcessing.value) return;
+  isProcessing.value = true
   try {
     const res = await signIn(username.value, password.value);
     const { data } = res;
@@ -28,6 +31,7 @@ const onSubmit = async (): Promise<void> => {
   } catch (error) {
     // console.log(error);
   }
+  isProcessing.value = false
 };
 
 const handleRouter = (roles: AUTH_USER_TYPE[]): void => {
@@ -87,7 +91,7 @@ const requiredPassword = (v: any) => !!v || `Password is required`;
         <br />
 
         <v-btn
-          :disabled="!form"
+          :disabled="!form || isProcessing"
           block
           color="success"
           size="large"

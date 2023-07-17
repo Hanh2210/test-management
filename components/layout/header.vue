@@ -5,6 +5,13 @@ defineProps<{rail: boolean}>()
 const authStore = useAuthStore()
 const username = computed(()=> authStore.currentUser.username)
 
+const router = useRouter()
+
+const logout = ()=>{
+  authStore.logout()
+  router.push('/auth/login')
+}
+
 </script>
 
 <template>
@@ -12,14 +19,32 @@ const username = computed(()=> authStore.currentUser.username)
     <v-app-bar-nav-icon variant="text" @click.stop="$emit('update:rail', !rail)"></v-app-bar-nav-icon>
     <h1 class="title">Test Management</h1>
     <div class="avatar">
-      <p>{{ username }}</p>
-      <img
+      <v-menu>
+        <template v-slot:activator="{ props }">
+          <p>{{ username }}</p>
+        <img
         class="image"
         :src="blankAvatar"
         alt="avatar"
         width="40"
         height="40"
+        v-bind="props"
       />
+        </template>
+        <v-list>
+          <v-list-item
+            value="0"
+          >
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            value="1"
+            @click="logout"
+          >
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
   </nav>
 </template>
