@@ -55,11 +55,6 @@ const menuByStudent: MenuItem[] = [
     path: "/student/class-exam",
   },
   {
-    title: "Thi online",
-    icon: "mdi-lead-pencil",
-    path: "/student/online-exam",
-  },
-  {
     title: "Quản lý tài khoản",
     icon: "mdi-account-circle",
     path: "/student/profile",

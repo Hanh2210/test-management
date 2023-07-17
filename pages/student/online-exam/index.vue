@@ -1,30 +1,16 @@
 <script lang="ts" setup>
-// TODO
 import { useStudentStore } from "@/stores/student";
 const studentStore = useStudentStore();
 const testDetail = computed(() => studentStore.testDetail);
 const examClassDetail = computed(() => studentStore.examClassDetail);
 
-const route = useRoute();
-const classCode = computed(() => {
-  const param = route.params.classCode;
-  if (Array.isArray(param)) {
-    return param[0]; // Retrieve the first element
-  }
-  return param;
-});
-await studentStore.fetchTestDetail("200789"); // TODO
-
 const selectedAnswer = ref(false);
-console.log("examClassDetail", examClassDetail.value.test.duration);
 
-const minutesInput = 60;
-
-// Tạo biến tham chiếu để lưu trữ các giá trị và thực hiện theo dõi
+const minutesInput = examClassDetail.value.test.duration;
 const remainingTime = ref(minutesInput * 60);
 const timer = ref();
 
-// Tính toán thời gian dưới dạng mm:ss
+// mm:ss
 const formatTime = computed(() => {
   const minutes = Math.floor(remainingTime.value / 60);
   const seconds = remainingTime.value % 60;
@@ -34,34 +20,34 @@ const formatTime = computed(() => {
     .padStart(2, "0")}`;
 });
 
-// Hàm đếm ngược
 const countdown = () => {
-  remainingTime.value--; // Giảm giá trị thời gian còn lại
+  remainingTime.value--;
 
   if (remainingTime.value <= 0) {
-    stopCountdown(); // Dừng đồng hồ đếm ngược nếu hết thời gian
+    stopCountdown();
   }
 };
 
-// Bắt đầu đồng hồ đếm ngược
 const startCountdown = () => {
-  timer.value = setInterval(countdown, 1000); // Gọi hàm countdown mỗi giây
+  timer.value = setInterval(countdown, 1000);
 };
 
-// Dừng đồng hồ đếm ngược
 const stopCountdown = () => {
-  clearInterval(timer.value); // Xóa interval
+  clearInterval(timer.value);
 };
 
-// Đăng ký hành động khi component được tạo ra
 onMounted(() => {
-  startCountdown(); // Bắt đầu đồng hồ đếm ngược khi component được tạo ra
+  studentStore.fetchTestDetail(examClassDetail.value.examClass.code);
+  startCountdown();
 });
 
-// Đăng ký hành động khi component bị hủy
 onUnmounted(() => {
-  stopCountdown(); // Dừng đồng hồ đếm ngược khi component bị hủy
+  stopCountdown();
 });
+
+const submit = () => {
+  console.log("nộp bài");
+};
 </script>
 
 <template>
@@ -105,7 +91,7 @@ onUnmounted(() => {
       <div class="time">
         {{ formatTime }}
       </div>
-      <button class="submit">Nộp bài</button>
+      <button class="submit" @click="submit">Nộp bài</button>
     </div>
   </div>
 </template>
@@ -149,7 +135,11 @@ onUnmounted(() => {
 
 .test-navigation {
   text-align: center;
-  flex: 1;
+  position: fixed;
+  height: 200px;
+  right: 16px;
+  top: 80px;
+  border-radius: 4px;
   will-change: position, transform;
   padding: 1rem;
   background-color: $color-white;
