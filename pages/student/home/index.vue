@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const authStore = useAuthStore();
+const username = computed(() => authStore.currentUser.username);
 const subjects = [
   { id: 1, label: "Tất cả", path: "/" },
   { id: 2, label: "IELTS Academic", path: "/" },
@@ -20,7 +22,7 @@ const isAllSubjects = (item: any) => {
 </script>
 
 <template>
-  <h2 class="title">Chào mừng Nguyễn Ngọc Bảo Châm!</h2>
+  <h2 class="title">Chào mừng {{ username }}!</h2>
   <div class="subject-search">
     <!--TODO: Add some subjects from BE-->
     <h3 class="label">Thư viện đề thi</h3>

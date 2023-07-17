@@ -57,34 +57,11 @@ const submit = () => {
   </div>
   <div class="test-wrapper">
     <div class="test-content">
-      <div
-        class="question-wrapper"
+      <app-question
         v-for="question in testDetail.questions"
-        :key="question.id"
-      >
-        <div class="order">{{ question.questionNo }}</div>
-        <div class="content">
-          <span class="text">
-            {{ question.topicText }}
-          </span>
-          <div class="answers">
-            <v-radio-group
-              class="radio"
-              v-for="answer in question.answers"
-              :key="answer.id"
-              v-model="selectedAnswer"
-            >
-              <div class="answer">
-                <span class="label">{{ answer.answerNo }}.</span>
-                <v-radio
-                  :label="answer.content"
-                  :value="answer.content"
-                ></v-radio>
-              </div>
-            </v-radio-group>
-          </div>
-        </div>
-      </div>
+        :key="question.questionNo"
+        :question="question"
+      />
     </div>
     <div class="test-navigation">
       <h3 class="timeleft">Thời gian làm bài:</h3>
@@ -136,9 +113,9 @@ const submit = () => {
 .test-navigation {
   text-align: center;
   position: fixed;
-  height: 200px;
+  height: 170px;
   right: 16px;
-  top: 80px;
+  top: 144px;
   border-radius: 4px;
   will-change: position, transform;
   padding: 1rem;
@@ -166,54 +143,6 @@ const submit = () => {
     color: $color-white;
     background-color: #35509a;
     border-color: #35509a;
-  }
-}
-
-.question-wrapper {
-  display: flex;
-  margin-bottom: 24px;
-
-  > .order {
-    margin-right: 8px;
-    border-radius: 50%;
-    background-color: #e8f2ff;
-    color: #35509a;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 15px;
-    text-align: center;
-    display: inline-block;
-  }
-  > .content {
-    width: 100%;
-  }
-  > .content > .text {
-    margin-bottom: 8px;
-    margin-left: 12px;
-    font-size: 16px;
-  }
-  > .content > .answers {
-    position: relative;
-    display: block;
-  }
-  > .content > .answers > .radio {
-    :deep(.v-input__control) {
-      font-size: 14px;
-    }
-
-    :deep(.v-selection-control .v-label) {
-      font-size: 14px;
-      color: $color-black;
-    }
-  }
-}
-
-.answer {
-  display: flex;
-  align-items: center;
-  .label {
-    font-weight: 600;
   }
 }
 </style>
