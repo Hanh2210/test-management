@@ -90,7 +90,7 @@ const menuByTeacher: MenuItem[] = [
     path: "/teacher/subjects",
   },
   {
-    title: "Quản lý bài thi",
+    title: "Quản lý đề thi",
     icon: "mdi-book-open",
     path: "/teacher/tests",
   },

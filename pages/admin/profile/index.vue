@@ -79,4 +79,7 @@ const authUser = computed(() => authStore.currentUser);
     width: 40%;
   }
 }
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>

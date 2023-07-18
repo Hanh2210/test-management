@@ -403,4 +403,8 @@ const deleteChapter = async (id: number) => {
   gap: 32px;
   justify-content: center;
 }
+
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>

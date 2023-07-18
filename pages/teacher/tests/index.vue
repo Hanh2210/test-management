@@ -390,4 +390,8 @@ const exportTestSet = async (testSetId: number) => {
     color: $primary-color;
   }
 }
+
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>

@@ -323,4 +323,8 @@ const exportMarkTable = async (code: string) => {
   color: $primary-color;
   cursor: pointer;
 }
+
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>
