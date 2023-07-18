@@ -21,6 +21,8 @@ const testSetQuantity = ref(0);
 const currentTestId = ref(0);
 const isShowTestSetList = ref(false);
 const testSetList = ref([]);
+const isShowConfirmDelete = ref(false);
+const testToDeleteId = ref(null);
 
 //get subjects, chapters
 const result = await subjectStore.getSubjects();
@@ -72,6 +74,7 @@ const getTestDetailRoutePath = async (testNo: number) => {
 };
 
 const deleteTest = async (testId: number) => {
+  isShowConfirmDelete.value = false;
   const res = await testsStore.deleteById(testId);
 };
 
@@ -100,11 +103,11 @@ const exportTestSet = async (testSetId: number) => {
 </script>
 
 <template>
-  <h2 class="title">Quản lý bài thi</h2>
+  <h2 class="title">Quản lý đề thi</h2>
 
   <div class="create-tests">
     <v-btn @click="createNewTest" :disabled="isOpenCreateForm"
-      ><v-icon icon="mdi-plus" />Thêm mới bài thi</v-btn
+      ><v-icon icon="mdi-plus" />Thêm mới đề thi</v-btn
     >
 
     <div class="dialog-create-question">
@@ -191,7 +194,7 @@ const exportTestSet = async (testSetId: number) => {
         <th class="text-center">Ngày tạo</th>
         <th class="text-center">Ngày mở đề</th>
         <th class="text-center">Giờ mở đề</th>
-        <th class="text-center">Tổng điểm</th>
+        <!-- <th class="text-center">Tổng điểm</th> -->
         <th class="text-center">Thời gian làm bài (phút)</th>
         <th class="text-center">Hành động</th>
         <th class="text-center">Random mã đề</th>
@@ -205,10 +208,17 @@ const exportTestSet = async (testSetId: number) => {
         <td class="text-center">{{ formatDate(test.createdAt) || "-" }}</td>
         <td class="text-center">{{ test.testDay }}</td>
         <td class="text-center">{{ test.testTime }}</td>
-        <td class="text-center">{{ test.totalPoint }}</td>
+        <!-- <td class="text-center">{{ test.totalPoint }}</td> -->
         <td class="text-center">{{ test.duration }}</td>
         <td class="action text-center">
-          <v-icon size="small" class="me-2" @click="deleteTest(test.id)">
+          <v-icon
+            size="small"
+            class="me-2"
+            @click="
+              isShowConfirmDelete = true;
+              testToDeleteId = test.id;
+            "
+          >
             mdi-delete
           </v-icon>
         </td>
@@ -287,6 +297,29 @@ const exportTestSet = async (testSetId: number) => {
           @click="isShowTestSetList = false"
         >
           Đóng
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa môn học này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteTest(testToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowConfirmDelete = false"
+        >
+          Hủy
         </v-btn>
       </v-card-actions>
     </v-card>

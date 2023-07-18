@@ -10,6 +10,9 @@ const teacherById = ref({});
 const titleSnack = ref("");
 const isShowSnack = ref(false);
 
+const isShowConfirmDelete = ref(false);
+const teacherToDeleteId = ref(null);
+
 //get teachers
 const res = await teacherStore.getTeachers();
 const teachers = computed(() => teacherStore.teachers);
@@ -50,6 +53,7 @@ const editTeacher = async (e: any) => {
 
 // delete
 const deleteTeacher = async (item: any) => {
+  isShowConfirmDelete.value = false;
   const res = await teacherStore.deleteById(item.columns.id);
   isShowSnack.value = true;
   titleSnack.value = "Xoá thành công";
@@ -103,7 +107,15 @@ const search = ref("");
         <v-icon size="small" class="me-2" @click="openDialogEditTeacher(item)">
           mdi-pencil
         </v-icon>
-        <v-icon size="small" @click="deleteTeacher(item)"> mdi-delete </v-icon>
+        <v-icon
+          size="small"
+          @click="
+            isShowConfirmDelete = true;
+            teacherToDeleteId = item;
+          "
+        >
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
   </div>
@@ -121,6 +133,29 @@ const search = ref("");
       </v-snackbar>
     </div>
   </template>
+  <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa giáo viên này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteTeacher(teacherToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowConfirmDelete = false"
+        >
+          Hủy
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped lang="scss">
