@@ -62,11 +62,6 @@ const menuByStudent: MenuItem[] = [
     path: "/student/class-exam",
   },
   {
-    title: "Thi online",
-    icon: "mdi-lead-pencil",
-    path: "/student/online-exam",
-  },
-  {
     title: "Quản lý tài khoản",
     icon: "mdi-account-circle",
     path: "/student/profile",
@@ -134,10 +129,7 @@ const handleRedirect = (path: string) => {
   }
 };
 
-const rail = ref(true)
-
-
-
+const rail = ref(true);
 </script>
 <template>
   <div class="app-layout">
@@ -145,23 +137,29 @@ const rail = ref(true)
     <!-- <layout-navigation /> -->
     <!-- <v-card> -->
     <v-layout>
-      <v-navigation-drawer permanent location="left" :rail="rail" @click="rail = false"
->
+      <v-navigation-drawer
+        permanent
+        location="left"
+        :rail="rail"
+        @click="rail = false"
+      >
         <v-list density="compact" nav>
           <v-list-item
-            v-for="(item, i) in menus"
+            v-for="item in menus"
             :key="item.title"
             @click.stop="handleRedirect(item.path)"
             :prepend-icon="item.icon"
             :title="item.title"
             :value="item.title"
           >
-        </v-list-item>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
-<v-main><div class="page-container"><slot /></div></v-main>
+      <v-main
+        ><div class="page-container"><slot /></div
+      ></v-main>
     </v-layout>
-  <!-- </v-card> -->
+    <!-- </v-card> -->
 
     <!-- <div ref="pageContainer" class="page-container">
       <slot />
@@ -173,15 +171,14 @@ const rail = ref(true)
 .app-layout {
   height: 100vh;
   overflow: hidden;
-
 }
 .page-container {
-    font-size: $font-sm;
-    padding: 16px;
-    overflow-y: scroll;
-    height: calc(100% - #{$header-height});
-    // margin-left: 60px;
-  }
+  font-size: $font-sm;
+  padding: 16px;
+  overflow-y: scroll;
+  height: calc(100% - #{$header-height});
+  // margin-left: 60px;
+}
 
 .user {
   :deep(.v-list-item-subtitle) {
@@ -190,12 +187,12 @@ const rail = ref(true)
   }
 }
 
-:deep(.v-navigation-drawer){
+:deep(.v-navigation-drawer) {
   margin-top: 64px;
   background-color: #fff;
 }
 
 :deep(.v-layout) {
-  height: 100%
+  height: 100%;
 }
 </style>

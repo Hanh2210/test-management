@@ -196,9 +196,9 @@ const exportTestSet = async (testSetId: number) => {
         <th class="text-center">Giờ mở đề</th>
         <!-- <th class="text-center">Tổng điểm</th> -->
         <th class="text-center">Thời gian làm bài (phút)</th>
-        <th class="text-center">Hành động</th>
         <th class="text-center">Random mã đề</th>
         <th class="text-center">Chi tiết mã đề</th>
+        <th class="text-center">Hành động</th>
       </tr>
     </thead>
     <tbody>
@@ -210,18 +210,6 @@ const exportTestSet = async (testSetId: number) => {
         <td class="text-center">{{ test.testTime }}</td>
         <!-- <td class="text-center">{{ test.totalPoint }}</td> -->
         <td class="text-center">{{ test.duration }}</td>
-        <td class="action text-center">
-          <v-icon
-            size="small"
-            class="me-2"
-            @click="
-              isShowConfirmDelete = true;
-              testToDeleteId = test.id;
-            "
-          >
-            mdi-delete
-          </v-icon>
-        </td>
         <td
           class="text-center random"
           @click="openCreateTestSetDialog(test.id)"
@@ -233,6 +221,18 @@ const exportTestSet = async (testSetId: number) => {
           @click="openTestSetList(test.id, test.testSetNos)"
         >
           Chi tiết
+        </td>
+        <td class="action text-center">
+          <v-icon
+            size="small"
+            class="me-2"
+            @click="
+              isShowConfirmDelete = true;
+              testToDeleteId = test.id;
+            "
+          >
+            mdi-delete
+          </v-icon>
         </td>
       </tr>
     </tbody>
@@ -304,7 +304,7 @@ const exportTestSet = async (testSetId: number) => {
   <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
     <v-card>
       <v-container>
-        <h3>Bạn có muốn xóa môn học này không?</h3>
+        <h3>Bạn có muốn xóa đề thi này không?</h3>
       </v-container>
       <v-card-actions>
         <v-btn

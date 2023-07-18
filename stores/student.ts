@@ -155,6 +155,19 @@ export const useStudentStore = defineStore("student", () => {
     testDetail.value = res?.data;
   };
 
+  const submitOnlineExam = async (data: {
+    examClassId: number;
+    testNo: number;
+    questions: {
+      questionNo: number;
+      selectedAnswerNo: string;
+    }[];
+  }) => {
+    const res = await apis
+      .api!.post("/student-test/finish", data)
+      .catch((err) => {});
+  };
+
   return {
     students,
     isCreating,
@@ -171,5 +184,6 @@ export const useStudentStore = defineStore("student", () => {
     getExamClass,
     getExamClassDetail,
     fetchTestDetail,
+    submitOnlineExam,
   };
 });

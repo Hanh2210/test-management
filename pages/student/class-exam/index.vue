@@ -9,6 +9,7 @@ const studentStore = useStudentStore();
 const isOpenExamClassDetail = ref(false);
 const classDetail = ref({});
 const classCode = ref();
+const examClassId = ref(0);
 
 //get class
 const res = await studentStore.getExamClass();
@@ -20,12 +21,15 @@ const openExamClassDetail = async (classId: number, code: string) => {
   await studentStore.getExamClassDetail(classId);
   classDetail.value = examClassDetail.value;
   classCode.value = code;
+  examClassId.value = classId;
   isOpenExamClassDetail.value = true;
 };
 
 const testOnline = async () => {
   const router = useRouter();
-  router.push(`/student/online-exam?classCode=${classCode.value}`);
+  router.push(
+    `/student/online-exam?examClassId=${examClassId.value}&classCode=${classCode.value}`
+  );
   console.log("đi tới màn thi");
 };
 </script>

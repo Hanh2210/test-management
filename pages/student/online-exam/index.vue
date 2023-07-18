@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 import { useStudentStore } from "@/stores/student";
+
 const studentStore = useStudentStore();
 const testDetail = computed(() => studentStore.testDetail);
+const testId = computed(() => studentStore.testDetail?.testNo);
 const examClassDetail = computed(() => studentStore.examClassDetail);
 
-const answers = ref<{[key: string]: string}>({})
+const route = useRoute();
+const router = useRouter();
+
+const answers = ref<{ [key: string]: string }>({});
 
 const selectedAnswer = ref(false);
 
@@ -47,14 +52,28 @@ onUnmounted(() => {
   stopCountdown();
 });
 
-const submit = () => {
-  console.log("nộp bài");
+const submit = async () => {
+  const classId = route.query.examClassId;
+
+  const questions = Object.entries(answers.value).map(
+    ([questionNo, selectedAnswerNo]) => ({
+      questionNo: parseInt(questionNo),
+      selectedAnswerNo,
+    })
+  );
+
+  await studentStore.submitOnlineExam({
+    examClassId: Number(classId),
+    testNo: Number(testId.value),
+    questions,
+  });
+  router.push(`/student/class-exam`);
 };
 </script>
 
 <template>
   <div class="heading">
-    <h2 class="name">Mã đề : {{ testDetail?.testNo }}</h2>
+    <h2 class="name">Mã đề : {{ testId }}</h2>
     <button class="button">Thoát <v-icon icon="mdi-arrow-right" /></button>
   </div>
   <div class="test-wrapper">

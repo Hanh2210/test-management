@@ -129,7 +129,7 @@ const handleRedirect = (path: string) => {
       <v-navigation-drawer permanent location="left" rail>
         <v-list density="compact" nav>
           <v-list-item
-            v-for="(item, i) in menus"
+            v-for="item in menus"
             :key="item.title"
             @click.stop="handleRedirect(item.path)"
             :prepend-icon="item.icon"
