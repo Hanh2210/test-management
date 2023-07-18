@@ -1,12 +1,17 @@
-import { Student } from "@/types";
+import { Student, Question } from "@/types";
 import { apis } from "@/apis";
+
+export interface TestDetail {
+  testNo: number;
+  questions: Question[];
+}
 
 export const useStudentStore = defineStore("student", () => {
   const students = ref<Student[]>([]);
   const isCreating = ref(false);
   const examClass = ref([]);
   const examClassDetail = ref();
-  const testDetail = ref({});
+  const testDetail = ref<TestDetail>();
 
   const getStudents = async () => {
     const res = await apis.api!.get("/student/list").catch((err) => {
@@ -142,12 +147,12 @@ export const useStudentStore = defineStore("student", () => {
 
   const fetchTestDetail = async (code: string) => {
     const res = await apis
-      .api!.get(`student-test/attempt?classCode=${code}`)
+      .api!.get<TestDetail>(`student-test/attempt?classCode=${code}`)
       .catch((err) => {
         console.log(err);
         return null;
       });
-    testDetail.value = res?.data || {};
+    testDetail.value = res?.data;
   };
 
   return {

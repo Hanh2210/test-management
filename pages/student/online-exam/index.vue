@@ -4,6 +4,8 @@ const studentStore = useStudentStore();
 const testDetail = computed(() => studentStore.testDetail);
 const examClassDetail = computed(() => studentStore.examClassDetail);
 
+const answers = ref<{[key: string]: string}>({})
+
 const selectedAnswer = ref(false);
 
 const minutesInput = examClassDetail.value.test.duration;
@@ -52,15 +54,16 @@ const submit = () => {
 
 <template>
   <div class="heading">
-    <h2 class="name">Mã đề : {{ testDetail.testNo }}</h2>
+    <h2 class="name">Mã đề : {{ testDetail?.testNo }}</h2>
     <button class="button">Thoát <v-icon icon="mdi-arrow-right" /></button>
   </div>
   <div class="test-wrapper">
-    <div class="test-content">
+    <div class="test-content" v-if="testDetail?.questions">
       <app-question
         v-for="question in testDetail.questions"
         :key="question.questionNo"
         :question="question"
+        v-model="answers[question.questionNo]"
       />
     </div>
     <div class="test-navigation">

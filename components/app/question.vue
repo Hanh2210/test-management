@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-const props = defineProps<{ question: any }>();
+import { Question } from '~/types';
+
+const props = defineProps<{ question: Question, modelValue: string|null }>();
 const selectedAnswer = ref(false);
 const question = computed(() => props.question);
+
+const emit = defineEmits<{(e: "update:modelValue", data: any): void;}>()
+
+const updateValue = (val: any)=>{
+  emit('update:modelValue', val)
+}
 </script>
 
 <template>
@@ -12,14 +20,14 @@ const question = computed(() => props.question);
         {{ question.topicText }}
       </span>
       <div class="answers">
-        <v-radio-group class="radio" v-model="selectedAnswer">
+        <v-radio-group class="radio" :model-value="modelValue" @update:model-value="updateValue">
           <div
             class="answer"
             v-for="answer in question.answers"
-            :key="answer.id"
+            :key="answer.answerNo"
           >
             <span class="label">{{ answer.answerNo }}.</span>
-            <v-radio :label="answer.content" :value="answer.content"></v-radio>
+            <v-radio :label="answer.content" :value="answer.answerNo"></v-radio>
           </div>
         </v-radio-group>
       </div>

@@ -27,10 +27,12 @@ export interface Question {
   topicImage?: string;
   createdDate?: string;
   level: string;
+  questionNo: number;
   answers: {
     id: number;
     content: string;
     isCorrected?: string;
+    answerNo: string;
   }[];
 }
 
