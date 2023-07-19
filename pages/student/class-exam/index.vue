@@ -10,6 +10,7 @@ const isOpenExamClassDetail = ref(false);
 const classDetail = ref({});
 const classCode = ref();
 const examClassId = ref(0);
+const onlineExamState = ref("");
 
 //get class
 const res = await studentStore.getExamClass();
@@ -22,6 +23,7 @@ const openExamClassDetail = async (classId: number, code: string) => {
   classDetail.value = examClassDetail.value;
   classCode.value = code;
   examClassId.value = classId;
+  onlineExamState.value = examClassDetail.value.test.state;
   isOpenExamClassDetail.value = true;
 };
 
@@ -109,6 +111,13 @@ const testOnline = async () => {
                   label="Thời gian làm bài(phút)"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" class="mt-4">
+                <v-text-field
+                  required
+                  v-model="classDetail.test.state"
+                  label="Trạng thái"
+                ></v-text-field>
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -121,7 +130,12 @@ const testOnline = async () => {
           >
             Đóng
           </v-btn>
-          <v-btn color="blue-darken-1" variant="text" @click="testOnline">
+          <v-btn
+            color="blue-darken-1"
+            variant="text"
+            @click="testOnline"
+            :disabled="onlineExamState === 'FINISHED'"
+          >
             Bắt đầu thi
           </v-btn>
         </v-card-actions>
