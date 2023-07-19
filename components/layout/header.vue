@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import seee from "@/assets/images/seee.png";
+import logoHust from "@/assets/images/logo-hust.png";
 import blankAvatar from "@/assets/images/blank-avatar.png";
 defineProps<{ rail: boolean }>();
 
@@ -20,12 +20,14 @@ const logout = () => {
       variant="text"
       @click.stop="$emit('update:rail', !rail)"
     ></v-app-bar-nav-icon>
-    <img class="logo" :src="seee" width="200" height="60" />
-    <!-- <h1 class="title">Test Management</h1> -->
+    <img class="logo" :src="logoHust" width="26" height="18" />
+    <span class="logo-text"
+      >ĐẠI HỌC BÁCH KHOA HÀ NỘI <br />TRƯỜNG ĐIỆN - ĐIỆN TỬ</span
+    >
     <div class="avatar">
       <v-menu>
         <template v-slot:activator="{ props }">
-          <p>{{ username }}</p>
+          <p class="text">{{ username }}</p>
           <img
             class="image"
             :src="blankAvatar"
@@ -52,7 +54,7 @@ const logout = () => {
 .nav-bar {
   height: 64px;
   width: 100%;
-  background-color: $color-white;
+  background-color: #08539c;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ccc;
@@ -81,5 +83,14 @@ const logout = () => {
     border-radius: 50%;
     cursor: pointer;
   }
+}
+.text {
+  color: #fff;
+}
+.logo-text {
+  color: #fff;
+  font-size: 12px;
+  padding-left: 10px;
+  font-family: Roboto, "Open Sans", "Helvetica Neue", sans-serif;
 }
 </style>

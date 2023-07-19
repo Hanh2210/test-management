@@ -116,6 +116,22 @@ const deleteQuestion = async (id: number) => {
   isShowConfirmDelete.value = false;
   const res = await questionStore.deleteById(id);
 };
+
+// Search field
+const searchText = ref("");
+const filteredQuestions = computed(() => {
+  const search = searchText.value.toLowerCase();
+  return questions.value.filter((question) => {
+    if (question.topicText) {
+      return (
+        question.id.toString().includes(search) ||
+        question.topicText.toLowerCase().includes(search) ||
+        question.level.toLowerCase().includes(search)
+      );
+    }
+    return false;
+  });
+});
 </script>
 
 <template>
@@ -133,6 +149,15 @@ const deleteQuestion = async (id: number) => {
       v-model="subjectCode"
     ></v-autocomplete>
     <v-btn @click="fetchQuestionsBySubject(subjectCode)">Tìm kiếm</v-btn>
+  </div>
+  <div class="search-question">
+    <v-text-field
+      v-model="searchText"
+      append-icon="mdi-magnify"
+      label="Tìm kiếm câu hỏi"
+      single-line
+      hide-details
+    ></v-text-field>
   </div>
 
   <h3 class="create-title" @click="toggleCreateForm">Tạo bài test random</h3>
@@ -170,7 +195,7 @@ const deleteQuestion = async (id: number) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="question in questions" :key="question.id">
+        <tr v-for="question in filteredQuestions" :key="question.id">
           <td>
             <v-checkbox-btn
               :model-value="getCheckedId(question.id)"
@@ -273,6 +298,10 @@ const deleteQuestion = async (id: number) => {
     gap: 32px;
     align-items: center;
   }
+}
+.search-question {
+  width: 400px;
+  padding-bottom: 16px;
 }
 :deep(.v-table__wrapper) {
   height: calc(100vh - 350px) !important;
