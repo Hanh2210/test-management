@@ -274,4 +274,7 @@ const deleteQuestion = async (id: number) => {
     align-items: center;
   }
 }
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>

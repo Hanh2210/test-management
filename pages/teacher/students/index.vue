@@ -88,4 +88,7 @@ const search = ref("");
   display: flex;
   align-items: center;
 }
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>

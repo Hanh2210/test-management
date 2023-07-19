@@ -137,4 +137,7 @@ const detailQuestion = (question: any) => {
     object-fit: initial;
   }
 }
+:deep(.v-table__wrapper) {
+  height: calc(100vh - 350px) !important;
+}
 </style>
