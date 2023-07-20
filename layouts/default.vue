@@ -187,9 +187,13 @@ const rail = ref(true);
   }
 }
 
+:deep(.v-list-item) {
+  color: #fff;
+}
+
 :deep(.v-navigation-drawer) {
   margin-top: 64px;
-  background-color: #fff;
+  background-color: #021c34;
 }
 
 :deep(.v-layout) {
