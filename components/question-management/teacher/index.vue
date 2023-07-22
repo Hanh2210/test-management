@@ -84,7 +84,7 @@ const editQuestion = async (e: any) => {
   const topicText = e.question.value.topicText;
   const level = e.question.value.level;
   const answers = e.question.value.answers.map((item: any) => ({
-    ...item,
+    content: item.content,
     isCorrected: item.isCorrected ? "true" : "false",
   }));
 
