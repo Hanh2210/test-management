@@ -132,7 +132,7 @@ const deleteChapter = async (id: number) => {
 };
 </script>
 <template>
-  <h2 class="title">Quản lý môn học</h2>
+  <h2 class="title">QUẢN LÝ MÔN HỌC</h2>
 
   <div class="nav-info">
     <v-card class="card">

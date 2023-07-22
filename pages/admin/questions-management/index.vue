@@ -19,7 +19,7 @@ const fetchQuestionsBySubject = async (code: string) => {
 };
 </script>
 <template>
-  <h2 class="title">Ngân hàng câu hỏi</h2>
+  <h2 class="title">NGÂN HÀNG CÂU HỎI</h2>
   <div class="search-question-list">
     <v-autocomplete
       clearable

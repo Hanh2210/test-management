@@ -9,7 +9,7 @@ const searchExamClass = async (code: string): Promise<void> => {
 };
 </script>
 <template>
-  <h2 class="title">Chấm điểm tự động</h2>
+  <h2 class="title">CHẤM ĐIỂM TỰ ĐỘNG</h2>
   <div class="select-options">
     <v-select
       label="--Chọn lớp thi--"

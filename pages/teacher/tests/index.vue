@@ -103,7 +103,7 @@ const exportTestSet = async (testSetId: number) => {
 </script>
 
 <template>
-  <h2 class="title">Quản lý đề thi</h2>
+  <h2 class="title">QUẢN LÝ ĐỀ THI</h2>
 
   <div class="create-tests">
     <v-btn @click="createNewTest" :disabled="isOpenCreateForm"
@@ -386,7 +386,7 @@ const exportTestSet = async (testSetId: number) => {
     cursor: pointer;
   }
 
-  > .test-set-item > .code {
+  > .test-set-item > .export {
     color: $primary-color;
   }
 }

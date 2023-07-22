@@ -37,6 +37,8 @@ const testId = ref(0);
 const classCode = ref("");
 const isPublicExam = ref(false);
 const isShowCreateExamClass = ref(false);
+const isShowConfirmDelete = ref(false);
+const classToDeleteId = ref(null);
 
 const openDialog = () => {
   isShowCreateExamClass.value = true;
@@ -82,10 +84,15 @@ const importStudents = async () => {
 const exportMarkTable = async (code: string) => {
   await examClassStore.exportMarkTable(code);
 };
+
+const deleteClass = async (id: number) => {
+  isShowConfirmDelete.value = false;
+  const res = await examClassStore.deleteById(id);
+};
 </script>
 
 <template>
-  <h2 class="title">Quản lý lớp thi</h2>
+  <h2 class="title">QUẢN LÝ LỚP THI</h2>
 
   <div class="nav-info">
     <v-card class="card">
@@ -96,7 +103,9 @@ const exportMarkTable = async (code: string) => {
 
       <v-window v-model="tab">
         <v-window-item :value="'tab-1'">
-          <h3 class="heading" @click="openDialog">Tạo lớp thi</h3>
+          <v-btn color="indigo-darken-3" class="heading" @click="openDialog"
+            >Tạo lớp thi</v-btn
+          >
           <div class="create-exam-class">
             <v-row justify="center">
               <v-dialog v-model="isShowCreateExamClass" persistent width="700">
@@ -203,6 +212,7 @@ const exportMarkTable = async (code: string) => {
           <th class="text-center">Ngày tạo</th>
           <th class="text-center">Danh sách sinh viên</th>
           <th class="text-center">Export bảng điểm</th>
+          <th class="text-center">Hành động</th>
         </tr>
       </thead>
       <tbody>
@@ -222,6 +232,17 @@ const exportMarkTable = async (code: string) => {
               icon="mdi mdi-download-box-outline"
               @click="exportMarkTable(examClass.code)"
             ></v-icon>
+          </td>
+          <td class="text-center">
+            <v-icon
+              size="small"
+              @click="
+                isShowConfirmDelete = true;
+                classToDeleteId = examClass.id;
+              "
+            >
+              mdi-delete
+            </v-icon>
           </td>
         </tr>
       </tbody>
@@ -261,6 +282,29 @@ const exportMarkTable = async (code: string) => {
       </v-card>
     </v-dialog>
   </div>
+  <v-dialog v-model="isShowConfirmDelete" persistent width="400" height="400">
+    <v-card>
+      <v-container>
+        <h3>Bạn có muốn xóa lớp thi này không?</h3>
+      </v-container>
+      <v-card-actions>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="deleteClass(classToDeleteId ?? 0)"
+        >
+          Xác nhận
+        </v-btn>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="isShowConfirmDelete = false"
+        >
+          Hủy
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style lang="scss" scoped>
