@@ -47,6 +47,7 @@ const closeDialog = () => {
 const editQuestion = () => {
   console.log("file trc emit", file.value);
   emit("edit", { question, file: file.value[0] });
+  closeDialog();
 };
 </script>
 
