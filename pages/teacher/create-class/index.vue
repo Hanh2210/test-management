@@ -61,7 +61,7 @@ const submit = async (): Promise<void> => {
     studentIds: studentIds.value,
     testId: testId.value,
   });
-
+  await examClassStore.getExamClasses();
   clear();
 };
 
