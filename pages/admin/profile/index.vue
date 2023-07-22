@@ -5,7 +5,7 @@ const authUser = computed(() => authStore.currentUser);
 </script>
 
 <template>
-  <h2 class="title">Thông tin cá nhân</h2>
+  <h2 class="title">THÔNG TIN CÁ NHÂN</h2>
   <div class="user-information">
     <div class="avatar">
       <img

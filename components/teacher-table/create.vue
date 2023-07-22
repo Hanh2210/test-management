@@ -75,17 +75,17 @@ const exportTeachers = async () => {
         ><v-icon icon="mdi-plus" />Thêm giáo viên</v-btn
       >
       <v-spacer />
-      <v-menu>
+      <v-menu class="menu-drop">
         <template v-slot:activator="{ props }">
-          <v-btn color="primary" v-bind="props"> Actions </v-btn>
+          <v-btn color="indigo-darken-3" v-bind="props"> Actions </v-btn>
         </template>
         <v-list>
-          <v-list-item key="1">
+          <v-list-item key="1" class="menu">
             <v-list-item-title @click="exportTeachers"
               >Export danh sách</v-list-item-title
             >
           </v-list-item>
-          <v-list-item key="2">
+          <v-list-item key="2" class="menu">
             <v-list-item-title @click="isShowDialogImport = true"
               >Import danh sách</v-list-item-title
             >
@@ -136,6 +136,7 @@ const exportTeachers = async () => {
                       v-model="birthday"
                       label="Nhập ngày sinh"
                       required
+                      type="date"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
@@ -227,5 +228,11 @@ const exportTeachers = async () => {
     gap: 60px;
     overflow: hidden;
   }
+}
+.menu-drop {
+  cursor: pointer;
+}
+.menu:hover {
+  background-color: #d9d9d9;
 }
 </style>

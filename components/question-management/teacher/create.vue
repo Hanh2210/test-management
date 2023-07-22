@@ -147,11 +147,11 @@ const importQuestion = async () => {
                     ></v-select>
                   </v-col>
                   <v-col cols="12">
-                    <v-text-field
+                    <v-textarea
                       required
                       v-model="topicText"
-                      :placeholder="'Nhập câu hỏi'"
-                    ></v-text-field>
+                      :placeholder="'Nhập nội dung câu hỏi'"
+                    ></v-textarea>
                   </v-col>
                   <v-col cols="12" class="mt-4">
                     <v-file-input

@@ -35,7 +35,7 @@ const search = ref("");
 </script>
 
 <template>
-  <h2 class="title">Thông tin sinh viên</h2>
+  <h2 class="title">THÔNG TIN SINH VIÊN</h2>
   <div class="student-info">
     <div class="action">
       <v-btn @click="exportStudents">Export danh sách </v-btn>

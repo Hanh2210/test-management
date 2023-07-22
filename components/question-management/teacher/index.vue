@@ -135,7 +135,7 @@ const filteredQuestions = computed(() => {
 </script>
 
 <template>
-  <h2 class="title">Ngân hàng câu hỏi</h2>
+  <h2 class="title">NGÂN HÀNG CÂU HỎI</h2>
 
   <question-management-teacher-create :subjects="subjects" />
 
@@ -160,7 +160,9 @@ const filteredQuestions = computed(() => {
     ></v-text-field>
   </div>
 
-  <h3 class="create-title" @click="toggleCreateForm">Tạo bài test random</h3>
+  <v-btn color="indigo-darken-3" class="create-title" @click="toggleCreateForm"
+    >TẠO ĐỀ THI</v-btn
+  >
   <div class="create-test-random" v-if="isShowCreateForm">
     <div class="wrapper">
       <v-text-field
@@ -187,7 +189,7 @@ const filteredQuestions = computed(() => {
     <v-table fixed-header height="400px">
       <thead>
         <tr>
-          <th class="text-left">Tạo bài test</th>
+          <th class="text-left">Chọn câu</th>
           <th class="text-left">ID</th>
           <th class="text-left">Câu hỏi</th>
           <th class="text-left">Độ khó</th>

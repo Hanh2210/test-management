@@ -91,11 +91,11 @@ const editQuestion = () => {
                   ></v-select>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-textarea
                     required
                     v-model="question.topicText"
                     :placeholder="'Nhập câu hỏi'"
-                  ></v-text-field>
+                  ></v-textarea>
                 </v-col>
                 <v-col cols="12" v-if="question.topicImage">
                   <span>Hình ảnh</span>
