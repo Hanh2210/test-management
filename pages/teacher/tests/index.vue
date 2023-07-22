@@ -87,6 +87,7 @@ const openCreateTestSetDialog = async (testId: number) => {
 const createTestSet = async () => {
   await testsStore.createTestSet(+currentTestId.value, +testSetQuantity.value);
   isShowRandomTestSet.value = false;
+  await testsStore.getTests();
 };
 
 const openTestSetList = (testId: number, testSet: any) => {
