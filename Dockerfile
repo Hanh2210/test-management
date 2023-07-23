@@ -14,8 +14,8 @@ COPY . .
 
 # Run in production mode
 ENV NODE_ENV=production
-ARG API_BASE_URL
-ENV API_BASE_URL=${API_BASE_URL}
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 # Build the Nuxt 3 project
 RUN yarn build

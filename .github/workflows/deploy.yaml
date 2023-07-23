@@ -30,9 +30,9 @@ jobs:
         with:
           context: .
           build-args: |
-            "API_BASE_URL=${{ secrets.API_BASE_URL}}"
+            "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL}}"
           push: true
-          tags: h1598753/test-management:latest
+          tags: hoaithu86/test-management:latest
 
       - name: Log in to the EC2 instance
         uses: appleboy/ssh-action@v0.1.10
@@ -43,6 +43,6 @@ jobs:
           script: |
             docker stop test-management || true
             docker rm test-management || true
-            docker rmi h1598753/test-management:latest
-            docker pull h1598753/test-management:latest
-            docker run -d --restart=always --name=test-management -p 3000:3000 h1598753/test-management:latest
+            docker rmi hoaithu86/test-management:latest
+            docker pull hoaithu86/test-management:latest
+            docker run -d --restart=always --name=test-management -p 80:3000 hoaithu86/test-management:latest
