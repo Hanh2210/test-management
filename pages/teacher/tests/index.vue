@@ -78,7 +78,7 @@ const deleteTest = async (testId: number) => {
   const res = await testsStore.deleteById(testId);
 };
 
-// random test-set
+// Random test-set
 const openCreateTestSetDialog = async (testId: number) => {
   isShowRandomTestSet.value = true;
   currentTestId.value = testId;
