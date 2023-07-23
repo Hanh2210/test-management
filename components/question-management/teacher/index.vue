@@ -156,10 +156,9 @@ const filteredQuestions = computed(() => {
   <div class="search-question">
     <v-text-field
       v-model="searchText"
-      append-icon="mdi-magnify"
       label="Tìm kiếm câu hỏi"
-      single-line
-      hide-details
+      outlined
+      dense
     ></v-text-field>
   </div>
 

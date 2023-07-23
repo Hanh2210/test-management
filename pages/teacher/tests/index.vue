@@ -101,16 +101,43 @@ const openTestSetList = (testId: number, testSet: any) => {
 const exportTestSet = async (testSetId: number) => {
   await testsStore.exportTest(currentTestId.value, testSetId);
 };
+//search
+const searchQuery = ref("");
+const filteredTests = computed(() => {
+  const query = searchQuery.value.toLowerCase();
+  return tests.value.filter((test) => {
+    return (
+      test.id.toString().includes(query) ||
+      test.subjectTitle.toLowerCase().includes(query)
+      // test.createdAt.toLowerCase().includes(query) ||
+      // test.testDay.includes(query) ||
+      // test.testTime.includes(query)
+      // test.duration.toString().includes(query)
+    );
+  });
+});
 </script>
 
 <template>
   <h2 class="title">QUẢN LÝ ĐỀ THI</h2>
 
   <div class="create-tests">
-    <v-btn @click="createNewTest" :disabled="isOpenCreateForm"
-      ><v-icon icon="mdi-plus" />Thêm mới đề thi</v-btn
-    >
-
+    <v-row>
+      <v-col cols="6">
+        <v-btn @click="createNewTest" :disabled="isOpenCreateForm">
+          <v-icon icon="mdi-plus" />
+          Thêm mới đề thi
+        </v-btn>
+      </v-col>
+      <v-col cols="6">
+        <v-text-field
+          v-model="searchQuery"
+          label="Tìm kiếm bài thi"
+          outlined
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
     <div class="dialog-create-question">
       <v-row justify="center">
         <v-dialog v-model="isOpenCreateForm" persistent width="800">
@@ -203,7 +230,7 @@ const exportTestSet = async (testSetId: number) => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="test in tests" :key="test.id">
+      <tr v-for="test in filteredTests" :key="test.id">
         <td class="text-center">{{ test.id }}</td>
         <td class="text-center">{{ test.subjectTitle }}</td>
         <td class="text-center">{{ formatDate(test.createdAt) || "-" }}</td>
