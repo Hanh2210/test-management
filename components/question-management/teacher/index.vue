@@ -7,6 +7,7 @@ import { useTestStore } from "@/stores/test";
 const isEditQuestion = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
+const codeByFetchQuestionList = ref("");
 
 const questionStore = useQuestionStore();
 const subjectStore = useSubjectStore();
@@ -24,6 +25,7 @@ const subjects = computed(() => subjectStore.subjects);
 
 // get questions
 const fetchQuestionsBySubject = async (code: string): Promise<void> => {
+  codeByFetchQuestionList.value = code;
   await questionStore.getQuestions(code);
 };
 
@@ -106,6 +108,7 @@ const editQuestion = async (e: any) => {
     //   isEditQuestion.value = false;
     //   isShowSnack.value = true;
     //   titleSnack.value = "Sửa câu hỏi thành công!";
+    await questionStore.getQuestions(codeByFetchQuestionList.value);
   } catch (error) {
     // Handle the error
     console.error(error);

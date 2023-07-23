@@ -11,6 +11,8 @@ const classDetail = ref({});
 const classCode = ref();
 const examClassId = ref(0);
 const onlineExamState = ref("");
+const dateTimeOfTest = ref("");
+const isDisabledButtonOnlineExam = ref(false);
 
 //get class
 const res = await studentStore.getExamClass();
@@ -18,12 +20,27 @@ const examClasses = computed(() => studentStore.examClass);
 const examClassDetail = computed(() => studentStore.examClassDetail);
 const testDetail = computed(() => studentStore.testDetail);
 
+const isDateTimeOutsideRange = (now: any, dateTimeOfTest: any) => {
+  //  disable những bài chưa tới hoặc đã quá hạn
+  //return now < dateTimeOfTest || now > dateTimeOfTest;
+
+  // chỉ disabled những bài đã quá hạn
+  return now > dateTimeOfTest;
+};
+
 const openExamClassDetail = async (classId: number, code: string) => {
   await studentStore.getExamClassDetail(classId);
   classDetail.value = examClassDetail.value;
   classCode.value = code;
   examClassId.value = classId;
   onlineExamState.value = examClassDetail.value.test.state;
+  dateTimeOfTest.value = `${examClassDetail.value.test.testDay} ${examClassDetail.value.test.testTime}`;
+
+  const nowDate = new Date(dateTimeOfTest.value);
+  isDisabledButtonOnlineExam.value = isDateTimeOutsideRange(
+    new Date(),
+    nowDate
+  );
   isOpenExamClassDetail.value = true;
 };
 
@@ -134,7 +151,9 @@ const testOnline = async () => {
             color="blue-darken-1"
             variant="text"
             @click="testOnline"
-            :disabled="onlineExamState === 'FINISHED'"
+            :disabled="
+              onlineExamState === 'FINISHED' || isDisabledButtonOnlineExam
+            "
           >
             Bắt đầu thi
           </v-btn>
