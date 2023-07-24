@@ -117,6 +117,7 @@ export const useStudentStore = defineStore("student", () => {
   };
 
   const updateProfile = async (data: {
+    course: number;
     email: string;
     fullName: string;
     birthday: string;

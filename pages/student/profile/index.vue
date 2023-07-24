@@ -5,6 +5,7 @@ const studentStore = useStudentStore();
 const authUser = computed(() => authStore.currentUser);
 
 const updateStudentProfile = async (
+  course: number,
   email: string,
   fullName: string,
   birthday: string,
@@ -12,6 +13,7 @@ const updateStudentProfile = async (
   phoneNumber: string
 ) => {
   const res = await studentStore.updateProfile({
+    course,
     email,
     fullName,
     birthday,
@@ -109,6 +111,7 @@ const updateStudentProfile = async (
         class="action"
         @click="
           updateStudentProfile(
+            authUser.course,
             authUser.email,
             authUser.fullName,
             authUser.birthday,
