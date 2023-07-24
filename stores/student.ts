@@ -168,6 +168,34 @@ export const useStudentStore = defineStore("student", () => {
       .catch((err) => {});
   };
 
+  const uploadImages = async (examClassCode: string, formData: FormData) => {
+    try {
+      const res = await apis.api!.post(
+        `/student-test/uploads?examClassCode=${examClassCode}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
+  const readImages = async (classCode: string) => {
+    const res = await apis
+      .api!.get(`student-test/auto/read?classCode=${classCode}`)
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+    examClass.value = res?.data || [];
+  };
+
   return {
     students,
     isCreating,
@@ -185,5 +213,7 @@ export const useStudentStore = defineStore("student", () => {
     getExamClassDetail,
     fetchTestDetail,
     submitOnlineExam,
+    uploadImages,
+    readImages,
   };
 });
