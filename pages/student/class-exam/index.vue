@@ -3,6 +3,7 @@ import { VDataTable } from "vuetify/labs/VDataTable";
 import { Student } from "@/types";
 import { useStudentStore } from "@/stores/student";
 import { formatDate } from "@/utils";
+import { count } from "console";
 
 const studentStore = useStudentStore();
 
@@ -19,6 +20,24 @@ const res = await studentStore.getExamClass();
 const examClasses = computed(() => studentStore.examClass);
 const examClassDetail = computed(() => studentStore.examClassDetail);
 const testDetail = computed(() => studentStore.testDetail);
+const countDownTime = ref(0);
+
+const timer = ref<NodeJS.Timer>();
+
+const disabledButtonOnlineExam = computed(
+  () => isDisabledButtonOnlineExam.value || !!countDownTime.value
+);
+
+const formatTime = computed(() => {
+  if (countDownTime.value <= 0) return "";
+  const hours = Math.floor(countDownTime.value / 3600);
+  const minutes = Math.floor((countDownTime.value - hours * 3600) / 60);
+  const seconds = countDownTime.value % 60;
+
+  return `${hours ? hours + ":" : ""}${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+});
 
 const isDateTimeOutsideRange = (now: any, dateTimeOfTest: any) => {
   //  disable những bài chưa tới hoặc đã quá hạn
@@ -42,7 +61,27 @@ const openExamClassDetail = async (classId: number, code: string) => {
     nowDate
   );
   isOpenExamClassDetail.value = true;
+  console.log(new Date(dateTimeOfTest.value));
+  const time = new Date(dateTimeOfTest.value).getTime() - new Date().getTime();
+  countDownTime.value = time > 0 ? Math.round(time / 60) : 0;
+  if (onlineExamState.value === "FINISHED") countDownTime.value = 0;
+  countDown();
 };
+
+const countDown = () => {
+  timer.value = setInterval(() => {
+    if (countDownTime.value <= 0) clearInterval(timer.value);
+    else {
+      countDownTime.value -= 1;
+    }
+  }, 1000);
+};
+
+onDeactivated(() => clearInterval(timer.value));
+
+watch(isOpenExamClassDetail, (newVal) => {
+  if (!newVal) clearInterval(timer.value);
+});
 
 const testOnline = async () => {
   const router = useRouter();
@@ -152,10 +191,10 @@ const testOnline = async () => {
             variant="text"
             @click="testOnline"
             :disabled="
-              onlineExamState === 'FINISHED' || isDisabledButtonOnlineExam
+              onlineExamState === 'FINISHED' || disabledButtonOnlineExam
             "
           >
-            Bắt đầu thi
+            {{ formatTime }} Bắt đầu thi
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { signIn, SignInResponse } from "@/models/auth";
 import { AUTH_USER, AUTH_USER_TYPE } from "@/types/index";
-import {useAuthStore} from "@/stores/auth"
+import { useAuthStore } from "@/stores/auth";
 
 definePageMeta({
   layout: "auth",
-  middleware: ["login"]
+  middleware: ["login"],
 });
 const router = useRouter();
 const form = ref();
@@ -13,36 +13,37 @@ const username = ref("");
 const password = ref("");
 const showPassword = ref(false);
 
-const isProcessing = ref(false)
+const isProcessing = ref(false);
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const onSubmit = async (): Promise<void> => {
   if (!form || isProcessing.value) return;
-  isProcessing.value = true
+  isProcessing.value = true;
   try {
     const res = await signIn(username.value, password.value);
     const { data } = res;
     if (data) {
-      await authStore.handleLogin(data.accessToken, data.refreshToken)
+      await authStore.handleLogin(data.accessToken, data.refreshToken);
       const { roles } = data;
       handleRouter(roles);
     }
   } catch (error) {
     // console.log(error);
   }
-  isProcessing.value = false
+  isProcessing.value = false;
 };
 
 const handleRouter = (roles: AUTH_USER_TYPE[]): void => {
-  roles.forEach((role) => {
+  roles.forEach(async (role) => {
     switch (role) {
       case "ROLE_ADMIN": {
         router.push("/admin/home");
         break;
       }
       case "ROLE_STUDENT": {
-        router.push("/student/home");
+        // router.push("/student/home");
+        await navigateTo("/student/home");
         break;
       }
       case "ROLE_TEACHER": {
@@ -58,7 +59,6 @@ const handleRouter = (roles: AUTH_USER_TYPE[]): void => {
 const requiredName = (v: any) => !!v || `Full name is required`;
 
 const requiredPassword = (v: any) => !!v || `Password is required`;
-
 </script>
 
 <template>
