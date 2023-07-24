@@ -10,7 +10,7 @@ const MAX_RETRY_ATTEMPTS = 1;
 export const createAPI = (baseURL: string, requireAuth: boolean) => {
   const instance = axios.create({
     baseURL: baseURL, //Ex: "https://some-domain.com/api/",
-    timeout: 10000,
+    timeout: 20000,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": true,
