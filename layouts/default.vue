@@ -155,15 +155,12 @@ const rail = ref(true);
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <v-main
-        ><div class="page-container"><slot /></div
+      <v-main>
+        <div class="page-container">
+          <slot />
+        </div
       ></v-main>
     </v-layout>
-    <!-- </v-card> -->
-
-    <!-- <div ref="pageContainer" class="page-container">
-      <slot />
-    </div> -->
   </div>
 </template>
 
