@@ -13,7 +13,6 @@ const classCode = ref();
 const examClassId = ref(0);
 const onlineExamState = ref("");
 const dateTimeOfTest = ref("");
-const isDisabledButtonOnlineExam = ref(false);
 
 //get class
 const res = await studentStore.getExamClass();
@@ -23,6 +22,21 @@ const testDetail = computed(() => studentStore.testDetail);
 const countDownTime = ref(0);
 
 const timer = ref<NodeJS.Timer>();
+const currentTimer = ref<NodeJS.Timer>();
+
+const now = ref(new Date().getTime());
+
+const isDisabledButtonOnlineExam = computed(() => {
+  //  disable những bài chưa tới hoặc đã quá hạn
+  //return now < dateTimeOfTest || now > dateTimeOfTest;
+
+  // chỉ disabled những bài đã quá hạn
+  return (
+    now.value >
+    new Date(dateTimeOfTest.value).getTime() +
+      examClassDetail.value.test.duration * 60 * 1000
+  );
+});
 
 const disabledButtonOnlineExam = computed(
   () => isDisabledButtonOnlineExam.value || !!countDownTime.value
@@ -39,14 +53,6 @@ const formatTime = computed(() => {
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 });
 
-const isDateTimeOutsideRange = (now: any, dateTimeOfTest: any) => {
-  //  disable những bài chưa tới hoặc đã quá hạn
-  //return now < dateTimeOfTest || now > dateTimeOfTest;
-
-  // chỉ disabled những bài đã quá hạn
-  return now > dateTimeOfTest;
-};
-
 const openExamClassDetail = async (classId: number, code: string) => {
   await studentStore.getExamClassDetail(classId);
   classDetail.value = examClassDetail.value;
@@ -55,15 +61,10 @@ const openExamClassDetail = async (classId: number, code: string) => {
   onlineExamState.value = examClassDetail.value.test.state;
   dateTimeOfTest.value = `${examClassDetail.value.test.testDay} ${examClassDetail.value.test.testTime}`;
 
-  const nowDate = new Date(dateTimeOfTest.value);
-  isDisabledButtonOnlineExam.value = isDateTimeOutsideRange(
-    new Date(),
-    nowDate
-  );
   isOpenExamClassDetail.value = true;
-  console.log(new Date(dateTimeOfTest.value));
   const time = new Date(dateTimeOfTest.value).getTime() - new Date().getTime();
-  countDownTime.value = time > 0 ? Math.round(time / 60) : 0;
+  countDownTime.value =
+    time > 0 && Math.floor(time / 1000) - 30 ? Math.floor(time / 1000) - 30 : 0;
   if (onlineExamState.value === "FINISHED") countDownTime.value = 0;
   countDown();
 };
@@ -77,7 +78,15 @@ const countDown = () => {
   }, 1000);
 };
 
-onDeactivated(() => clearInterval(timer.value));
+onMounted(() => {
+  currentTimer.value = setInterval(() => {
+    now.value += 1000;
+  }, 1000);
+});
+onDeactivated(() => {
+  clearInterval(timer.value);
+  clearInterval(currentTimer.value);
+});
 
 watch(isOpenExamClassDetail, (newVal) => {
   if (!newVal) clearInterval(timer.value);
