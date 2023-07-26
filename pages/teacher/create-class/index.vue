@@ -31,7 +31,7 @@ const students = computed(() => studentStore.students);
 const tab = ref(null);
 const roomName = ref("");
 const semester = ref("");
-const code = ref("");
+// const code = ref("");
 const studentIds = ref([]);
 const testId = ref(0);
 const classCode = ref("");
@@ -39,6 +39,7 @@ const isPublicExam = ref(false);
 const isShowCreateExamClass = ref(false);
 const isShowConfirmDelete = ref(false);
 const classToDeleteId = ref(null);
+const examClassCode = ref("");
 
 const openDialog = () => {
   isShowCreateExamClass.value = true;
@@ -47,7 +48,7 @@ const openDialog = () => {
 const clear = () => {
   roomName.value = "";
   semester.value = "";
-  code.value = "";
+  examClassCode.value = "";
   studentIds.value = [];
   testId.value = 0;
   isShowCreateExamClass.value = false;
@@ -57,7 +58,7 @@ const submit = async (): Promise<void> => {
   const res = await examClassStore.createExamClass({
     roomName: roomName.value,
     semester: semester.value,
-    code: code.value,
+    code: examClassCode.value,
     studentIds: studentIds.value,
     testId: testId.value,
   });
@@ -119,19 +120,17 @@ const deleteClass = async (id: number) => {
                           required
                         ></v-text-field>
                         <v-text-field
+                          v-model="examClassCode"
+                          label="Nhập mã lớp"
+                          required
+                          :maxlength="6"
+                          type="number"
+                        ></v-text-field>
+                        <v-text-field
                           v-model="semester"
                           label="Nhập học kỳ"
                           required
                         ></v-text-field>
-                        <v-select
-                          label="--Chọn môn học--"
-                          :items="subjects"
-                          item-title="title"
-                          item-value="code"
-                          class="select"
-                          v-model="code"
-                          :variant="'outlined'"
-                        ></v-select>
                         <v-select
                           label="--Chọn sinh viên--"
                           :items="students"
