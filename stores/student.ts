@@ -197,6 +197,14 @@ export const useStudentStore = defineStore("student", () => {
     examClass.value = res?.data || [];
   };
 
+  const markTest = async (data: any) => {
+    const res = await apis
+      .api!.post(`student-test/auto/mark`, data)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return {
     students,
     isCreating,
@@ -216,5 +224,6 @@ export const useStudentStore = defineStore("student", () => {
     submitOnlineExam,
     uploadImages,
     readImages,
+    markTest,
   };
 });

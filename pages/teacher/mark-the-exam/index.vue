@@ -31,6 +31,23 @@ const isShowAnswer = ref(false);
 const openAnswerDialog = async () => {
   isShowAnswer.value = true;
 };
+const markTest = async (): Promise<void> => {
+  const mark = [
+    {
+      classCode: "200789",
+      studentCode: "20203478",
+      testNo: 102,
+      answers: [
+        {
+          questionNo: 1,
+          isSelected: "B",
+        },
+      ],
+    },
+  ];
+  console.log("Test", studentTests.value);
+  await studentStore.markTest(mark);
+};
 </script>
 <template>
   <h2 class="title">CHẤM ĐIỂM TỰ ĐỘNG</h2>
@@ -56,6 +73,7 @@ const openAnswerDialog = async () => {
     ></v-file-input>
     <v-btn @click="uploadImages">upload ảnh</v-btn>
     <v-btn @click="readImages">đọc ảnh</v-btn>
+    <v-btn @click="markTest">Chấm</v-btn>
   </div>
   <div class="table-container">
     <v-table class="answer-table" fixed-header height="500px">
