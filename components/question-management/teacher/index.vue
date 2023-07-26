@@ -37,6 +37,7 @@ const checkedIds = ref<number[]>([]);
 const testDay = ref("");
 const testTime = ref("");
 const duration = ref(0);
+const totalPoint = ref(0);
 
 const toggleCreateForm = () => {
   isShowCreateForm.value = !isShowCreateForm.value;
@@ -64,6 +65,7 @@ const createTestByCheckbox = async (): Promise<void> => {
     testDay: testDay.value,
     duration: +duration.value,
     testTime: testTime.value,
+    totalPoint: +totalPoint.value,
   });
   isShowCreateForm.value = false;
 };
@@ -182,6 +184,11 @@ const filteredQuestions = computed(() => {
       <v-text-field
         v-model="duration"
         label="Nhập thời gian làm bài"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="totalPoint"
+        label="Nhập tổng điểm"
         required
       ></v-text-field>
       <v-btn @click="createTestByCheckbox">Tạo đề thi</v-btn>

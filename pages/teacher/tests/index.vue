@@ -12,6 +12,7 @@ const chapterOrders = ref([]);
 const questionQuantity = ref(0);
 const testDay = ref("");
 const duration = ref(0);
+const totalPoint = ref(0);
 const isOpenCreateForm = ref(false);
 const titleSnack = ref("");
 const isShowSnack = ref(false);
@@ -51,7 +52,8 @@ const submitCreateForm = async () => {
     +questionQuantity.value,
     testDay.value,
     +duration.value,
-    testTime.value
+    testTime.value,
+    +totalPoint.value
   );
   await testsStore.getTests();
   isShowSnack.value = true;
@@ -65,6 +67,7 @@ const cancelCreateForm = () => {
   questionQuantity.value = 0;
   testDay.value = "";
   duration.value = 0;
+  totalPoint.value = 0;
   isOpenCreateForm.value = false;
 };
 
@@ -193,12 +196,20 @@ const filteredTests = computed(() => {
                       v-model="testTime"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12">
+                  <v-col cols="12" class="mb-4">
                     <v-text-field
                       label="Nhập thời gian làm bài"
                       required
                       :placeholder="'Nhập thời gian làm bài'"
                       v-model="duration"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Nhập tổng điểm"
+                      required
+                      :placeholder="'Nhập tổng điểm'"
+                      v-model="totalPoint"
                     ></v-text-field>
                   </v-col>
                 </v-row>

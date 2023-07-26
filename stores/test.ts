@@ -40,7 +40,8 @@ export const useTestStore = defineStore("test", () => {
     questionQuantity: number,
     testDay: string,
     duration: number,
-    testTime: string
+    testTime: string,
+    totalPoint: number
   ) => {
     const res = await apis
       .api!.post("/test/create/random", {
@@ -50,6 +51,7 @@ export const useTestStore = defineStore("test", () => {
         testDay,
         duration,
         testTime,
+        totalPoint,
       })
       .catch((err) => {});
   };
@@ -59,6 +61,7 @@ export const useTestStore = defineStore("test", () => {
     testDay: string;
     duration: number;
     testTime: string;
+    totalPoint: number;
   }) => {
     const res = await apis.api!.post("/test/create", data).catch((err) => {});
   };
