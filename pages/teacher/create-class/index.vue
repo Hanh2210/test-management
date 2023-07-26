@@ -123,8 +123,7 @@ const deleteClass = async (id: number) => {
                           v-model="examClassCode"
                           label="Nhập mã lớp"
                           required
-                          :maxlength="6"
-                          type="number"
+                          maxlength="6"
                         ></v-text-field>
                         <v-text-field
                           v-model="semester"
