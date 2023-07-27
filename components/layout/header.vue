@@ -5,12 +5,33 @@ defineProps<{ rail: boolean }>();
 
 const authStore = useAuthStore();
 const username = computed(() => authStore.currentUser.username);
-
+const roles = computed(() => authStore.currentUser.roles);
 const router = useRouter();
 
 const logout = () => {
   authStore.logout();
   router.push("/auth/login");
+};
+
+const navigateToProfile = () => {
+  roles.value.forEach(async (role: string) => {
+    switch (role) {
+      case "ROLE_ADMIN": {
+        router.push("/admin/profile");
+        break;
+      }
+      case "ROLE_STUDENT": {
+        await navigateTo("/student/profile");
+        break;
+      }
+      case "ROLE_TEACHER": {
+        router.push("/teacher/profile");
+        break;
+      }
+      default:
+        break;
+    }
+  });
 };
 </script>
 
@@ -38,7 +59,7 @@ const logout = () => {
           />
         </template>
         <v-list>
-          <v-list-item value="0">
+          <v-list-item value="0" @click="navigateToProfile">
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
           <v-list-item value="1" @click="logout">
