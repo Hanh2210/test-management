@@ -122,6 +122,20 @@ const deleteQuestion = async (id: number) => {
   const res = await questionStore.deleteById(id);
 };
 
+// Method để trả về class tương ứng với level của câu hỏi
+const getDifficultyClass = (level: string) => {
+  switch (level) {
+    case "EASY":
+      return "easy";
+    case "MEDIUM":
+      return "medium";
+    case "HARD":
+      return "hard";
+    default:
+      return "";
+  }
+};
+
 // Search field
 const searchText = ref("");
 const filteredQuestions = computed(() => {
@@ -215,7 +229,9 @@ const filteredQuestions = computed(() => {
           </td>
           <td>{{ question.id }}</td>
           <td>{{ question.topicText }}</td>
-          <td>{{ question.level }}</td>
+          <td :class="getDifficultyClass(question.level)">
+            {{ question.level }}
+          </td>
           <td class="action">
             <v-icon
               size="small"
@@ -313,6 +329,20 @@ const filteredQuestions = computed(() => {
 .search-question {
   width: 400px;
   padding-bottom: 16px;
+}
+/* Màu cho level EASY */
+.easy {
+  color: #009900;
+}
+
+/* Màu cho level MEDIUM */
+.medium {
+  color: #ffcc00;
+}
+
+/* Màu cho level HARD */
+.hard {
+  color: #ff0000;
 }
 :deep(.v-table__wrapper) {
   height: calc(100vh - 350px) !important;
