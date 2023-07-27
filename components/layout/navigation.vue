@@ -31,11 +31,11 @@ const menuByAdmin: MenuItem[] = [
     icon: "mdi-book-open-page-variant",
     path: "/admin/questions-management",
   },
-  {
-    title: "Quản lý tài khoản",
-    icon: "mdi-account-circle",
-    path: "/admin/profile",
-  },
+  // {
+  //   title: "Quản lý tài khoản",
+  //   icon: "mdi-account-circle",
+  //   path: "/admin/profile",
+  // },
 ];
 
 const menuByStudent: MenuItem[] = [
@@ -54,11 +54,11 @@ const menuByStudent: MenuItem[] = [
     icon: "mdi-google-classroom",
     path: "/student/class-exam",
   },
-  {
-    title: "Quản lý tài khoản",
-    icon: "mdi-account-circle",
-    path: "/student/profile",
-  },
+  // {
+  //   title: "Quản lý tài khoản",
+  //   icon: "mdi-account-circle",
+  //   path: "/student/profile",
+  // },
 ];
 
 const menuByTeacher: MenuItem[] = [
@@ -97,11 +97,11 @@ const menuByTeacher: MenuItem[] = [
     icon: "mdi-lead-pencil",
     path: "/teacher/mark-the-exam",
   },
-  {
-    title: "Quản lý tài khoản",
-    icon: "mdi-account-circle",
-    path: "/teacher/profile",
-  },
+  // {
+  //   title: "Quản lý tài khoản",
+  //   icon: "mdi-account-circle",
+  //   path: "/teacher/profile",
+  // },
 ];
 
 const menus = computed(() => {
