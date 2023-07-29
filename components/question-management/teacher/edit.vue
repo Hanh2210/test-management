@@ -3,6 +3,8 @@ import { LEVEL, Subject } from "@/types";
 import { useSubjectStore } from "@/stores/subject";
 const subjectStore = useSubjectStore();
 
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 const props = defineProps({
   isEditQuestion: {
     type: Boolean,
@@ -48,6 +50,8 @@ const editQuestion = () => {
   console.log("file trc emit", file.value);
   emit("edit", { question, file: file.value[0] });
   closeDialog();
+  isShowSnack.value = true;
+  titleSnack.value = "Sửa câu hỏi thành công!";
 };
 </script>
 
@@ -150,6 +154,13 @@ const editQuestion = () => {
       </v-dialog>
     </v-row>
   </div>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
+    </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>

@@ -43,6 +43,16 @@ const answers = ref([
 const fileImage = ref(null);
 const isCreateQuestion = ref(false);
 
+const clear = () => {
+  topicText.value = "";
+  answers.value = [
+    { content: "", isCorrected: "" },
+    { content: "", isCorrected: "" },
+    { content: "", isCorrected: "" },
+    { content: "", isCorrected: "" },
+  ];
+};
+
 const submit = async (): Promise<void> => {
   try {
     const data = {
@@ -67,6 +77,7 @@ const submit = async (): Promise<void> => {
     isShowSnack.value = true;
     titleSnack.value = "Thêm câu hỏi thành công!";
     isCreateQuestion.value = false;
+    clear();
   } catch (error) {
     // Handle the error
     console.error(error);

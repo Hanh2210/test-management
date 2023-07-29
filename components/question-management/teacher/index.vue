@@ -120,6 +120,8 @@ const editQuestion = async (e: any) => {
 const deleteQuestion = async (id: number) => {
   isShowConfirmDelete.value = false;
   const res = await questionStore.deleteById(id);
+  isShowSnack.value = true;
+  titleSnack.value = "Xóa câu hỏi thành công!";
 };
 
 // Method để trả về class tương ứng với level của câu hỏi

@@ -28,6 +28,8 @@ const subjects = computed(() => subjectStore.subjects);
 const tests = computed(() => testStore.tests);
 const students = computed(() => studentStore.students);
 
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 const tab = ref(null);
 const roomName = ref("");
 const semester = ref("");
@@ -63,6 +65,8 @@ const submit = async (): Promise<void> => {
     testId: testId.value,
   });
   await examClassStore.getExamClasses();
+  isShowSnack.value = true;
+  titleSnack.value = "Thêm lớp thi thành công!";
   clear();
 };
 
@@ -303,6 +307,13 @@ const deleteClass = async (id: number) => {
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
+    </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>

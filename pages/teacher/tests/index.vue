@@ -233,7 +233,7 @@ const filteredTests = computed(() => {
         <th class="text-center">Ngày tạo</th>
         <th class="text-center">Ngày mở đề</th>
         <th class="text-center">Giờ mở đề</th>
-        <!-- <th class="text-center">Tổng điểm</th> -->
+        <th class="text-center">Tổng điểm</th>
         <th class="text-center">Thời gian làm bài (phút)</th>
         <th class="text-center">Random mã đề</th>
         <th class="text-center">Chi tiết mã đề</th>
@@ -247,7 +247,7 @@ const filteredTests = computed(() => {
         <td class="text-center">{{ formatDate(test.createdAt) || "-" }}</td>
         <td class="text-center">{{ test.testDay }}</td>
         <td class="text-center">{{ test.testTime }}</td>
-        <!-- <td class="text-center">{{ test.totalPoint }}</td> -->
+        <td class="text-center">{{ test.totalPoint }}</td>
         <td class="text-center">{{ test.duration }}</td>
         <td
           class="text-center random"
