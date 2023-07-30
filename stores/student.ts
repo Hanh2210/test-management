@@ -10,6 +10,7 @@ export const useStudentStore = defineStore("student", () => {
   const students = ref<Student[]>([]);
   const isCreating = ref(false);
   const examClass = ref([]);
+  const examClassMark = ref([]);
   const examClassDetail = ref();
   const testDetail = ref<TestDetail>();
 
@@ -203,12 +204,14 @@ export const useStudentStore = defineStore("student", () => {
       .catch((err) => {
         console.log(err);
       });
+    examClassMark.value = res?.data || [];
   };
 
   return {
     students,
     isCreating,
     examClass,
+    examClassMark,
     examClassDetail,
     testDetail,
     getStudents,

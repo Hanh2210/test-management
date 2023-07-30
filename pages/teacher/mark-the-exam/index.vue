@@ -31,22 +31,26 @@ const isShowAnswer = ref(false);
 const openAnswerDialog = async () => {
   isShowAnswer.value = true;
 };
-const markTest = async (): Promise<void> => {
-  const mark = [
-    {
-      classCode: "200789",
-      studentCode: "20203478",
-      testNo: 102,
-      answers: [
-        {
-          questionNo: 1,
-          isSelected: "B",
-        },
-      ],
-    },
-  ];
+const markTest = async () => {
+  // const mark = [
+  //   {
+  //     classCode: "200789",
+  //     studentCode: "20203478",
+  //     testNo: 102,
+  //     answers: [
+  //       {
+  //         questionNo: 1,
+  //         isSelected: "B",
+  //       },
+  //     ],
+  //   },
+  // ];
   console.log("Test", studentTests.value);
-  await studentStore.markTest(mark);
+  await studentStore.markTest(studentTests.value);
+};
+const markTests = computed(() => studentStore.examClassMark);
+const check = async () => {
+  console.log("final", markTests.value);
 };
 </script>
 <template>
@@ -74,6 +78,7 @@ const markTest = async (): Promise<void> => {
     <v-btn @click="uploadImages">upload ảnh</v-btn>
     <v-btn @click="readImages">đọc ảnh</v-btn>
     <v-btn @click="markTest">Chấm</v-btn>
+    <v-btn @click="check">Check</v-btn>
   </div>
   <div class="table-container">
     <v-table class="answer-table" fixed-header height="500px">
@@ -84,6 +89,7 @@ const markTest = async (): Promise<void> => {
           <th class="cell text-center">Mã đề</th>
           <th class="cell text-center">Số Câu Đúng</th>
           <th class="cell text-center">Điểm</th>
+          <th class="cell text-center">Tổng điểm</th>
           <th class="cell text-center">Actions</th>
         </tr>
       </thead>
@@ -92,8 +98,9 @@ const markTest = async (): Promise<void> => {
           <td class="cell text-center">{{ index + 1 }}</td>
           <td class="cell text-center">{{ studentTest.studentCode }}</td>
           <td class="cell text-center">{{ studentTest.testNo }}</td>
-          <td class="cell text-center">{{ studentTest.testNo }}</td>
-          <td class="cell text-center">{{ studentTest.testNo }}</td>
+          <td class="cell text-center">{{ markTests[0].mark }}</td>
+          <td class="cell text-center">{{ markTests[0].grade }}</td>
+          <td class="cell text-center">{{ markTests[0].totalPoint }}</td>
           <td class="cell text-center details" @click="openAnswerDialog()">
             Chi tiết
           </td>
