@@ -5,6 +5,8 @@ const examClassStore = useExamClassStore();
 const studentStore = useStudentStore();
 const classCode = ref("");
 const fileImages = ref([]);
+const titleSnack = ref("");
+const isShowSnack = ref(false);
 const examClasses = computed(() => examClassStore.examClasses);
 // get exam class
 await examClassStore.getExamClasses();
@@ -25,11 +27,16 @@ const uploadImages = async () => {
 
 const readImages = async () => {
   const res = await studentStore.readImages(classCode.value);
+  isShowSnack.value = true;
+  titleSnack.value = "Đọc ảnh thành công!";
 };
 const studentTests = computed(() => studentStore.examClass);
 const isShowAnswer = ref(false);
-const openAnswerDialog = async () => {
+const answers = ref([]);
+const openAnswerDialog = async (answer: []) => {
   isShowAnswer.value = true;
+  answers.value = answer;
+  console.log("answer", answers.value);
 };
 const markTest = async () => {
   // const mark = [
@@ -51,6 +58,33 @@ const markTest = async () => {
 const markTests = computed(() => studentStore.examClassMark);
 const check = async () => {
   console.log("final", markTests.value);
+};
+//convert answer
+const convertSelection = (isSelected: string) => {
+  switch (isSelected) {
+    case "1000":
+      return "A";
+    case "0100":
+      return "B";
+    case "0010":
+      return "C";
+    case "0001":
+      return "D";
+    case "0000":
+      return "null";
+    default:
+      return "";
+  }
+};
+const showIsCorrected = (isCorrected: boolean) => {
+  switch (isCorrected) {
+    case true:
+      return "true";
+    case false:
+      return "false";
+    default:
+      return "";
+  }
 };
 </script>
 <template>
@@ -78,7 +112,7 @@ const check = async () => {
     <v-btn @click="uploadImages">upload ảnh</v-btn>
     <v-btn @click="readImages">đọc ảnh</v-btn>
     <v-btn @click="markTest">Chấm</v-btn>
-    <v-btn @click="check">Check</v-btn>
+    <!-- <v-btn @click="check">Check</v-btn> -->
   </div>
   <div class="table-container">
     <v-table class="answer-table" fixed-header height="500px">
@@ -94,7 +128,7 @@ const check = async () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(studentTest, index) in studentTests" :key="index">
+        <!-- <tr v-for="(studentTest, index) in studentTests" :key="index">
           <td class="cell text-center">{{ index + 1 }}</td>
           <td class="cell text-center">{{ studentTest.studentCode }}</td>
           <td class="cell text-center">{{ studentTest.testNo }}</td>
@@ -102,6 +136,20 @@ const check = async () => {
           <td class="cell text-center">{{ markTests[0].grade }}</td>
           <td class="cell text-center">{{ markTests[0].totalPoint }}</td>
           <td class="cell text-center details" @click="openAnswerDialog()">
+            Chi tiết
+          </td>
+        </tr> -->
+        <tr v-for="(markTest, index) in markTests" :key="index">
+          <td class="cell text-center">{{ index + 1 }}</td>
+          <td class="cell text-center">{{ markTest.studentCode }}</td>
+          <td class="cell text-center">{{ markTest.testNo }}</td>
+          <td class="cell text-center">{{ markTest.mark }}</td>
+          <td class="cell text-center">{{ markTest.grade }}</td>
+          <td class="cell text-center">{{ markTest.totalPoint }}</td>
+          <td
+            class="cell text-center details"
+            @click="openAnswerDialog(markTest.answers)"
+          >
             Chi tiết
           </td>
         </tr>
@@ -117,14 +165,26 @@ const check = async () => {
         <v-table fixed-header height="300px">
           <thead>
             <tr>
-              <th class="text-left">Câu</th>
-              <th class="text-left">Đáp án</th>
+              <th class="text-center">Câu</th>
+              <th class="text-center">Câu trả lời</th>
+              <th class="text-center">Đáp án</th>
             </tr>
           </thead>
-          <tbody v-for="(studentTest, index) in studentTests" :key="index">
-            <tr v-for="answer in studentTest.answers" :key="answer.questionNo">
-              <td>{{ answer.questionNo }}</td>
-              <td>{{ answer.isSelected }}</td>
+          <tbody>
+            <tr
+              v-for="(answer, index) in answers"
+              :key="index"
+              class="text-center"
+            >
+              <td>
+                {{ answer.questionNo }}
+              </td>
+              <td :class="showIsCorrected(answer.isCorrected)">
+                {{ convertSelection(answer.isSelected) }}
+              </td>
+              <td :class="showIsCorrected(answer.isCorrected)">
+                {{ answer.corrected }}
+              </td>
             </tr>
           </tbody>
         </v-table>
@@ -137,6 +197,13 @@ const check = async () => {
       </v-card>
     </v-dialog>
   </v-row>
+  <template>
+    <div class="text-center ma-2">
+      <v-snackbar v-model="isShowSnack" :timeout="1200" :color="'#2196F3'">
+        {{ titleSnack }}
+      </v-snackbar>
+    </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>
@@ -203,5 +270,16 @@ const check = async () => {
 .details {
   color: $primary-color;
   cursor: pointer;
+}
+// .true {
+//   color: green;
+//   font-weight: bold;
+// }
+.false {
+  color: red;
+  font-weight: bold;
+}
+:deep(.v-btn) {
+  margin-right: 16px;
 }
 </style>
