@@ -1,116 +1,10 @@
 <script lang="ts" setup>
-const subjectName = ref("ETS TOEIC 2020 Test 7");
-const mark = ref("80/100");
-const percent = ref("80%");
-const time = ref("1:29:02");
+import { useStudentStore } from "@/stores/student";
+const studentStore = useStudentStore();
+const testDetail = computed(() => studentStore.studentTestDetail);
+
 const isOpenDialog = ref(false);
-const resultDetail = [
-  {
-    id: 1,
-    order: 1,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "A",
-    resultKey: "A",
-    titleKey:
-      " (84) The Clark Institute is offering Internet classes to train you on these new rules.Dịch: Viện Clark đang cung cấp các lớp học Internet để đào tạo bạn về các quy tắc mới này. Điều gì đang được quảng cáo?",
-    isCorrect: true,
-  },
-  {
-    id: 2,
-    order: 2,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "A",
-    resultKey: "B",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: false,
-  },
-  {
-    id: 3,
-    order: 3,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "C",
-    resultKey: "C",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: true,
-  },
-  {
-    id: 4,
-    order: 4,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "B",
-    resultKey: "B",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: true,
-  },
-  {
-    id: 5,
-    order: 5,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "A",
-    resultKey: "C",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: false,
-  },
-  {
-    id: 6,
-    order: 6,
-    question: "What still needs to be confirmed?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "C",
-    titleKey: "Vì nó đúng hihih",
-    resultKey: "C",
-    isCorrect: true,
-  },
-  {
-    id: 7,
-    order: 7,
-    answerKey: "B",
-    question: "What still needs to be confirmed?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    resultKey: "B",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: true,
-  },
-  {
-    id: 8,
-    order: 8,
-    question: "Are you sure you want to?",
-    answer1: "A. The event location",
-    answer2: "B. The registration fee",
-    answer3: "C. The start time",
-    answer4: "D. The catering arrangements",
-    answerKey: "A",
-    resultKey: "C",
-    titleKey: "Vì nó đúng hihih",
-    isCorrect: false,
-  },
-];
+
 const resultDetailQuestion = ref(null);
 
 const openResultDetail = (result: any) => {
@@ -124,76 +18,37 @@ const closeDialog = () => {
 </script>
 
 <template>
-  <h2 class="title">Kết quả luyện tập: {{ subjectName }}</h2>
+  <h2 class="title">Mã đề: {{ testDetail.testNo }}</h2>
 
-  <div class="result-wrapper">
-    <div class="navigation">
-      <div class="item">
-        <v-icon icon="mdi-pencil"></v-icon>
-        <span class="text">Kết quả làm bài</span>
-        <span class="score">{{ mark }}</span>
-      </div>
-      <div class="item">
-        <v-icon icon="mdi-check"></v-icon>
-        <span class="text">Độ chính xác</span>
-        <span class="score">{{ percent }}</span>
-      </div>
-      <div class="item">
-        <v-icon icon="mdi-av-timer"></v-icon>
-        <span class="text">Thời gian hoàn thành</span>
-        <span class="score">{{ time }}</span>
-      </div>
-    </div>
-
-    <div class="score-box">
-      <div class="item">
-        <v-icon
-          icon="mdi-checkbox-marked-circle-outline"
-          class="icon -correct"
-        ></v-icon>
-        <span class="text -correct">Trả lời đúng</span>
-        <span class="count">80</span>
-        <span class="text">câu hỏi</span>
-      </div>
-      <div class="item">
-        <v-icon icon="mdi-close-circle-outline" class="icon -wrong"></v-icon>
-        <span class="text -wrong">Trả lời sai</span>
-        <span class="count">20</span>
-        <span class="text">câu hỏi</span>
-      </div>
-      <div class="item">
-        <v-icon icon="mdi-alert-circle-outline" class="icon -disabled"></v-icon>
-        <span class="text -disabled">Bỏ qua</span>
-        <span class="count">0</span>
-        <span class="text">câu hỏi</span>
-      </div>
-    </div>
-  </div>
+  <h2 class="grade">Điểm: {{ testDetail.grade }}</h2>
 
   <h3 class="header">Phân tích chi tiết</h3>
   <div class="result-detail">
     <div class="result-answers-list">
       <div
         class="result-answers-item"
-        v-for="result in resultDetail"
-        :key="result.id"
+        v-for="question in testDetail.questions"
+        :key="question.questionNo"
       >
-        <span class="number">{{ result.order }}</span>
-        <span class="resultkey">{{ result.resultKey }}</span>
-        <span class="answerkey" :class="{ '-wrong': !result.isCorrect }"
-          >{{ result.answerKey }}:</span
-        >
+        <span class="number">{{ question.questionNo }}</span>
+        <!-- <span class="resultkey">{{ result.resultKey }}</span> -->
+        <span
+          class="answerkey"
+          :class="{ '-wrong': !question.isCorrected }"
+        ></span>
         <v-icon
-          v-if="result.isCorrect"
+          v-if="question.isCorrected"
           icon="mdi-check"
           class="correct"
         ></v-icon>
         <v-icon
-          v-if="!result.isCorrect"
+          v-if="!question.isCorrected"
           icon="mdi-close"
           class="wrong"
         ></v-icon>
-        <span class="detail" @click="openResultDetail(result)">[Chi tiết]</span>
+        <span class="detail" @click="openResultDetail(question)"
+          >[Chi tiết]</span
+        >
       </div>
     </div>
   </div>

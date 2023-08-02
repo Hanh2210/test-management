@@ -94,6 +94,13 @@ const deleteClass = async (id: number) => {
   isShowConfirmDelete.value = false;
   const res = await examClassStore.deleteById(id);
 };
+
+const showTestDetailOfStudent = async (studentTestId: number) => {
+  const router = useRouter();
+  await studentStore.getStudentTestDetail(studentTestId);
+  isShowStudentList.value = false;
+  router.push(`/teacher/student-test-result`);
+};
 </script>
 
 <template>
@@ -259,6 +266,7 @@ const deleteClass = async (id: number) => {
               <th class="text-center">Ngày thi</th>
               <th class="text-center">Trạng thái</th>
               <th class="text-center">Điểm</th>
+              <th class="text-center">Chi tiết</th>
             </tr>
           </thead>
           <tbody>
@@ -268,6 +276,13 @@ const deleteClass = async (id: number) => {
               <td class="text-center">{{ student.testDate }}</td>
               <td class="text-center">{{ student.state }}</td>
               <td class="text-center">{{ student.grade }}</td>
+              <td
+                v-if="student.studentTestId"
+                class="text-center detail"
+                @click="showTestDetailOfStudent(student.studentTestId)"
+              >
+                [Chi tiết]
+              </td>
             </tr>
           </tbody>
         </v-table>

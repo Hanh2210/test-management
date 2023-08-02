@@ -13,6 +13,7 @@ export const useStudentStore = defineStore("student", () => {
   const examClassMark = ref([]);
   const examClassDetail = ref();
   const testDetail = ref<TestDetail>();
+  const studentTestDetail = ref([]);
 
   const getStudents = async () => {
     const res = await apis.api!.get("/student/list").catch((err) => {
@@ -207,6 +208,16 @@ export const useStudentStore = defineStore("student", () => {
     examClassMark.value = res?.data || [];
   };
 
+  const getStudentTestDetail = async (id: number) => {
+    const res = await apis
+      .api!.get(`student-test/detail/${id}`)
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
+    studentTestDetail.value = res?.data || [];
+  };
+
   return {
     students,
     isCreating,
@@ -214,6 +225,7 @@ export const useStudentStore = defineStore("student", () => {
     examClassMark,
     examClassDetail,
     testDetail,
+    studentTestDetail,
     getStudents,
     createStudent,
     updateById,
@@ -228,5 +240,6 @@ export const useStudentStore = defineStore("student", () => {
     uploadImages,
     readImages,
     markTest,
+    getStudentTestDetail,
   };
 });
