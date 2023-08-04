@@ -182,7 +182,7 @@ const showIsCorrected = (isCorrected: boolean) => {
               <td :class="showIsCorrected(answer.isCorrected)">
                 {{ convertSelection(answer.isSelected) }}
               </td>
-              <td :class="showIsCorrected(answer.isCorrected)">
+              <td>
                 {{ answer.corrected }}
               </td>
             </tr>
@@ -271,10 +271,10 @@ const showIsCorrected = (isCorrected: boolean) => {
   color: $primary-color;
   cursor: pointer;
 }
-// .true {
-//   color: green;
-//   font-weight: bold;
-// }
+.true {
+  color: green;
+  font-weight: bold;
+}
 .false {
   color: red;
   font-weight: bold;
