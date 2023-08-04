@@ -5,50 +5,44 @@ const props = defineProps<{
   resultDetailQuestion: any;
 }>();
 
-const answerKey = computed(() => props.resultDetailQuestion.answerKey);
+const answerKey = computed(() => props.resultDetailQuestion.answers);
+const selectedAnswer = ref(true);
 </script>
 
 <template>
   <div class="dialog">
-    <v-dialog :model-value="isOpenDialog" width="400px">
+    <v-dialog :model-value="isOpenDialog" width="700px">
       <v-card>
         <v-card-text>
           <h3 class="header">
-            Đáp án chi tiết câu {{ resultDetailQuestion.order }}
+            Đáp án chi tiết câu {{ resultDetailQuestion.questionNo }}
           </h3>
           <div class="question">
             <div class="content">
-              <span class="text"> {{ resultDetailQuestion.question }} </span>
+              <span class="text"
+                >Câu hỏi: {{ resultDetailQuestion.topicText }}
+              </span>
               <div class="answers">
-                <v-radio-group v-model="answerKey">
-                  <v-radio
-                    :label="resultDetailQuestion.answer1"
-                    value="A"
-                  ></v-radio>
-                  <v-radio
-                    :label="resultDetailQuestion.answer2"
-                    value="B"
-                  ></v-radio>
-                  <v-radio
-                    :label="resultDetailQuestion.answer3"
-                    value="C"
-                  ></v-radio>
-                  <v-radio
-                    :label="resultDetailQuestion.answer4"
-                    value="D"
-                  ></v-radio>
+                <v-radio-group class="radio" v-model="selectedAnswer">
+                  <div
+                    class="answer"
+                    v-for="answer in resultDetailQuestion.answers"
+                    :key="answer.answerNo"
+                  >
+                    <span class="label">{{ answer.answerNo }}.</span>
+                    <v-radio
+                      :label="answer.content"
+                      :value="answer.isSelected"
+                    ></v-radio>
+                  </div>
                 </v-radio-group>
               </div>
             </div>
           </div>
 
           <span v-if="!resultDetailQuestion.isCorrect" class="title"
-            >Đáp án đúng là: {{ resultDetailQuestion.resultKey }}</span
-          >
-
-          <div v-if="!resultDetailQuestion.isCorrect" class="key">
-            Lời giải: {{ resultDetailQuestion.titleKey }}
-          </div>
+            >Đáp án đúng là:
+          </span>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" block @click="closeDialog">Đóng</v-btn>
@@ -64,5 +58,10 @@ const answerKey = computed(() => props.resultDetailQuestion.answerKey);
 }
 .title {
   color: #3cb46e;
+}
+
+.answer {
+  display: flex;
+  align-items: center;
 }
 </style>
