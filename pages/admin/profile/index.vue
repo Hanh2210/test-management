@@ -80,6 +80,21 @@ const authUser = computed(() => authStore.currentUser);
   }
 }
 :deep(.v-table__wrapper) {
-  height: calc(100vh - 350px) !important;
+  height: calc(100vh - 320px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+}
+
+:deep(.v-table.v-table--fixed-header > .v-table__wrapper > table) {
+  border: 1px solid #ccc;
+}
+
+:deep(
+    .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th
+  ) {
+  background-color: #c2c2d6;
+}
+:deep(.v-data-table-footer) {
+  margin-top: 28px;
 }
 </style>

@@ -429,8 +429,9 @@ const filteredTests = computed(() => {
     color: $primary-color;
   }
 }
-
 :deep(.v-table__wrapper) {
-  height: calc(100vh - 350px) !important;
+  height: calc(100vh - 320px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
 }
 </style>

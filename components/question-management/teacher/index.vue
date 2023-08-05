@@ -214,11 +214,11 @@ const filteredQuestions = computed(() => {
     <v-table fixed-header height="400px">
       <thead>
         <tr>
-          <th class="text-left">Chọn câu</th>
+          <th class="text-left" width="100px">Chọn câu</th>
           <th class="text-left">ID</th>
           <th class="text-left">Câu hỏi</th>
           <th class="text-left">Độ khó</th>
-          <th class="text-left">Hành động</th>
+          <th class="text-left" width="120px">Hành động</th>
         </tr>
       </thead>
       <tbody>
@@ -347,6 +347,21 @@ const filteredQuestions = computed(() => {
   color: #ff0000;
 }
 :deep(.v-table__wrapper) {
-  height: calc(100vh - 350px) !important;
+  height: calc(100vh - 320px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+}
+
+:deep(.v-table.v-table--fixed-header > .v-table__wrapper > table) {
+  border: 1px solid #ccc;
+}
+
+:deep(
+    .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th
+  ) {
+  background-color: #c2c2d6;
+}
+:deep(.v-data-table-footer) {
+  margin-top: 28px;
 }
 </style>

@@ -22,10 +22,10 @@ const detailQuestion = (question: any) => {
     <v-table fixed-header height="500px">
       <thead>
         <tr>
-          <th class="text-left">ID</th>
+          <th class="text-left" width="100px">ID</th>
           <th class="text-left">Câu hỏi</th>
           <th class="text-left">Độ khó</th>
-          <th class="text-left">Chi tiết</th>
+          <th class="text-left" width="120px">Chi tiết</th>
         </tr>
       </thead>
       <tbody>
@@ -138,6 +138,21 @@ const detailQuestion = (question: any) => {
   }
 }
 :deep(.v-table__wrapper) {
-  height: calc(100vh - 350px) !important;
+  height: calc(100vh - 320px) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.09);
+  border-radius: 4px;
+}
+
+:deep(.v-table.v-table--fixed-header > .v-table__wrapper > table) {
+  border: 1px solid #ccc;
+}
+
+:deep(
+    .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th
+  ) {
+  background-color: #c2c2d6;
+}
+:deep(.v-data-table-footer) {
+  margin-top: 28px;
 }
 </style>
