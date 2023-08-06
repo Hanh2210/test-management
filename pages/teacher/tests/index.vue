@@ -434,4 +434,8 @@ const filteredTests = computed(() => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.09);
   border-radius: 4px;
 }
+
+th {
+  background-color: #c2c2d6 !important;
+}
 </style>

@@ -223,4 +223,14 @@ const testOnline = async () => {
   color: $primary-color;
   cursor: pointer;
 }
+
+:deep(.v-table.v-table--fixed-header > .v-table__wrapper > table) {
+  border: 1px solid #ccc;
+}
+
+:deep(
+    .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th
+  ) {
+  background-color: #c2c2d6;
+}
 </style>
