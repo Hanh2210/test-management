@@ -83,14 +83,14 @@
       </div>
       <div class="intro2">
         <div class="left">
-          <span
+          <!-- <span
             ><span class="intro-title title-green">“Magic of Pizza”&nbsp;</span>
             <span class="intro-title"
               >is<br />
               the origin of our restaurant.</span
             ><br /><br
-          /></span>
-          <span class="description"
+          /></span> -->
+          <!-- <span class="description"
             >Back in 2005, the founder of MPEC Restaurant, Masuko, built a
             wood-fired pizza oven with his friends in the backyard of his house.
             He invited his friends and family and hosted pizza parties.<br />
@@ -98,13 +98,13 @@
             again and started the history of MPEC Restaurant. We named our
             restaurant MPEC Restaurant, based on our vision, Make the World
             Smile "For Peace."</span
-          >
+          > -->
         </div>
-        <div class="right">
+        <!-- <div class="right">
           <img src="http://pizza4ps.com/img2017/top/img_top1.jpg" alt="" />
-        </div>
+        </div> -->
       </div>
-      <div class="menu">
+      <!-- <div class="menu">
         <div>
           <div>
             <span>Our Menu</span>
@@ -116,7 +116,7 @@
             <li class="menu-item">dessert</li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </section>
   </div>
 </template>
