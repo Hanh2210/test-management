@@ -61,6 +61,11 @@ const menuByStudent: MenuItem[] = [
     icon: "mdi-google-classroom",
     path: "/student/class-exam",
   },
+  {
+    title: "Danh sách bài thi",
+    icon: "mdi-book-open-page-variant",
+    path: "/student/test-list",
+  },
   // {
   //   title: "Quản lý tài khoản",
   //   icon: "mdi-account-circle",

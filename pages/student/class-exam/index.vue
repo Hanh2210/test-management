@@ -112,6 +112,7 @@ const testOnline = async () => {
           <th class="text-center">Tên lớp thi</th>
           <th class="text-center">Học kỳ</th>
           <th class="text-center">Ngày tạo</th>
+          <th class="text-center">Chi tiết</th>
         </tr>
       </thead>
       <tbody>
@@ -127,7 +128,7 @@ const testOnline = async () => {
             class="text-center detail"
             @click="openExamClassDetail(examClass.id, examClass.code)"
           >
-            Chi tiết
+            [Chi tiết]
           </td>
         </tr>
       </tbody>
