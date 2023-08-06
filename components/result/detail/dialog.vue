@@ -40,8 +40,8 @@ const selectedAnswer = ref(true);
             </div>
           </div>
 
-          <span v-if="!resultDetailQuestion.isCorrect" class="title"
-            >Đáp án đúng là:
+          <span v-if="!resultDetailQuestion.isCorrected" class="title"
+            >Đáp án đúng là: {{ resultDetailQuestion.correctedAnswer }}
           </span>
         </v-card-text>
         <v-card-actions>

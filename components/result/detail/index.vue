@@ -15,6 +15,10 @@ const openResultDetail = (result: any) => {
 const closeDialog = () => {
   isOpenDialog.value = false;
 };
+
+const answerKey = (answer: any) => {
+  return answer.find((item: any) => item.isSelected).answerNo;
+};
 </script>
 
 <template>
@@ -22,7 +26,7 @@ const closeDialog = () => {
 
   <h2 class="grade">Điểm: {{ testDetail.grade }}</h2>
 
-  <h3 class="header">Phân tích chi tiết</h3>
+  <h3 class="header">Đáp án chi tiết</h3>
   <div class="result-detail">
     <div class="result-answers-list">
       <div
@@ -31,11 +35,10 @@ const closeDialog = () => {
         :key="question.questionNo"
       >
         <span class="number">{{ question.questionNo }}</span>
-        <!-- <span class="resultkey">{{ result.resultKey }}</span> -->
-        <span
-          class="answerkey"
-          :class="{ '-wrong': !question.isCorrected }"
-        ></span>
+        <span class="resultkey">{{ question.correctedAnswer }}:</span>
+        <span class="answerkey" :class="{ '-wrong': !question.isCorrected }">{{
+          answerKey(question.answers)
+        }}</span>
         <v-icon
           v-if="question.isCorrected"
           icon="mdi-check"
@@ -170,6 +173,10 @@ const closeDialog = () => {
     display: inline-block;
   }
 
+  > .resultkey {
+    color: #35509a;
+    font-weight: 600;
+  }
   > .answerkey {
     font-style: italic;
   }
