@@ -5,6 +5,7 @@ import { useSubjectStore } from "@/stores/subject";
 
 const questionStore = useQuestionStore();
 const subjectStore = useSubjectStore();
+const layoutStore = useLayoutStore();
 
 const subjectCode = ref("");
 const questions = computed(() => questionStore.questions);
@@ -15,7 +16,9 @@ const subjects = computed(() => subjectStore.subjects);
 
 // get questions
 const fetchQuestionsBySubject = async (code: string) => {
+  layoutStore.changeShowLoading(true);
   const res = await questionStore.getQuestions(code);
+  layoutStore.changeShowLoading(false);
 };
 </script>
 <template>
