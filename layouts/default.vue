@@ -102,7 +102,7 @@ const menuByTeacher: MenuItem[] = [
     path: "/teacher/tests",
   },
   {
-    title: "Tạo lớp thi",
+    title: "Quản lý lớp thi",
     icon: "mdi-calendar-clock",
     path: "/teacher/create-class",
   },

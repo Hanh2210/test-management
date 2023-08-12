@@ -129,8 +129,8 @@ export default {
 <style lang="scss" scoped>
 .content {
   color: #fff;
-  background: url("https://pizza4ps.com/common2017/img/other/bg_body.gif")
-    repeat 0 0;
+  // background: url("https://pizza4ps.com/common2017/img/other/bg_body.gif")
+  //   repeat 0 0;
 }
 .main-img {
   position: relative;
@@ -150,8 +150,9 @@ export default {
   }
 }
 .content-wrap {
-  background: url("https://pizza4ps.com//img2017/top/img_01.webp") no-repeat
-    100px -70px;
+  // background: url("https://pizza4ps.com//img2017/top/img_01.webp") no-repeat
+  //   100px -70px;
+  background-color: #707066;
   > .intro {
     display: flex;
     padding: 90px 0;

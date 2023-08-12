@@ -12,6 +12,7 @@ const codeByFetchQuestionList = ref("");
 const questionStore = useQuestionStore();
 const subjectStore = useSubjectStore();
 const testsStore = useTestStore();
+const layoutStore = useLayoutStore();
 
 const subjectCode = ref("");
 const questions = computed(() => questionStore.questions);
@@ -25,8 +26,10 @@ const subjects = computed(() => subjectStore.subjects);
 
 // get questions
 const fetchQuestionsBySubject = async (code: string): Promise<void> => {
+  layoutStore.changeShowLoading(true);
   codeByFetchQuestionList.value = code;
   await questionStore.getQuestions(code);
+  layoutStore.changeShowLoading(false);
 };
 
 const chapterBySubject = ref([]);

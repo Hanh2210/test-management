@@ -3,6 +3,7 @@ import { useExamClassStore } from "@/stores/exam-class";
 
 const examClassStore = useExamClassStore();
 const studentStore = useStudentStore();
+const layoutStore = useLayoutStore();
 const classCode = ref("");
 const fileImages = ref([]);
 const titleSnack = ref("");
@@ -26,7 +27,9 @@ const uploadImages = async () => {
 };
 
 const readImages = async () => {
+  layoutStore.changeShowLoading(true);
   const res = await studentStore.readImages(classCode.value);
+  layoutStore.changeShowLoading(false);
   isShowSnack.value = true;
   titleSnack.value = "Đọc ảnh thành công!";
 };
@@ -53,7 +56,9 @@ const markTest = async () => {
   //   },
   // ];
   console.log("Test", studentTests.value);
+  layoutStore.changeShowLoading(true);
   await studentStore.markTest(studentTests.value);
+  layoutStore.changeShowLoading(false);
 };
 const markTests = computed(() => studentStore.examClassMark);
 const check = async () => {
